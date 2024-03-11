@@ -1,0 +1,29 @@
+body{
+background-color: grey;
+font-family: Arial, Helvetica, sans-serif;
+}
+header{
+    background-color:cadetblue;
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+header h1{
+    text-align: center;
+}
+.container{
+    background-color: lightgrey;
+    display: flex;
+}
+.card{
+    border: 2px lightgray;
+    border-radius: 5px;
+    background-color: white;
+    display: block;
+}
+.card h2{
+    background-color: black;
+    color: white;
+}
