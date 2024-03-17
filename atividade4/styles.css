@@ -1,6 +1,7 @@
 body{
 background-color: grey;
 font-family: Arial, Helvetica, sans-serif;
+font-size: 18px;
 }
 header{
     background-color:cadetblue;
@@ -16,14 +17,59 @@ header h1{
 .container{
     background-color: lightgrey;
     display: flex;
+    height: fit-content;
+    width: 1200px;
+
+    margin: auto;
+    padding: 8px;
 }
 .card{
     border: 2px lightgray;
     border-radius: 5px;
     background-color: white;
     display: block;
+
 }
 .card h2{
     background-color: black;
     color: white;
+    text-indent: 15px;
+
+    padding: 5px;
+}
+.card p{
+    padding: 8px 30px 8px 30px;
+}
+.column{
+    display: table-row;
+    margin: 5px;
+}
+img{
+    width: 97%;
+    height: 97%;
+
+    margin: 8px;
+    padding: 5px;
+    overflow: hidden;
+}
+footer{
+    background-color:#577087 ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+footer p{
+    color: white;
+    text-align: center;
+}
+.ad{
+    background-color: whitesmoke;
+    width: auto;
+    height: auto;
+
+    padding: 34px;
+}
+.ad p{
+    font-size: 48px;
+    text-align: center;
 }
