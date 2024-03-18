@@ -1,0 +1,79 @@
+.resp{
+    min-height: 500px;
+    min-width: 500px;
+
+    font-size: 28px;
+    font-weight: 600;
+
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+.resp h2 ::after{
+    content: "color";
+    color: inherit;
+}
+
+@media (min-width: 0px){
+    .resp{
+        background-color: gray;
+    }
+    .resp h2::before{
+        color: white;
+        content:"Cinza";
+    }
+}
+@media (min-width: 421px){
+    .resp{
+        background-color: orange;
+    }
+    .resp h2::before{
+        color: black;
+        content:"Laranja";
+    }
+}
+@media (min-width: 769px){
+    .resp{
+        background-color: pink;
+    }
+    .resp h2::before{
+        color: black;
+        content:"Rosa";
+    }
+}
+@media (min-width: 1025px){
+    .resp{
+        background-color: red;
+    }
+    .resp h2::before{
+        color: white;
+        content:"Vermelho";
+    }
+}
+@media (min-width: 1081px){
+    .resp{
+        background-color: purple;
+    }
+    .resp h2::before{
+        color: white;
+        content:"Roxo";
+    }
+}
+@media (min-width: 1367px){
+    .resp{
+        background-color: yellow;
+    }
+    .resp h2::before{
+        color: black;
+        content:"Amarelo";
+    }
+}
+@media (min-width: 1921px){
+    .resp{
+        background-color: green;
+    }
+    .resp h2::before{
+        color: white;
+        content:"Verde";
+    }
+}
