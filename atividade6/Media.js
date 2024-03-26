@@ -11,3 +11,10 @@ nota3 = prompt("digite a terceira nota: ");
 media = (parseFloat(nota1) + parseFloat(nota2) + parseFloat(nota3)) / 3;
 
 alert("Média do aluno: " + media);
+
+var decisao = confirm("O calculo da media foi correto?");
+if (decisao) {
+alert("Obrigado por confirmar!");
+} else {
+alert("Você esta errado!");
+}

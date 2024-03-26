@@ -19,3 +19,10 @@ alert("Divisao dos numeros: "+ (num1 / num2) );
 
 //resto da divisao do 1o pelo 2o
 alert("Resto da divisao dos numeros: "+ (num1 % num2) );
+
+var decisao = confirm("O calculo das operacoes foi correto?");
+if (decisao) {
+alert("Obrigado por confirmar!");
+} else {
+alert("Você esta errado!");
+}
