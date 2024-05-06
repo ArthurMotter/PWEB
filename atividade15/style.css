@@ -1,0 +1,23 @@
+.conteiner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.formulario{
+    background-color: skyblue;
+    margin: auto;
+    padding: 20px;
+    width: 500px;
+}
+.titulo{
+    color: white;
+    text-align: center;
+    margin-bottom: 40px;
+}
+.txtPesq{
+    text-align: center;
+}
+.botao{
+    margin: 5px;
+    padding: 5px;
+}

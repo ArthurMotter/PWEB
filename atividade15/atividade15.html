@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário com Validação</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="atividade15.js"></script>
+</head>
+<body>
+    
+
+    <form class="formulario" id="formulario" name="nomeform" onsubmit="return validar();" >
+        <h1 class="titulo">Formulário Principal</h1>
+        
+        <label for="nome">Nome:</label><br>
+        <input type="text" id="nome" name="nome" minlength="10" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required autocomplete="email"><br><br>
+
+        <label for="comentario">Comentário:</label><br>
+        <textarea id="comentario" name="comentario" minlength="20" required></textarea><br><br>
+
+        <h2 class="txtPesq">Pesquisa:</h2>
+        
+        <p class="txtPesq">Primeira vez nesta página?</p>
+        <div class="conteiner">
+            <input type="radio" id="pesquisaSim" name="pesquisa" value="SIM" required>
+            <label for="pesquisaSim">SIM</label>
+            <input type="radio" id="pesquisaNao" name="pesquisa" value="NAO">
+            <label for="pesquisaNao">NAO</label>
+        </div>
+        <br><br>
+        <div class="conteiner">
+            <button class="botao" type="submit">Enviar</button>
+            <button class="botao" type="reset">Limpar</button>
+        </div>
+    </form>
+
+</body>
+</html>
