@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  },
+  "name": "site_fatec",
+  "version": "1.0.0",
+  "description": "Site da Fatec Sorocaba",
+  "main": "Callback1.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \\\"Er\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArthurMotter/PWEB.git"
+  },
+  "keywords": [
+    "atividade17"
+  ],
+  "author": "Arthur Motter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArthurMotter/PWEB/issues"
+  },
+  "homepage": "https://github.com/ArthurMotter/PWEB#readme"
+}
