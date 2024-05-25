@@ -24,6 +24,7 @@
         crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 
 </head>
 
@@ -82,8 +83,8 @@
                     <p class="lead text-muted">Switch between your best moments or some precious photograph
                         with the photos or albums buttons below.</p>
                     <p>
-                        <a href="#" class="btn btn-primary my-2">Albums</a>
-                        <a href="#" class="btn btn-secondary my-2">Photos</a>
+                        <a href="#" class="btn btn-primary my-2" id="albums-button">Albums</a>
+                        <a href="#" class="btn btn-secondary my-2" id="photos-button">Photos</a>
                     </p>
                 </div>
             </div>
@@ -94,7 +95,7 @@
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <!--Photo Card PlaceHolder-->
-                    <div class="col">
+                    <div class="col" data-type="photo">
                         <div class="card shadow-sm">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
                                 xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: Photo Preview"
@@ -117,7 +118,7 @@
                         </div>
                     </div>
                     <!--Photo Card PlaceHolder-->
-                    <div class="col">
+                    <div class="col" data-type="photo">
                         <div class="card shadow-sm">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
                                 xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: Photo Preview"
@@ -140,7 +141,7 @@
                         </div>
                     </div>
                     <!--Photo Card PlaceHolder-->
-                    <div class="col">
+                    <div class="col" data-type="photo">
                         <div class="card shadow-sm">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
                                 xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: Photo Preview"
@@ -163,7 +164,7 @@
                         </div>
                     </div>
                     <!--Photo Card PlaceHolder-->
-                    <div class="col">
+                    <div class="col" data-type="photo">
                         <div class="card shadow-sm">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
                                 xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: Photo Preview"
@@ -186,7 +187,7 @@
                         </div>
                     </div>
                     <!--Photo Card PlaceHolder-->
-                    <div class="col">
+                    <div class="col" data-type="photo">
                         <div class="card shadow-sm">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
                                 xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: Photo Preview"
@@ -209,7 +210,7 @@
                         </div>
                     </div>
                     <!--Photo Card PlaceHolder-->
-                    <div class="col">
+                    <div class="col" data-type="photo">
                         <div class="card shadow-sm">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
                                 xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: Photo Preview"
@@ -223,6 +224,29 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <p class="card-text">Card Text</p>
                                     <p class="text-muted">Card Upload Date</p>
+                                </div>
+                                <div class="btn-group" style="display: flex; justify-content: center;">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Album Card PlaceHolder-->
+                    <div class="col" data-type="album">
+                        <div class="card shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: Album Preview"
+                                preserveAspectRatio="xMidYMid slice" role="img" focusable="false">
+                                <title>Album Preview</title>
+                                <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
+                                    dy=".3em">Album Preview</text>
+                            </svg>
+
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="card-text">Album Text</p>
+                                    <p class="text-muted">Album Upload Date</p>
                                 </div>
                                 <div class="btn-group" style="display: flex; justify-content: center;">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
