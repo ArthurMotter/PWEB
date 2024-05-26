@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.display = 'none'; // Hide photos
           }
         });
+        albumsButton.style="background-color: #0055ff; width: 40%"
+        photosButton.style="background-color: gray; width: 40%"
       });
       
       photosButton.addEventListener('click', () => {
@@ -22,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.display = 'none'; // Hide albums
           }
         });
+        albumsButton.style="background-color: gray; width: 40%"
+        photosButton.style="background-color: #0055ff; width: 40%"
       });
       
       // Initial display (show albums by default, for example):
