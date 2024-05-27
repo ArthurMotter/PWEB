@@ -1,9 +1,9 @@
 var express = require('express');
 var app = express();
  
-app.set('view engene','ejs')
+app.set('view engine','ejs')
  
-app.get('',function(req,res){
+app.get('/',function(req,res){
     res.send("<html><body>Site da Fatec Sorocaba</body></html>");
 });
 app.get('/historia',function(req,res){
@@ -16,5 +16,5 @@ app.get('/professores',function(req,res){
     res.render("secao/professores");
 });
 app.listen(3000,function(){
-    console.log("servidor com express foi carregado");
+    console.log("servidor com express foi carregadogggg");
 });
