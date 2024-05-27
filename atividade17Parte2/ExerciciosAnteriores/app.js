@@ -1,6 +1,6 @@
 var http = require('http');
 var express = require('express');
-var app=express();//exec do express
+var app = express();//exec do express
 app.listen(3000, function(){
     console.log("servidor com express foi carregado");
 });
