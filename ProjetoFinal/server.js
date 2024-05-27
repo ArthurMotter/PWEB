@@ -17,15 +17,15 @@ app.get('/menu', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/pages/menu.html'));
 });
 // Route for a "edit" page
-app.get('/menu', (req, res) => {
+app.get('/edit_file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/pages/edit_file.html'));
 });
 // Route for a "create" page
-app.get('/menu', (req, res) => {
+app.get('/create_album', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/pages/create_album.html'));
 });
 // Route for a "view" page
-app.get('/menu', (req, res) => {
+app.get('/view_file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/pages/view_file.html'));
 });
 

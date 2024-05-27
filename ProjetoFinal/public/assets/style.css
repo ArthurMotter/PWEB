@@ -15,6 +15,15 @@
   border-radius: 100%;
 }
 
+main {
+  height: calc(100vh - 120px); /* Adjust 120px based on header and footer heights */
+  overflow: hidden; /* Prevent scrollbars if image is larger */
+}
+
+.img-fluid {
+  max-height: 100%; /* Make sure the image doesn't exceed the main container height */
+}
+
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
