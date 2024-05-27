@@ -15,6 +15,18 @@
   border-radius: 100%;
 }
 
+.edit-bar{
+  display: flex; 
+  width: 100%; 
+  background-color: lightgrey; 
+  justify-content: space-around; 
+  padding: 16px;
+}
+
+.edit-bar strong{
+  font-size: 18px;
+}
+
 main {
   height: calc(100vh - 120px); /* Adjust 120px based on header and footer heights */
   overflow: hidden; /* Prevent scrollbars if image is larger */
