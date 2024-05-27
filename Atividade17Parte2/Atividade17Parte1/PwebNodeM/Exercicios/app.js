@@ -1,9 +1,5 @@
-var express = require('express');
-var app = express();
-var texto = require("./modulo1");//n precisa carregar .js
- 
-app.set('view engine','ejs')
- 
+var app = require('./app/config/server'); //carregando modulo server
+
 app.get('/',function(req,res){
     res.render("home/index");
 });
@@ -20,5 +16,5 @@ app.get('/adicionar_usuario',function(req,res){
     res.render("admin/adicionar_usuario");
 });
 app.listen(3000,function(){
-    console.log(texto);
+    console.log('servidor iniciado');
 });
