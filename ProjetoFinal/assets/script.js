@@ -38,3 +38,35 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 });  
 
+//image upload handling
+const uploadForm = document.getElementById('uploadForm');
+const imageUpload = document.getElementById('imageUpload');
+
+uploadForm.addEventListener('submit', (event) => {
+  event.preventDefault(); // Prevent default form submission
+
+  const file = imageUpload.files[0];
+
+  if (file) {
+    const formData = new FormData();
+    formData.append('image', file); // Append the image file to the FormData object
+
+    // Send the FormData object to your server-side endpoint using fetch or AJAX
+    fetch('/your-upload-endpoint', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      // Handle the response from the server
+      console.log(response); // Example: log the response to check if the upload was successful
+      // You can display a success message, update the UI, etc., here.
+    })
+    .catch(error => {
+      // Handle any errors during the upload
+      console.error('Upload Error:', error); 
+    });
+  } else {
+    alert('Please select an image to upload.');
+  }
+});
+
