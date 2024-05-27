@@ -1,4 +1,9 @@
 var http = require('http');
+var express = require('express');
+var app=express();//exec do express
+app.listen(3000, function(){
+    console.log("servidor com express foi carregado");
+});
 var server = http.createServer( function(req, res){
     var opcao = req.url;
     if(opcao=='/historia'){
