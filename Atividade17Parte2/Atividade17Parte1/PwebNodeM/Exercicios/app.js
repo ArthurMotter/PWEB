@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var texto = require("./modulo1");//n precisa carregar .js
  
 app.set('view engine','ejs')
  
@@ -15,9 +16,9 @@ app.get('/cursos',function(req,res){
 app.get('/professores',function(req,res){
     res.render("informacao/professores");
 });
-app.get('/formulario adicionar_usuario',function(req,res){
+app.get('/adicionar_usuario',function(req,res){
     res.render("admin/adicionar_usuario");
 });
 app.listen(3000,function(){
-    console.log("servidor com express foi carregado");
+    console.log(texto);
 });
