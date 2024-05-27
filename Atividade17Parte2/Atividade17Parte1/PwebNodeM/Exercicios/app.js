@@ -1,20 +1,18 @@
 var app = require('./app/config/server'); //carregando modulo server
+//declaracao de rotas
+var rotaAdicionaUsuario = require('./app/routes/adicionar_usuario')
+var rotaCursos = require('./app/routes/cursos')
+var rotaHome = require('./app/routes/home')
+var rotaHistoria = require('./app/routes/historia')
+var rotaProfessores = require('./app/routes/professores')
 
-app.get('/',function(req,res){
-    res.render("home/index");
-});
-app.get('/historia',function(req,res){
-    res.render("informacao/historia");
-});
-app.get('/cursos',function(req,res){
-    res.render("informacao/cursos");
-});
-app.get('/professores',function(req,res){
-    res.render("informacao/professores");
-});
-app.get('/adicionar_usuario',function(req,res){
-    res.render("admin/adicionar_usuario");
-});
+//uso de rotas
+rotaAdicionaUsuario(app);
+rotaCursos(app);
+rotaHistoria(app);
+rotaHome(app);
+rotaProfessores(app);
+
 app.listen(3000,function(){
     console.log('servidor iniciado');
 });
