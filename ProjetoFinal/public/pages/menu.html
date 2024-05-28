@@ -55,8 +55,8 @@
         <div class="navbar navbar-light bg-light shadow-sm">
             <div class="container">
                 <a href="#" class="navbar-brand d-flex align-items-center" style="justify-content: center;">
-                    <object data="./assets/images/user_image_placeholder.svg" type="image/svg+xml" 
-                    alt="Default user image" class="profile-img">
+                    <object data="./assets/images/user_image_placeholder.svg" type="image/svg+xml"
+                        alt="Default user image" class="profile-img">
                     </object>
                     <strong>User_Name</strong>
                 </a>
@@ -105,15 +105,15 @@
                                     <p class="text-muted">Photo Upload Date</p>
                                 </div>
                                 <div class="btn-group" style="display: flex; justify-content: center;">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" 
-                                    onclick="window.location.href='./view_file.html'">View</button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary"
-                                    onclick="window.location.href='./edit_file.html'">Edit</button>
+                                     onclick="window.location.href='http://localhost:3000/view_file'">View</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                     onclick="window.location.href='http://localhost:3000/edit_file'">Edit</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!--Album Card PlaceHolder-->
                     <div class="col" data-type="album">
                         <div class="card shadow-sm">
@@ -131,10 +131,10 @@
                                     <p class="text-muted">Album Upload Date</p>
                                 </div>
                                 <div class="btn-group" style="display: flex; justify-content: center;">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" 
-                                    onclick="window.location.href='./view_file.html'">View</button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary"
-                                    onclick="window.location.href='./edit_file.html'">Edit</button>
+                                     onclick="window.location.href='http://localhost:3000/view_file'">View</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                     onclick="window.location.href='http://localhost:3000/edit_file'">Edit</button>
                                 </div>
                             </div>
                         </div>
@@ -146,10 +146,10 @@
     </main>
 
     <!--implementar em popUp-->
-    <div class="container py-4" >
-        <div class="row" >
-            <div class="col-md-6 mx-auto" >
-                <form id="uploadForm"> 
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <form id="uploadForm">
                     <div class="form-group">
                         <label for="imageUpload">Choose an image:</label>
                         <input type="file" class="form-control-file" id="imageUpload">

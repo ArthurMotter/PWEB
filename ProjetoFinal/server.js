@@ -5,28 +5,21 @@ const path = require('path'); // For handling file paths
 // Set up static file serving
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Define a route for your home page
+// Define routes for your pages
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/pages/index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'pages', 'menu.html')); 
 });
 
-// ... (server.js)
-
-// Route for a "menu" page
-app.get('/menu', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/pages/menu.html'));
-});
-// Route for a "edit" page
 app.get('/edit_file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/pages/edit_file.html'));
+  res.sendFile(path.join(__dirname, 'public', 'pages', 'edit_file.html'));
 });
-// Route for a "create" page
+
 app.get('/create_album', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/pages/create_album.html'));
+  res.sendFile(path.join(__dirname, 'public', 'pages', 'create_album.html'));
 });
-// Route for a "view" page
+
 app.get('/view_file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/pages/view_file.html'));
+  res.sendFile(path.join(__dirname, 'public', 'pages', 'view_file.html'));
 });
 
 // Start the server
