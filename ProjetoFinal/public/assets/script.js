@@ -36,7 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.display = 'none';
     }
   });
-  
+
+  const openPopupButton = document.getElementById('open-popup');
+  const imageUploadPopup = document.getElementById('image-upload-popup');
+
+  openPopupButton.addEventListener('click', () => {
+    new bootstrap.Modal(imageUploadPopup).show();
+  });
 });
 
 //image upload handling
@@ -70,3 +76,6 @@ uploadForm.addEventListener('submit', (event) => {
     alert('Please select an image to upload.');
   }
 });
+
+
+
