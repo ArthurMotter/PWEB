@@ -1,5 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Your JavaScript code goes here
+  const openPopupButton = document.getElementById('open-popup');
+  const openCAButton = document.getElementById('open-create-album');
+  const imageUploadPopup = document.getElementById('image-upload-popup');
+
+  openPopupButton.addEventListener('click', () => {
+    new bootstrap.Modal(imageUploadPopup).show();
+  });
   const albumsButton = document.getElementById('albums-button');
   const photosButton = document.getElementById('photos-button');
   const cards = document.querySelectorAll('.col');
@@ -12,8 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.display = 'none'; // Hide photos
       }
     });
-    albumsButton.style = "background-color: #0055ff; width: 40%"
-    photosButton.style = "background-color: gray; width: 40%"
+    albumsButton.style = "background-color: #0055ff; width: 70%;"
+    photosButton.style = "background-color: gray; width: 70%;"
+    openCAButton.style = "background-color: #0055ff; width: 30%;"
+    openPopupButton.style = "background-color: gray; width: 30%;"
   });
 
   photosButton.addEventListener('click', () => {
@@ -24,8 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.display = 'none'; // Hide albums
       }
     });
-    albumsButton.style = "background-color: gray; width: 40%"
-    photosButton.style = "background-color: #0055ff; width: 40%"
+    albumsButton.style = "background-color: gray; width: 70%;"
+    photosButton.style = "background-color: #0055ff; width: 70%;"
+    openCAButton.style = "background-color: gray; width: 30%;"
+    openPopupButton.style = "background-color: #0055ff; width: 30%;"
   });
 
   // Initial display (show albums by default, for example):
@@ -37,18 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  const openPopupButton = document.getElementById('open-popup');
-  const imageUploadPopup = document.getElementById('image-upload-popup');
-
-  openPopupButton.addEventListener('click', () => {
-    new bootstrap.Modal(imageUploadPopup).show();
-  });
+  
 });
 
 //image upload handling
 const uploadForm = document.getElementById('uploadForm');
 const imageUpload = document.getElementById('imageUpload');
 
+//implementar
 uploadForm.addEventListener('submit', (event) => {
   event.preventDefault(); // Prevent default form submission
 
