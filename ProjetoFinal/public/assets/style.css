@@ -37,6 +37,15 @@ main {
   width: auto; /* Allow the image to scale its width proportionally */
 }
 
+.imgSelected{
+  width: 100%; 
+  min-height: 256px; 
+  background-color: lightgray; 
+  margin-top: 15px; 
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
