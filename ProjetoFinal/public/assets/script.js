@@ -6,6 +6,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const createAlbumPopup = document.getElementById('create-album-popup');
   const uploadForm = document.getElementById('uploadForm');
 
+
+  const imageUpload = document.getElementById('imageUpload');
+  const previewImage = document.getElementById('previewImage');
+
+  imageUpload.addEventListener('change', function(event) {
+    const file = event.target.files[0]; // Get the selected file
+    const reader = new FileReader(); // Create a FileReader object
+
+    reader.onload = function(event) {
+      previewImage.src = event.target.result; // Set the image preview source
+      previewImage.style = "width: 100%; height: fit-content; border-radius: 4px";
+    }
+
+    if (file) {
+      reader.readAsDataURL(file); // Read the file as a data URL
+    } else {
+      previewImage.src = '#'; // Clear the preview if no file is selected
+    }
+  });
+
   // Function to display image on card (inside DOMContentLoaded)
   function displayImage(fileName, text, date) {
     // Create a new card element (clone the template)
