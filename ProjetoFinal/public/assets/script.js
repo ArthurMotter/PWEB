@@ -3,10 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const openPopupButton = document.getElementById('open-popup');
   const openCAButton = document.getElementById('open-create-album');
   const imageUploadPopup = document.getElementById('image-upload-popup');
+  const createAlbumPopup = document.getElementById('create-album-popup');
+
 
   openPopupButton.addEventListener('click', () => {
     new bootstrap.Modal(imageUploadPopup).show();
   });
+
+  openCAButton.addEventListener('click', () => {
+    new bootstrap.Modal(createAlbumPopup).show();
+  });
+
   const albumsButton = document.getElementById('albums-button');
   const photosButton = document.getElementById('photos-button');
   const cards = document.querySelectorAll('.col');
@@ -48,7 +55,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  
+
+});
+
+const createAlbumForm = document.getElementById('createAlbumForm');
+const albumCreationResult = document.getElementById('albumCreationResult');
+
+createAlbumForm.addEventListener('submit', (event) => {
+  event.preventDefault(); // Prevent default form submission
+
+  const albumTitle = document.getElementById('albumTitle').value;
+  const albumDescription = document.getElementById('albumDescription').value;
+
+  // Send the data to your server-side endpoint using fetch or AJAX
+  fetch('/create-album', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ title: albumTitle, description: albumDescription })
+  })
+    .then(response => {
+      // Handle the response from the server
+      if (response.ok) {
+        albumCreationResult.innerHTML = '<div class="alert alert-success" role="alert">Album created successfully!</div>';
+      } else {
+        albumCreationResult.innerHTML = '<div class="alert alert-danger" role="alert">Error creating album.</div>';
+      }
+    })
+    .catch(error => {
+      // Handle any errors during the upload
+      albumCreationResult.innerHTML = '<div class="alert alert-danger" role="alert">Error creating album.</div>';
+    });
 });
 
 //image upload handling
