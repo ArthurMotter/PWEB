@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // Function to display image on card (inside DOMContentLoaded)
-  function displayImage(fileName, text, date) {
+  function displayImage(fileName, date) {
     // Create a new card element (clone the template)
     const template = document.getElementById('photoCardTemplate');
     const newCard = template.content.cloneNode(true).querySelector('.col'); // Clone the template content and get the .col element
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.json())
     .then(images => {
       images.forEach(image => {
-        displayImage(image.fileName, image.text, image.uploadDate);
+        displayImage(image.fileName, image.uploadDate);
       });
     })
     .catch(error => {
