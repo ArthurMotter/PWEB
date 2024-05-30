@@ -5,9 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const imageUploadPopup = document.getElementById('image-upload-popup');
   const createAlbumPopup = document.getElementById('create-album-popup');
   const uploadForm = document.getElementById('uploadForm');
-    
-  
 
+
+
+  /*
     // Function to display image on card
   function displayImage(fileName, text, date) {
     const imageCard = document.querySelector('.col[data-type="photo"]'); // Assuming only one photo card for now
@@ -34,6 +35,28 @@ document.addEventListener('DOMContentLoaded', () => {
     uploadDate.textContent = date;
   }
 
+  */
+
+
+  // Function to display image on card
+  function displayImage(fileName, text, date) {
+    // Create a new card element (clone the template)
+    const newCard = document.querySelector('.col[data-type="photo"]').cloneNode(true);
+
+    // Set the image source, text, and date for the new card
+    newCard.querySelector('.card-img-top').src = `/uploads/${fileName}`;
+    newCard.querySelector('.card-text').textContent = text;
+    newCard.querySelector('.text-muted').textContent = date;
+
+    // Make the card visible
+    newCard.style.display = 'block';
+
+    // Add the new card to the image-cards container
+    document.getElementById('image-cards').appendChild(newCard);
+  }
+
+
+  /*
   // Add logic to fetch and display existing images on page load
   fetch('/fetchImages') // Replace with your actual route to get images
     .then(response => response.json())
@@ -88,6 +111,41 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("The Image cannot be uploaded, please try again")
       });
     });
+    */
+
+
+  // Fetch and display existing images on page load
+  fetch('/fetchImages')
+    .then(response => response.json())
+    .then(images => {
+      images.forEach(image => {
+        displayImage(image.fileName, image.text, image.uploadDate);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching images:', error);
+    });
+
+  uploadForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(uploadForm);
+    fetch('/upload', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Get optional text and date from the form
+        const text = document.getElementById('photoText').value;
+        const date = new Date().toLocaleDateString();
+        displayImage(data.fileName, text, date);
+      })
+      .catch(error => {
+        console.error('Error uploading image:', error);
+      });
+  });
+
+
 
   openPopupButton.addEventListener('click', () => {
     new bootstrap.Modal(imageUploadPopup).show();
@@ -144,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function deletePhoto(button) {
   const card = button.closest('.col'); // Find the parent card element
   const fileName = card.querySelector('.card-img-top').src.split('/').pop(); // Get the filename from the image source
-  
+
   if (confirm(`Are you sure you want to delete this photo?`)) {
     fetch(`/deletePhoto/${fileName}`, { method: 'DELETE' })
       .then(response => {
