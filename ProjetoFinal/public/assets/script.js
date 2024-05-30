@@ -4,7 +4,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const openCAButton = document.getElementById('open-create-album');
   const imageUploadPopup = document.getElementById('image-upload-popup');
   const createAlbumPopup = document.getElementById('create-album-popup');
-
+  const uploadForm = document.getElementById('uploadForm');
+    
+    uploadForm.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent default form submission
+      const formData = new FormData(uploadForm); // Create FormData for the file
+      fetch('/upload', { 
+        method: 'POST',
+        body: formData 
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        // Handle the response from the server, for example:
+        // Display a success message or update the UI
+      })
+      .catch(error => {
+        console.error('Error uploading image:', error);
+        // Handle the error, for example:
+        // Display an error message to the user
+      });
+    });
 
   openPopupButton.addEventListener('click', () => {
     new bootstrap.Modal(imageUploadPopup).show();
@@ -58,69 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-const createAlbumForm = document.getElementById('createAlbumForm');
-const albumCreationResult = document.getElementById('albumCreationResult');
-
-createAlbumForm.addEventListener('submit', (event) => {
-  event.preventDefault(); // Prevent default form submission
-
-  const albumTitle = document.getElementById('albumTitle').value;
-  const albumDescription = document.getElementById('albumDescription').value;
-
-  // Send the data to your server-side endpoint using fetch or AJAX
-  fetch('/create-album', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ title: albumTitle, description: albumDescription })
-  })
-    .then(response => {
-      // Handle the response from the server
-      if (response.ok) {
-        albumCreationResult.innerHTML = '<div class="alert alert-success" role="alert">Album created successfully!</div>';
-      } else {
-        albumCreationResult.innerHTML = '<div class="alert alert-danger" role="alert">Error creating album.</div>';
-      }
-    })
-    .catch(error => {
-      // Handle any errors during the upload
-      albumCreationResult.innerHTML = '<div class="alert alert-danger" role="alert">Error creating album.</div>';
-    });
-});
-
-//image upload handling
-const uploadForm = document.getElementById('uploadForm');
-const imageUpload = document.getElementById('imageUpload');
-
-//implementar
-uploadForm.addEventListener('submit', (event) => {
-  event.preventDefault(); // Prevent default form submission
-
-  const file = imageUpload.files[0];
-
-  if (file) {
-    const formData = new FormData();
-    formData.append('image', file); // Append the image file to the FormData object
-
-    // Send the FormData object to your server-side endpoint using fetch or AJAX
-    fetch('/your-upload-endpoint', {
-      method: 'POST',
-      body: formData
-    })
-      .then(response => {
-        // Handle the response from the server
-        console.log(response); // Example: log the response to check if the upload was successful
-        // You can display a success message, update the UI, etc., here.
-      })
-      .catch(error => {
-        // Handle any errors during the upload
-        console.error('Upload Error:', error);
-      });
-  } else {
-    alert('Please select an image to upload.');
-  }
-});
 
 
 
