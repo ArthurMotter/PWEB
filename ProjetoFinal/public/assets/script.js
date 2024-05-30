@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const createAlbumPopup = document.getElementById('create-album-popup');
   const uploadForm = document.getElementById('uploadForm');
     
+  
+
     // Function to display image on card
   function displayImage(fileName, text, date) {
     const imageCard = document.querySelector('.col[data-type="photo"]'); // Assuming only one photo card for now
@@ -139,6 +141,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-
+function deletePhoto(button) {
+  const card = button.closest('.col'); // Find the parent card element
+  const fileName = card.querySelector('.card-img-top').src.split('/').pop(); // Get the filename from the image source
+  
+  if (confirm(`Are you sure you want to delete this photo?`)) {
+    fetch(`/deletePhoto/${fileName}`, { method: 'DELETE' })
+      .then(response => {
+        if (response.ok) {
+          card.remove(); // Remove the card from the DOM
+        } else {
+          console.error('Error deleting photo');
+        }
+      })
+      .catch(error => {
+        console.error('Error deleting photo:', error);
+      });
+  }
+}
 
 

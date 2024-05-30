@@ -40,6 +40,20 @@ app.get('/view_file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pages', 'view_file.html'));
 });
 
+// Delete photo route
+app.delete('/deletePhoto/:fileName', (req, res) => {
+  const fileName = req.params.fileName;
+  const filePath = path.join(__dirname, 'public', 'uploads', fileName);
+
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      res.status(500).json({ error: 'Error deleting photo' });
+    } else {
+      res.json({ message: 'Photo deleted successfully' });
+    }
+  });
+});
+
 // Fetch images route
 app.get('/fetchImages', (req, res) => {
   const uploadsDirectory = path.join(__dirname, 'public', 'uploads');
