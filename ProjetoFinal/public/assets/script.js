@@ -122,26 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
     albumCardsContainer.appendChild(newCard);
   }
 
-  // Function to delete an album and its cards
-  function deleteAlbum(button) {
-    const card = button.closest('.col'); // Find the parent card element
-    const albumName = card.dataset.albumName; // Get the album name from the data attribute
-
-    if (confirm(`Are you sure you want to delete the album "${albumName}"?`)) {
-      fetch(`/deleteAlbum/${albumName}`, { method: 'DELETE' })
-        .then(response => {
-          if (response.ok) {
-            card.remove(); // Remove the card from the DOM
-          } else {
-            console.error('Error deleting album');
-          }
-        })
-        .catch(error => {
-          console.error('Error deleting album:', error);
-        });
-    }
-  }
-
   //fetch albums
   fetch('/fetchAlbums')
     .then(response => {
@@ -240,6 +220,26 @@ function deletePhoto(button) {
       })
       .catch(error => {
         console.error('Error deleting photo:', error);
+      });
+  }
+}
+
+// Function to delete an album and its cards
+function deleteAlbum(button) {
+  const card = button.closest('.col'); 
+  const albumName = card.dataset.albumName;
+
+  if (confirm(`Are you sure you want to delete the album "${albumName}"?`)) {
+    fetch(`/deleteAlbum/${albumName}`, { method: 'DELETE' })
+      .then(response => {
+        if (response.ok) {
+          card.remove(); 
+        } else {
+          console.error('Error deleting album');
+        }
+      })
+      .catch(error => {
+        console.error('Error deleting album:', error);
       });
   }
 }
