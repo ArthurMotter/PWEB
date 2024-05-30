@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Your JavaScript code goes here
   const openPopupButton = document.getElementById('open-popup');
   const openCAButton = document.getElementById('open-create-album');
-  const imageUploadPopup = document.getElementById('image-upload-popup');
   const createAlbumPopup = document.getElementById('create-album-popup');
+  const imageUploadPopup = document.getElementById('image-upload-popup');
   const uploadForm = document.getElementById('uploadForm');
   const imageUpload = document.getElementById('imageUpload');
   const previewImage = document.getElementById('previewImage');
@@ -32,12 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Create a new card element (clone the template)
     const template = document.getElementById('photoCardTemplate');
     const newCard = template.content.cloneNode(true).querySelector('.col'); // Clone the template content and get the .col element
-  
+
     // Set the image source, text, and date for the new card
     newCard.querySelector('.card-img-top').src = `/uploads/${fileName}`;
     newCard.querySelector('.text-muted#photoFileName').textContent = fileName; // Set filename
     newCard.querySelector('.text-muted#photoUploadDate').textContent = date;
-  
+
     // Add the new card to the image-cards container
     document.getElementById('image-cards').appendChild(newCard);
   }
@@ -71,10 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
         const date = new Date().toLocaleDateString();
         displayImage(data.fileName, date);
+
+        // Refresh the upload form (optional, but good practice)
+        uploadForm.reset(); // Clears the form fields
+        previewImage.src = '#'; // Clears the preview image
+        previewImage.style="display: flex; justify-content: center; align-items: center;";
+        
       })
       .catch(error => {
         console.error('Error uploading image:', error);
-        // Handle the error appropriately (e.g., display an error message to the user)
+        // Handle the error appropriately
       });
   });
 
@@ -83,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   openCAButton.addEventListener('click', () => {
-    new bootstrap.Modal(createAlbumPopup).show();
+    // Use Bootstrap's modal functionality correctly
+    new bootstrap.Modal(createAlbumPopup).show(); 
   });
 
   const albumsButton = document.getElementById('albums-button');
