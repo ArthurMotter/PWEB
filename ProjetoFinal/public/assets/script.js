@@ -1,3 +1,4 @@
+// script.js
 //elements that will be initialized with the page
 document.addEventListener('DOMContentLoaded', () => {
   // constants declarations
@@ -10,11 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const uploadForm = document.getElementById('uploadForm');
   const imageUpload = document.getElementById('imageUpload');
   const previewImage = document.getElementById('previewImage');
+  const createAlbumForm = document.getElementById('createAlbumForm');
   //interagibles
   const albumsButton = document.getElementById('albums-button');
   const photosButton = document.getElementById('photos-button');
   const cards = document.querySelectorAll('.col');
-
+  const albumCardsContainer = document.getElementById('album-cards');
 
   //events
   imageUpload.addEventListener('change', function (event) {
@@ -105,6 +107,58 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Error fetching images:', error);
     });
 
+  // Function to create and display album cards
+  function displayAlbum(albumName, albumDescription, date) {
+    const template = document.getElementById('albumCardTemplate');
+    const newCard = template.content.cloneNode(true).querySelector('.col'); 
+  
+    // Set the album name, description, and date for the new card
+    newCard.querySelector('.card-title').textContent = albumName;
+    newCard.querySelector('.card-text').textContent = albumDescription;
+    newCard.querySelector('.text-muted#albumUploadDate').textContent = date;
+    newCard.dataset.albumName = albumName; // Store album name as data attribute directly on newCard
+  
+    // Add the new card to the album-cards container
+    albumCardsContainer.appendChild(newCard);
+  }
+
+  // Function to delete an album and its cards
+  function deleteAlbum(button) {
+    const card = button.closest('.col'); // Find the parent card element
+    const albumName = card.dataset.albumName; // Get the album name from the data attribute
+
+    if (confirm(`Are you sure you want to delete the album "${albumName}"?`)) {
+      fetch(`/deleteAlbum/${albumName}`, { method: 'DELETE' })
+        .then(response => {
+          if (response.ok) {
+            card.remove(); // Remove the card from the DOM
+          } else {
+            console.error('Error deleting album');
+          }
+        })
+        .catch(error => {
+          console.error('Error deleting album:', error);
+        });
+    }
+  }
+
+  //fetch albums
+  fetch('/fetchAlbums')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error fetching albums');
+      }
+      return response.json();
+    })
+    .then(albums => {
+      albums.forEach(album => {
+        displayAlbum(album.name, album.description, album.date);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching albums:', error);
+    });
+
 
   uploadForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -134,6 +188,40 @@ document.addEventListener('DOMContentLoaded', () => {
         // Handle the error appropriately
       });
   });
+
+  createAlbumForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const albumTitle = document.getElementById('albumTitle').value;
+    const albumDescription = document.getElementById('albumDescription').value;
+
+    fetch('/createAlbum', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ albumTitle, albumDescription })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Album creation failed');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const date = new Date().toLocaleDateString();
+        displayAlbum(albumTitle, albumDescription, date);
+
+        // Close the modal
+        new bootstrap.Modal(createAlbumPopup).hide();
+
+        // Clear the form fields
+        createAlbumForm.reset();
+      })
+      .catch(error => {
+        console.error('Error creating album:', error);
+        // Handle the error appropriately
+      });
+  });
 });
 
 //interactions afterpage
@@ -155,4 +243,3 @@ function deletePhoto(button) {
       });
   }
 }
-

@@ -108,9 +108,68 @@ app.post('/createAlbum', (req, res) => {
 
   // Optionally, save album data to a file or database
   // Example:
-  // fs.writeFileSync(path.join(albumDirectory, 'album.json'), JSON.stringify({ title: albumTitle, description: albumDescription }));
+  fs.writeFileSync(path.join(albumDirectory, 'album.json'), JSON.stringify({ title: albumTitle, description: albumDescription }));
 
   res.send({ message: 'Album created successfully!' });
+});
+
+// Fetch albums route
+app.get('/fetchAlbums', (req, res) => {
+  const albumsDirectory = path.join(__dirname, 'public', 'albums');
+  const albums = [];
+
+  fs.readdir(albumsDirectory, (err, albumNames) => {
+    if (err) {
+      res.status(500).json({ error: 'Error reading albums' });
+      return; // Important: Exit early if there's an error
+    }
+
+    // Asynchronously read album data for each album
+    const promises = albumNames.map(albumName => {
+      const albumDataFile = path.join(albumsDirectory, albumName, 'album.json');
+      return new Promise((resolve, reject) => {
+        fs.readFile(albumDataFile, 'utf8', (err, data) => {
+          if (err) {
+            reject(err);
+          } else {
+            try {
+              const albumData = JSON.parse(data);
+              resolve({
+                name: albumName,
+                description: albumData.description,
+                date: new Date().toLocaleDateString() 
+              });
+            } catch (error) {
+              reject(error);
+            }
+          }
+        });
+      });
+    });
+
+    // Wait for all album data to be loaded
+    Promise.all(promises)
+      .then(albums => {
+        res.json(albums);
+      })
+      .catch(error => {
+        res.status(500).json({ error: 'Error fetching album data' });
+      });
+  });
+});
+
+// Delete album route
+app.delete('/deleteAlbum/:albumName', (req, res) => {
+  const albumName = req.params.albumName;
+  const albumDirectory = path.join(__dirname, 'public', 'albums', albumName);
+
+  fs.rmdir(albumDirectory, { recursive: true }, (err) => {
+    if (err) {
+      res.status(500).json({ error: 'Error deleting album' });
+    } else {
+      res.json({ message: 'Album deleted successfully' });
+    }
+  });
 });
 
 // Start the server
