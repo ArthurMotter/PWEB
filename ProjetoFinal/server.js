@@ -57,18 +57,33 @@ app.delete('/deletePhoto/:fileName', (req, res) => {
 // Fetch images route
 app.get('/fetchImages', (req, res) => {
   const uploadsDirectory = path.join(__dirname, 'public', 'uploads');
+  const imagesFile = path.join(__dirname, 'public', 'images.json');
+  let images = [];
+  try {
+    images = JSON.parse(fs.readFileSync(imagesFile)); 
+  } catch (error) {
+    // Handle the case where the file doesn't exist
+    console.error("Error reading images.json:", error);
+  }
   fs.readdir(uploadsDirectory, (err, files) => {
     if (err) {
       res.status(500).json({ error: 'Error reading images' });
     } else {
-      const images = files.map(file => {
+      const updatedImages = files.map((file, index) => {
+        // Add filename to the existing images array if it's not already present
+        if (!images.some(image => image.fileName === file)) {
+          images.push({
+            fileName: file,
+            uploadDate: new Date().toLocaleDateString() // Update with real upload date if needed
+          });
+        }
         return {
           fileName: file,
-          text: 'Default Text', // Add real text if needed
-          uploadDate: new Date().toLocaleDateString(), // Update with real upload date if needed
+          uploadDate: images[index] ? images[index].uploadDate : new Date().toLocaleDateString()
         };
       });
-      res.json(images);
+      fs.writeFileSync(imagesFile, JSON.stringify(updatedImages)); // Update the file
+      res.json(updatedImages);
     }
   });
 });

@@ -5,16 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const imageUploadPopup = document.getElementById('image-upload-popup');
   const createAlbumPopup = document.getElementById('create-album-popup');
   const uploadForm = document.getElementById('uploadForm');
-
-
   const imageUpload = document.getElementById('imageUpload');
   const previewImage = document.getElementById('previewImage');
 
-  imageUpload.addEventListener('change', function(event) {
+
+
+  imageUpload.addEventListener('change', function (event) {
     const file = event.target.files[0]; // Get the selected file
     const reader = new FileReader(); // Create a FileReader object
 
-    reader.onload = function(event) {
+    reader.onload = function (event) {
       previewImage.src = event.target.result; // Set the image preview source
       previewImage.style = "width: 100%; height: fit-content; border-radius: 4px";
     }
@@ -26,17 +26,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+
   // Function to display image on card (inside DOMContentLoaded)
   function displayImage(fileName, text, date) {
     // Create a new card element (clone the template)
     const template = document.getElementById('photoCardTemplate');
     const newCard = template.content.cloneNode(true).querySelector('.col'); // Clone the template content and get the .col element
-
+  
     // Set the image source, text, and date for the new card
     newCard.querySelector('.card-img-top').src = `/uploads/${fileName}`;
-    newCard.querySelector('.card-text').textContent = text;
-    newCard.querySelector('.text-muted').textContent = date;
-
+    newCard.querySelector('.text-muted#photoFileName').textContent = fileName; // Set filename
+    newCard.querySelector('.text-muted#photoUploadDate').textContent = date;
+  
     // Add the new card to the image-cards container
     document.getElementById('image-cards').appendChild(newCard);
   }
@@ -68,10 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return response.json();
       })
       .then(data => {
-        // Get optional text and date from the form
-        const text = document.getElementById('photoText').value;
         const date = new Date().toLocaleDateString();
-        displayImage(data.fileName, text, date);
+        displayImage(data.fileName, date);
       })
       .catch(error => {
         console.error('Error uploading image:', error);

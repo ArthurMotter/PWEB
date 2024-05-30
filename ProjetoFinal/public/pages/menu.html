@@ -120,11 +120,11 @@
                         <div class="col" data-type="photo">
                             <div class="card shadow-sm">
                                 <img class="card-img-top" src="#" alt="Photo Preview" id="photoPreview">
-
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <p class="card-text" id="photoText"></p>
-                                        <p class="text-muted" id="photoUploadDate"></p>
+                                        <span class="text-muted" id="photoFileName"></span> <span class="text-muted"
+                                            id="photoUploadDate"></span>
                                     </div>
                                     <div class="btn-group" style="display: flex; justify-content: center;">
                                         <button type="button" class="btn btn-sm btn-outline-secondary"
@@ -196,18 +196,18 @@
 
                     <form id="uploadForm" enctype="multipart/form-data">
 
-                        <div class="form-group" style="display: flex; justify-content: space-around; align-items:end; margin: 15px;">
+                        <div class="form-group"
+                            style="display: flex; justify-content: space-around; align-items:end; margin: 15px;">
                             <div style="width: 80%; margin-right: 10px;">
                                 <label for="photoText">File name :</label>
                                 <input type="text" class="form-control" id="photoText"
                                     placeholder="Enter file name (optional)">
                             </div>
-                            <input type="file" class="form-control-file" id="imageUpload" name="imageUpload" 
-                                >
+                            <input type="file" class="form-control-file" id="imageUpload" name="imageUpload">
                         </div>
 
                         <div class="form-group" style="display: flex; justify-content: center;">
-                            
+
                         </div>
 
                         <div class="imgSelected" id="selectedImage"
