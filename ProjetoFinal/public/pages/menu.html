@@ -116,26 +116,29 @@
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="image-cards">
                     <!-- Photo Card Template (hidden by default) -->
-                    <div class="col" data-type="photo" style="display: none;">
-                        <div class="card shadow-sm">
-                            <img class="card-img-top" src="#" alt="Photo Preview" id="photoPreview">
-
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <p class="card-text" id="photoText"></p>
-                                    <p class="text-muted" id="photoUploadDate"></p>
-                                </div>
-                                <div class="btn-group" style="display: flex; justify-content: center;">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        onclick="window.location.href='http://localhost:3000/view_file'">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        onclick="window.location.href='http://localhost:3000/edit_file'">Edit</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        onclick="deletePhoto(this)">Delete</button>
+                    <template id="photoCardTemplate">
+                        <div class="col" data-type="photo">
+                            <div class="card shadow-sm">
+                                <img class="card-img-top" src="#" alt="Photo Preview" id="photoPreview">
+                
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="card-text" id="photoText"></p>
+                                        <p class="text-muted" id="photoUploadDate"></p>
+                                    </div>
+                                    <div class="btn-group" style="display: flex; justify-content: center;">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            onclick="window.location.href='http://localhost:3000/view_file'">View</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            onclick="window.location.href='http://localhost:3000/edit_file'">Edit</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            onclick="deletePhoto(this)">Delete</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
+                
                     
                     <!-- ... other cards ... -->
 
@@ -188,13 +191,22 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="uploadForm" enctype="multipart/form-data">
+
+                    <form id="uploadForm" enctype="multipart/form-data"> 
+                        
+                        <div class="form-group" style="margin: 15px;">
+                          <label for="photoText">File name :</label>
+                          <input type="text" class="form-control" id="photoText" placeholder="Enter file name (optional)">
+                        </div>
+
                         <div class="form-group" style="display: flex; justify-content: center;">
                             <input type="file" class="form-control-file" id="imageUpload" name="imageUpload">
                         </div>
+                      
                         <div class="imgSelected" id="selectedImage">
 
                         </div>
+
                         <div class="row" style="display: flex; justify-content: center;">
                             <button type="submit" class="btn btn-primary" style="width: 50%;">Upload</button>
                         </div>
