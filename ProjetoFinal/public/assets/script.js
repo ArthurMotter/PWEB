@@ -1,15 +1,22 @@
+//elements that will be initialized with the page
 document.addEventListener('DOMContentLoaded', () => {
-  // Your JavaScript code goes here
+  // constants declarations
+  //popUps
   const openPopupButton = document.getElementById('open-popup');
   const openCAButton = document.getElementById('open-create-album');
   const createAlbumPopup = document.getElementById('create-album-popup');
   const imageUploadPopup = document.getElementById('image-upload-popup');
+  //forms
   const uploadForm = document.getElementById('uploadForm');
   const imageUpload = document.getElementById('imageUpload');
   const previewImage = document.getElementById('previewImage');
+  //interagibles
+  const albumsButton = document.getElementById('albums-button');
+  const photosButton = document.getElementById('photos-button');
+  const cards = document.querySelectorAll('.col');
 
 
-
+  //events
   imageUpload.addEventListener('change', function (event) {
     const file = event.target.files[0]; // Get the selected file
     const reader = new FileReader(); // Create a FileReader object
@@ -26,6 +33,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  openPopupButton.addEventListener('click', () => {
+    new bootstrap.Modal(imageUploadPopup).show();
+  });
+
+  openCAButton.addEventListener('click', () => {
+    new bootstrap.Modal(createAlbumPopup).show();
+  });
+
+  albumsButton.addEventListener('click', () => {
+    cards.forEach(card => {
+      if (card.dataset.type === 'album') {
+        card.style.display = 'block'; // Show albums
+      } else {
+        card.style.display = 'none'; // Hide photos
+      }
+    });
+    albumsButton.style = "background-color: #0055ff; width: 70%;"
+    photosButton.style = "background-color: gray; width: 70%;"
+    openCAButton.style = "background-color: #0055ff; width: 30%;"
+    openPopupButton.style = "background-color: gray; width: 30%;"
+  });
+
+  photosButton.addEventListener('click', () => {
+    cards.forEach(card => {
+      if (card.dataset.type === 'photo') {
+        card.style.display = 'block'; // Show photos
+      } else {
+        card.style.display = 'none'; // Hide albums
+      }
+    });
+    albumsButton.style = "background-color: gray; width: 70%;"
+    photosButton.style = "background-color: #0055ff; width: 70%;"
+    openCAButton.style = "background-color: gray; width: 30%;"
+    openPopupButton.style = "background-color: #0055ff; width: 30%;"
+  });
+
+  // Initial display (show albums by default, for example):
+  cards.forEach(card => {
+    if (card.dataset.type === 'album') {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
 
   // Function to display image on card (inside DOMContentLoaded)
   function displayImage(fileName, date) {
@@ -75,67 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Refresh the upload form (optional, but good practice)
         uploadForm.reset(); // Clears the form fields
         previewImage.src = '#'; // Clears the preview image
-        previewImage.style="display: flex; justify-content: center; align-items: center;";
-        
+        previewImage.style = "display: flex; justify-content: center; align-items: center;";
+
       })
       .catch(error => {
         console.error('Error uploading image:', error);
         // Handle the error appropriately
       });
   });
-
-  openPopupButton.addEventListener('click', () => {
-    new bootstrap.Modal(imageUploadPopup).show();
-  });
-
-  openCAButton.addEventListener('click', () => {
-    // Use Bootstrap's modal functionality correctly
-    new bootstrap.Modal(createAlbumPopup).show(); 
-  });
-
-  const albumsButton = document.getElementById('albums-button');
-  const photosButton = document.getElementById('photos-button');
-  const cards = document.querySelectorAll('.col');
-
-  albumsButton.addEventListener('click', () => {
-    cards.forEach(card => {
-      if (card.dataset.type === 'album') {
-        card.style.display = 'block'; // Show albums
-      } else {
-        card.style.display = 'none'; // Hide photos
-      }
-    });
-    albumsButton.style = "background-color: #0055ff; width: 70%;"
-    photosButton.style = "background-color: gray; width: 70%;"
-    openCAButton.style = "background-color: #0055ff; width: 30%;"
-    openPopupButton.style = "background-color: gray; width: 30%;"
-  });
-
-  photosButton.addEventListener('click', () => {
-    cards.forEach(card => {
-      if (card.dataset.type === 'photo') {
-        card.style.display = 'block'; // Show photos
-      } else {
-        card.style.display = 'none'; // Hide albums
-      }
-    });
-    albumsButton.style = "background-color: gray; width: 70%;"
-    photosButton.style = "background-color: #0055ff; width: 70%;"
-    openCAButton.style = "background-color: gray; width: 30%;"
-    openPopupButton.style = "background-color: #0055ff; width: 30%;"
-  });
-
-  // Initial display (show albums by default, for example):
-  cards.forEach(card => {
-    if (card.dataset.type === 'album') {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-
 });
 
+//interactions afterpage
 function deletePhoto(button) {
   const card = button.closest('.col'); // Find the parent card element
   const fileName = card.querySelector('.card-img-top').src.split('/').pop(); // Get the filename from the image source
