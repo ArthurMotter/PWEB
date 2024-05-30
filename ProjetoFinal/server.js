@@ -40,6 +40,25 @@ app.get('/view_file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pages', 'view_file.html'));
 });
 
+// Fetch images route
+app.get('/fetchImages', (req, res) => {
+  const uploadsDirectory = path.join(__dirname, 'public', 'uploads');
+  fs.readdir(uploadsDirectory, (err, files) => {
+    if (err) {
+      res.status(500).json({ error: 'Error reading images' });
+    } else {
+      const images = files.map(file => {
+        return {
+          fileName: file,
+          text: 'Default Text', // Add real text if needed
+          uploadDate: new Date().toLocaleDateString(), // Update with real upload date if needed
+        };
+      });
+      res.json(images);
+    }
+  });
+});
+
 // Upload image route
 app.post('/upload', upload.single('imageUpload'), (req, res) => {
   if (req.file) {

@@ -79,26 +79,34 @@
 
                     <div class="d-flex" style="justify-content: space-around;">
                         <div class="btn-group" role="group" aria-label="Basic example" style="width: 40%;">
-                            <button type="button" id="albums-button" class="btn btn-primary" style="width: 70%;">Albums</button>
+                            <button type="button" id="albums-button" class="btn btn-primary"
+                                style="width: 70%;">Albums</button>
                             <button type="button" id="open-create-album" class="btn btn-primary" style="width: 30%;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-folder-plus" viewBox="0 0 16 16">
-                                    <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z"/>
-                                    <path d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                    class="bi bi-folder-plus" viewBox="0 0 16 16">
+                                    <path
+                                        d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
+                                    <path
+                                        d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5" />
                                 </svg>
                             </button>
                         </div>
-                        
+
                         <div class="btn-group" role="group" aria-label="Basic example" style="width: 40%;">
-                            <button type="button" id="photos-button" class="btn btn-primary" style="width: 70%; background-color: gray;">Photos</button>
-                            <button type="button" id="open-popup" class="btn btn-primary" style="width: 30%; background-color: gray;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                            <button type="button" id="photos-button" class="btn btn-primary"
+                                style="width: 70%; background-color: gray;">Photos</button>
+                            <button type="button" id="open-popup" class="btn btn-primary"
+                                style="width: 30%; background-color: gray;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                    class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path
+                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
                                 </svg>
                             </button>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </section>
@@ -106,8 +114,35 @@
         <div class="album py-5 bg-light">
             <div class="container">
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="image-cards">
                     <!--Photo Card PlaceHolder-->
+                    <div class="col" data-type="photo">
+                        <div class="card shadow-sm">
+                            <img class="card-img-top" src="#" alt="Photo Preview" id="photoPreview">
+
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="card-text" id="photoText"></p>
+                                    <p class="text-muted" id="photoUploadDate"></p>
+                                </div>
+                                <div class="btn-group" style="display: flex; justify-content: center;">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="window.location.href='http://localhost:3000/view_file'">View</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="window.location.href='http://localhost:3000/edit_file'">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ... other cards ... -->
+
+                    <!--
+        <div class="album py-5 bg-light">
+            <div class="container">
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    Photo Card PlaceHolder
                     <div class="col" data-type="photo">
                         <div class="card shadow-sm">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
@@ -161,10 +196,10 @@
                 </div>
             </div>
         </div>
-        
+
     </main>
 
-    
+
 
     <!--upload popUp-->
     <div id="image-upload-popup" class="modal fade" tabindex="-1" aria-labelledby="imageUploadPopupLabel"
@@ -174,15 +209,17 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="imageUploadPopupLabel">Upload Image</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                         </svg>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="uploadForm" enctype="multipart/form-data"> 
+                    <form id="uploadForm" enctype="multipart/form-data">
                         <div class="form-group" style="display: flex; justify-content: center;">
-                          <input type="file" class="form-control-file" id="imageUpload" name="imageUpload">
+                            <input type="file" class="form-control-file" id="imageUpload" name="imageUpload">
                         </div>
                         <div class="imgSelected" id="selectedImage">
 
@@ -205,17 +242,20 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="createAlbumPopupLabel">Create Album</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                         </svg>
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+
                     <form id="createAlbumForm">
                         <div class="form-group" style="margin: 15px;">
                             <label for="albumTitle">Album Title:</label>
-                            <input type="text" class="form-control" id="albumTitle" placeholder="Enter album title" required>
+                            <input type="text" class="form-control" id="albumTitle" placeholder="Enter album title"
+                                required>
                         </div>
                         <div class="form-group" style="margin: 15px;">
                             <label for="albumDescription">Album Description:</label>
@@ -225,7 +265,7 @@
                         <div class="row" style="display: flex; justify-content: center;">
                             <button type="submit" class="btn btn-primary" style="width: 50%;">Create Album</button>
                         </div>
-                        
+
                     </form>
                 </div>
             </div>
