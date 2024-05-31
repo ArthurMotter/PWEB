@@ -107,38 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Error fetching images:', error);
     });
 
-  // Function to create and display album cards
-  function displayAlbum(albumName, albumDescription, date) {
-    const template = document.getElementById('albumCardTemplate');
-    const newCard = template.content.cloneNode(true).querySelector('.col'); 
-  
-    // Set the album name, description, and date for the new card
-    newCard.querySelector('.card-title').textContent = albumName;
-    newCard.querySelector('.card-text').textContent = albumDescription;
-    newCard.querySelector('.text-muted#albumUploadDate').textContent = date;
-    newCard.dataset.albumName = albumName; // Store album name as data attribute directly on newCard
-  
-    // Add the new card to the album-cards container
-    albumCardsContainer.appendChild(newCard);
-  }
-
-  //fetch albums
-  fetch('/fetchAlbums')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Error fetching albums');
-      }
-      return response.json();
-    })
-    .then(albums => {
-      albums.forEach(album => {
-        displayAlbum(album.name, album.description, album.date);
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching albums:', error);
-    });
-
 
   uploadForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -169,39 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 
-  createAlbumForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const albumTitle = document.getElementById('albumTitle').value;
-    const albumDescription = document.getElementById('albumDescription').value;
-
-    fetch('/createAlbum', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ albumTitle, albumDescription })
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Album creation failed');
-        }
-        return response.json();
-      })
-      .then(data => {
-        const date = new Date().toLocaleDateString();
-        displayAlbum(albumTitle, albumDescription, date);
-
-        // Close the modal
-        new bootstrap.Modal(createAlbumPopup).hide();
-
-        // Clear the form fields
-        createAlbumForm.reset();
-      })
-      .catch(error => {
-        console.error('Error creating album:', error);
-        // Handle the error appropriately
-      });
-  });
 });
 
 //interactions afterpage
