@@ -139,7 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.querySelector('#albumUploadDate').textContent = new Date().toLocaleDateString();
 
     // Add the new card to the cards container
-    cardsContainer.appendChild(newCard);
+    cardsContainer.appendChild(newCard); // This line adds the card to the DOM
+
+    // Get the image element *after* the card is added to the DOM
+    const imgElement = newCard.querySelector('.card-img-top');
 
     // Update the createAlbumForm data
     fetch('/createAlbum', {
@@ -161,17 +164,22 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
         // Handle success, possibly update the album's ID on the card
         console.log('Album created successfully:', data);
-        // Close the modal and clear the form
-        new bootstrap.Modal(createAlbumPopup).hide();
-        createAlbumForm.reset();
       })
       .catch(error => {
         console.error('Error creating album:', error);
         // Handle the error appropriately
       });
+
+    // Set the image source *after* the card is added to the DOM
+    imgElement.src = `/uploads/${albumImages[0]}`; // Get the first image from the array
+    imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
+
+    // Close the modal and clear the form
+    new bootstrap.Modal(createAlbumPopup).hide();
+    createAlbumForm.reset();
   });
 
-  // Function to display albums on card (inside DOMContentLoaded)
+  // Function to display albums on card 
   function displayAlbum(albumName, albumDescription, albumImages, creationDate) {
     const template = document.getElementById('albumCardTemplate');
     const newCard = template.content.cloneNode(true).querySelector('.col');
@@ -187,8 +195,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (albumImages.length > 0) {
       const firstImage = albumImages[0]; // Get the first image from the array
       const imgElement = newCard.querySelector('.card-img-top');
-      imgElement.src = `/uploads/${firstImage}`; // Set the image source
-      imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
+      // Use a timeout to allow the image element to be added to the DOM
+      setTimeout(() => {
+        imgElement.src = `/uploads/${firstImage}`; // Set the image source
+        imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
+      }, 10); // Adjust the timeout as needed
+
       // Add the new card to the cards container
       cardsContainer.appendChild(newCard);
     }
