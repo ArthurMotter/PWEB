@@ -32,9 +32,7 @@ app.get('/edit_file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pages', 'edit_file.html'));
 });
 
-app.get('/view_file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'pages', 'view_file.html'));
-});
+
 
 // Delete photo route
 app.delete('/deletePhoto/:fileName', (req, res) => {
