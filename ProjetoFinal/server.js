@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware for parsing form data
 app.use(express.json());
-app.use(express.urlencoded({ extended: false })); 
+app.use(express.urlencoded({ extended: false }));
 
 // Define routes for your pages
 app.get('/', (req, res) => {
@@ -55,17 +55,31 @@ app.delete('/deleteAlbum/:albumName', (req, res) => {
   const albumName = req.params.albumName;
   const albumsFile = path.join(__dirname, 'public', 'albums.json');
   let albums = [];
+
   try {
     albums = JSON.parse(fs.readFileSync(albumsFile));
   } catch (error) {
     console.error("Error reading albums.json:", error);
+    return res.status(500).json({ error: 'Error reading albums.json' });
   }
 
-  albums = albums.filter(album => album.albumName !== albumName); // Remove the album from the array
+  // Find the index of the album to delete
+  const albumIndex = albums.findIndex(album => album.albumName === albumName);
 
-  fs.writeFileSync(albumsFile, JSON.stringify(albums));
+  // If album is found
+  if (albumIndex !== -1) {
+    albums.splice(albumIndex, 1); // Remove the album from the array
 
-  res.json({ message: `Album "${albumName}" deleted successfully` });
+    try {
+      fs.writeFileSync(albumsFile, JSON.stringify(albums)); // Update the file
+      res.json({ message: `Album "${albumName}" deleted successfully` });
+    } catch (error) {
+      console.error("Error writing albums.json:", error);
+      res.status(500).json({ error: 'Error deleting album' });
+    }
+  } else {
+    res.status(404).json({ error: 'Album not found' });
+  }
 });
 
 // Fetch images route
@@ -74,7 +88,7 @@ app.get('/fetchImages', (req, res) => {
   const imagesFile = path.join(__dirname, 'public', 'images.json');
   let images = [];
   try {
-    images = JSON.parse(fs.readFileSync(imagesFile)); 
+    images = JSON.parse(fs.readFileSync(imagesFile));
   } catch (error) {
     // Handle the case where the file doesn't exist
     console.error("Error reading images.json:", error);
