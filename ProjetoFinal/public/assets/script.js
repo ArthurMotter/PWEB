@@ -107,6 +107,33 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Error fetching images:', error);
     });
 
+  // Fetch and display existing albums on page load
+  fetch('/fetchAlbums')
+    .then(response => response.json())
+    .then(albums => {
+      albums.forEach(album => {
+        displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching albums:', error);
+    });
+
+  // Function to display albums on card 
+  function displayAlbum(albumName, albumDescription, albumImages, creationDate) {
+    const template = document.getElementById('albumCardTemplate');
+    const newCard = template.content.cloneNode(true).querySelector('.col');
+    const albumCard = newCard.querySelector('.card');
+
+    // Set attributes for the new card
+    albumCard.dataset.albumName = albumName;
+    newCard.querySelector('.card-title').textContent = albumName;
+    newCard.querySelector('.card-text').textContent = albumDescription;
+    newCard.querySelector('#albumUploadDate').textContent = creationDate;
+
+    // Add the new card to the album-cards container
+    albumCardsContainer.appendChild(newCard);
+  }
 
   uploadForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -164,6 +191,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add the new card to the album-cards container
     albumCardsContainer.appendChild(newCard);
 
+    // Fetch and display existing albums on page load
+    fetch('/fetchAlbums')
+      .then(response => response.json())
+      .then(albums => {
+        albums.forEach(album => {
+          displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching albums:', error);
+      });
+
+    function displayAlbum(albumName, albumDescription, albumImages, creationDate) {
+      const template = document.getElementById('albumCardTemplate');
+      const newCard = template.content.cloneNode(true).querySelector('.col');
+      const albumCard = newCard.querySelector('.card');
+
+      // Set attributes for the new card
+      albumCard.dataset.albumName = albumName;
+      newCard.querySelector('.card-title').textContent = albumName;
+      newCard.querySelector('.card-text').textContent = albumDescription;
+      newCard.querySelector('#albumUploadDate').textContent = creationDate;
+
+      // Add the new card to the album-cards container
+      albumCardsContainer.appendChild(newCard);
+    }
+
     // Update the createAlbumForm data
     fetch('/createAlbum', {
       method: 'POST',
@@ -195,6 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createAlbumForm.reset();
   });
 
+
 });
 
 //interactions afterpage
@@ -219,14 +274,14 @@ function deletePhoto(button) {
 
 // Function to delete an album and its cards
 function deleteAlbum(button) {
-  const card = button.closest('.col'); 
+  const card = button.closest('.col');
   const albumName = card.dataset.albumName;
 
   if (confirm(`Are you sure you want to delete the album "${albumName}"?`)) {
     fetch(`/deleteAlbum/${albumName}`, { method: 'DELETE' })
       .then(response => {
         if (response.ok) {
-          card.remove(); 
+          card.remove();
         } else {
           console.error('Error deleting album');
         }
