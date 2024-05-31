@@ -24,7 +24,8 @@
         crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="./assets/style.css">
-    <script src="./assets/script.js"></script>
+
+    <script src="../assets/script.js"></script>
 
 </head>
 
@@ -117,7 +118,7 @@
         <div class="album py-5 bg-light">
             <div class="container">
                 <!--image rows-->
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="image-cards">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="cards">
                     <!-- Photo Card Template (hidden by default) -->
                     <template id="photoCardTemplate">
                         <div class="col" data-type="photo">
@@ -141,9 +142,6 @@
                             </div>
                         </div>
                     </template>
-                </div>
-                <!-- albums rows -->
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="album-cards">
                     <!-- Album Card Template (hidden by default) -->
                     <template id="albumCardTemplate">
                         <div class="col" data-type="album">

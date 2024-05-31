@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const albumsButton = document.getElementById('albums-button');
   const photosButton = document.getElementById('photos-button');
   const cards = document.querySelectorAll('.col');
-  const albumCardsContainer = document.getElementById('album-cards');
+  const cardsContainer = document.getElementById('cards'); // Use a single container for both
 
   //events
   imageUpload.addEventListener('change', function (event) {
@@ -91,8 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.querySelector('.text-muted#photoFileName').textContent = fileName; // Set filename
     newCard.querySelector('.text-muted#photoUploadDate').textContent = date;
 
-    // Add the new card to the image-cards container
-    document.getElementById('image-cards').appendChild(newCard);
+    // Add the new card to the cards container
+    cardsContainer.appendChild(newCard);
   }
 
   // Fetch and display existing images on page load
@@ -139,8 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
       imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
     }
 
-    // Add the new card to the album-cards container
-    albumCardsContainer.appendChild(newCard);
+    // Add the new card to the cards container
+    cardsContainer.appendChild(newCard);
   }
 
   uploadForm.addEventListener('submit', (event) => {
@@ -196,8 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.querySelector('.card-text').textContent = albumDescription;
     newCard.querySelector('#albumUploadDate').textContent = new Date().toLocaleDateString();
 
-    // Add the new card to the album-cards container
-    albumCardsContainer.appendChild(newCard);
+    // Add the new card to the cards container
+    cardsContainer.appendChild(newCard);
 
     // Fetch and display existing albums on page load
     fetch('/fetchAlbums')
@@ -222,8 +222,8 @@ document.addEventListener('DOMContentLoaded', () => {
       newCard.querySelector('.card-text').textContent = albumDescription;
       newCard.querySelector('#albumUploadDate').textContent = creationDate;
 
-      // Add the new card to the album-cards container
-      albumCardsContainer.appendChild(newCard);
+      // Add the new card to the cards container
+      cardsContainer.appendChild(newCard);
     }
 
     // Update the createAlbumForm data
