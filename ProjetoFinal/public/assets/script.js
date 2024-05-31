@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayImage(data.fileName, date);
 
         // Refresh the upload form (optional, but good practice)
+        new bootstrap.Modal(imageUploadPopup).hide();
         uploadForm.reset(); // Clears the form fields
         previewImage.src = '#'; // Clears the preview image
         previewImage.style = "display: flex; justify-content: center; align-items: center;";
@@ -124,71 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add the new card to the cards container
     cardsContainer.appendChild(newCard);
 
-    // Fetch and display existing albums on page load
-    fetch('/fetchAlbums')
-      .then(response => response.json())
-      .then(albums => {
-        albums.forEach(album => {
-          displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching albums:', error);
-      });
-
-    function displayAlbum(albumName, albumDescription, albumImages, creationDate) {
-      const template = document.getElementById('albumCardTemplate');
-      const newCard = template.content.cloneNode(true).querySelector('.col');
-      const albumCard = newCard.querySelector('.card');
-
-      // Set attributes for the new card
-      albumCard.dataset.albumName = albumName;
-      newCard.querySelector('.card-title').textContent = albumName;
-      newCard.querySelector('.card-text').textContent = albumDescription;
-      newCard.querySelector('#albumUploadDate').textContent = creationDate;
-
-      // Add the new card to the cards container
-      cardsContainer.appendChild(newCard);
-    }
-
-    /* Fetch and display existing albums on page load
-    fetch('/fetchAlbums')
-      .then(response => response.json())
-      .then(albums => {
-        albums.forEach(album => {
-          displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching albums:', error);
-      });
-      */
-
-    /* Function to display albums on card (inside DOMContentLoaded)
-    function displayAlbum(albumName, albumDescription, albumImages, creationDate) {
-      const template = document.getElementById('albumCardTemplate');
-      const newCard = template.content.cloneNode(true).querySelector('.col');
-      const albumCard = newCard.querySelector('.card');
-
-      // Set attributes for the new card
-      albumCard.dataset.albumName = albumName;
-      newCard.querySelector('.card-title').textContent = albumName;
-      newCard.querySelector('.card-text').textContent = albumDescription;
-      newCard.querySelector('#albumUploadDate').textContent = creationDate;
-
-      // Set the image preview for the album (if images are provided)
-      if (albumImages.length > 0) {
-        const firstImage = albumImages[0]; // Get the first image from the array
-        const imgElement = newCard.querySelector('.card-img-top');
-        imgElement.src = `/uploads/${firstImage}`; // Set the image source
-        imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
-      }
-
-      // Add the new card to the cards container
-      cardsContainer.appendChild(newCard);
-    }
-    */
-   
     // Update the createAlbumForm data
     fetch('/createAlbum', {
       method: 'POST',
@@ -209,17 +145,50 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
         // Handle success, possibly update the album's ID on the card
         console.log('Album created successfully:', data);
+        // Close the modal and clear the form
+        new bootstrap.Modal(createAlbumPopup).hide();
+        createAlbumForm.reset();
       })
       .catch(error => {
         console.error('Error creating album:', error);
         // Handle the error appropriately
       });
-
-    // Close the modal and clear the form
-    new bootstrap.Modal(createAlbumPopup).hide();
-    createAlbumForm.reset();
   });
 
+  // Fetch and display existing albums on page load
+  fetch('/fetchAlbums')
+    .then(response => response.json())
+    .then(albums => {
+      albums.forEach(album => {
+        displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching albums:', error);
+    });
+
+  // Function to display albums on card (inside DOMContentLoaded)
+  function displayAlbum(albumName, albumDescription, albumImages, creationDate) {
+    const template = document.getElementById('albumCardTemplate');
+    const newCard = template.content.cloneNode(true).querySelector('.col');
+    const albumCard = newCard.querySelector('.card');
+
+    // Set attributes for the new card
+    albumCard.dataset.albumName = albumName;
+    newCard.querySelector('.card-title').textContent = albumName;
+    newCard.querySelector('.card-text').textContent = albumDescription;
+    newCard.querySelector('#albumUploadDate').textContent = creationDate;
+
+    // Set the image preview for the album (if images are provided)
+    if (albumImages.length > 0) {
+      const firstImage = albumImages[0]; // Get the first image from the array
+      const imgElement = newCard.querySelector('.card-img-top');
+      imgElement.src = `/uploads/${firstImage}`; // Set the image source
+      imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
+       // Add the new card to the cards container
+      cardsContainer.appendChild(newCard);
+    }
+  }
   //end of DOM
 });
 
