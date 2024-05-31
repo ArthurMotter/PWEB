@@ -107,12 +107,12 @@ app.get('/fetchAlbums', (req, res) => {
   const albumsFile = path.join(__dirname, 'public', 'albums.json');
   let albums = [];
   try {
-    albums = JSON.parse(fs.readFileSync(albumsFile)); 
+    albums = JSON.parse(fs.readFileSync(albumsFile));
   } catch (error) {
     console.error("Error reading albums.json:", error);
   }
 
-  res.json(albums);
+  res.json(albums); // Send the albums data to the client
 });
 
 // Upload image route

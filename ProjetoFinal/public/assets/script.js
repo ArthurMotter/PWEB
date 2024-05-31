@@ -272,10 +272,9 @@ function deletePhoto(button) {
   }
 }
 
-// Function to delete an album and its cards
 function deleteAlbum(button) {
   const card = button.closest('.col');
-  const albumName = card.dataset.albumName;
+  const albumName = card.querySelector('.card-title').textContent; // Get the album name from the card title
 
   if (confirm(`Are you sure you want to delete the album "${albumName}"?`)) {
     fetch(`/deleteAlbum/${albumName}`, { method: 'DELETE' })
