@@ -137,6 +137,64 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 
+  // Create Album functionality
+  createAlbumForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const albumName = document.getElementById('albumName').value;
+    const albumDescription = document.getElementById('albumDescription').value;
+    const albumImagesInput = document.getElementById('albumImages').value;
+
+    // Split image names by comma and trim whitespace
+    const albumImages = albumImagesInput
+      .split(',')
+      .map(image => image.trim());
+
+    // Create a new album card dynamically
+    const template = document.getElementById('albumCardTemplate');
+    const newCard = template.content.cloneNode(true).querySelector('.col');
+    const albumCard = newCard.querySelector('.card');
+
+    // Set attributes for the new card
+    albumCard.dataset.albumName = albumName;
+    newCard.querySelector('.card-title').textContent = albumName;
+    newCard.querySelector('.card-text').textContent = albumDescription;
+    newCard.querySelector('#albumUploadDate').textContent = new Date().toLocaleDateString();
+
+    // Add the new card to the album-cards container
+    albumCardsContainer.appendChild(newCard);
+
+    // Update the createAlbumForm data
+    fetch('/createAlbum', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        albumName: albumName,
+        albumDescription: albumDescription,
+        albumImages: albumImages,
+        creationDate: new Date().toLocaleDateString()
+      })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Album creation failed');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Handle success, possibly update the album's ID on the card
+        console.log('Album created successfully:', data);
+      })
+      .catch(error => {
+        console.error('Error creating album:', error);
+        // Handle the error appropriately
+      });
+
+    // Close the modal and clear the form
+    new bootstrap.Modal(createAlbumPopup).hide();
+    createAlbumForm.reset();
+  });
+
 });
 
 //interactions afterpage
