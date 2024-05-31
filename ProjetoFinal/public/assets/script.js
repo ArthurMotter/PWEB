@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set the image source, text, and date for the new card
     newCard.querySelector('.card-img-top').src = `/uploads/${fileName}`;
+    newCard.querySelector('.card-img-top').dataset.fullScreenImage = `/uploads/${fileName}`;
     newCard.querySelector('.text-muted#photoFileName').textContent = fileName; // Set filename
     newCard.querySelector('.text-muted#photoUploadDate').textContent = date;
 
@@ -172,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set the image source *after* the card is added to the DOM
     imgElement.src = `/uploads/${albumImages[0]}`; // Get the first image from the array
+    imgElement.dataset.fullScreenImage = `/uploads/${albumImages[0]}`; // Set the full-screen image path
     imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
 
     // Close the modal and clear the form
@@ -198,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Use a timeout to allow the image element to be added to the DOM
       setTimeout(() => {
         imgElement.src = `/uploads/${firstImage}`; // Set the image source
+        imgElement.dataset.fullScreenImage = `/uploads/${firstImage}`; // Set the full-screen image path
         imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
       }, 10); // Adjust the timeout as needed
 
@@ -246,3 +249,18 @@ function deleteAlbum(button) {
       });
   }
 }
+// Initialize the view image modal
+const viewImageModal = document.getElementById('viewImageModal');
+const fullScreenImage = document.getElementById('fullScreenImage');
+
+// Event listener for opening the view image modal
+cardsContainer.addEventListener('click', (event) => {
+  if (event.target.classList.contains('card-img-top')) {
+    // Get the full-screen image path from the clicked image
+    const fullScreenImagePath = event.target.dataset.fullScreenImage;
+    // Set the full-screen image source in the modal
+    fullScreenImage.src = fullScreenImagePath;
+    // Show the modal
+    new bootstrap.Modal(viewImageModal).show();
+  }
+});
