@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
       viewImageModal.hide(); // Hide the modal
     });
 
-    // Make the modal close on clicks outside it
+    // Prevent clicks outside the modal from closing it
     viewImageModal.backdrop = 'static'; // Set backdrop to 'static'
     viewImageModal.keyboard = false; // Disable keyboard escape to close
   }
