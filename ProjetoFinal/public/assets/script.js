@@ -15,6 +15,34 @@ document.addEventListener('DOMContentLoaded', () => {
   //interagibles
   const cardsContainer = document.getElementById('cards'); // Use a single container for both
 
+  // Fetch and display existing images and albums
+  Promise.all([
+    fetch('/fetchImages'),
+    fetch('/fetchAlbums')
+  ])
+    .then(([imageResponse, albumResponse]) => {
+      return Promise.all([
+        imageResponse.json(),
+        albumResponse.json()
+      ]);
+    })
+    .then(([images, albums]) => {
+      // DOM is now guaranteed to be ready
+
+      // Display images
+      images.forEach(image => {
+        displayImage(image.fileName, image.uploadDate);
+      });
+
+      // Display albums
+      albums.forEach(album => {
+        displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+
   //uploadimage logic
   openUpImgButton.addEventListener('click', () => {
     new bootstrap.Modal(imageUploadPopup).show();
@@ -50,18 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add the new card to the cards container
     cardsContainer.appendChild(newCard);
   }
-
-  // Fetch and display existing images on page load
-  fetch('/fetchImages')
-    .then(response => response.json())
-    .then(images => {
-      images.forEach(image => {
-        displayImage(image.fileName, image.uploadDate);
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching images:', error);
-    });
 
   uploadForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -155,18 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 
-  // Fetch and display existing albums on page load
-  fetch('/fetchAlbums')
-    .then(response => response.json())
-    .then(albums => {
-      albums.forEach(album => {
-        displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching albums:', error);
-    });
-
   // Function to display albums on card (inside DOMContentLoaded)
   function displayAlbum(albumName, albumDescription, albumImages, creationDate) {
     const template = document.getElementById('albumCardTemplate');
@@ -185,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const imgElement = newCard.querySelector('.card-img-top');
       imgElement.src = `/uploads/${firstImage}`; // Set the image source
       imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
-       // Add the new card to the cards container
+      // Add the new card to the cards container
       cardsContainer.appendChild(newCard);
     }
   }
