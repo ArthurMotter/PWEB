@@ -243,19 +243,33 @@ document.addEventListener('DOMContentLoaded', () => {
       cardsContainer.appendChild(newCard);
     }
   }
+
   function initializeViewImageModal() {
     // Initialize the view image modal
-    const viewImageModal = document.getElementById('viewImageModal');
+    const viewImageModal = new bootstrap.Modal(document.getElementById('viewImageModal'));
     const fullScreenImage = document.getElementById('fullScreenImage');
+    const closeButton = document.querySelector('#viewImageModal .btn-close'); // Get the close button
 
-    // Attach the event listener to the cardsContainer AFTER cards are added to the DOM
+    // Handle clicks on the image and "View" button
     cardsContainer.addEventListener('click', (event) => {
-      if (event.target.classList.contains('card-img-top')) {
-        const fullScreenImagePath = event.target.dataset.fullScreenImage;
+      if (event.target.classList.contains('card-img-top') ||
+        event.target.closest('.btn-group')?.querySelector('button:first-child')) {
+        const fullScreenImagePath = event.target.closest('.card')
+          .querySelector('.card-img-top')
+          .dataset.fullScreenImage;
         fullScreenImage.src = fullScreenImagePath;
-        new bootstrap.Modal(viewImageModal).show();
+        viewImageModal.show(); // Show the modal
       }
     });
+
+    // Handle clicks on the modal's close button
+    closeButton.addEventListener('click', () => {
+      viewImageModal.hide(); // Hide the modal
+    });
+
+    // Make the modal close on clicks outside it
+    viewImageModal.backdrop = 'static'; // Set backdrop to 'static'
+    viewImageModal.keyboard = false; // Disable keyboard escape to close
   }
   //end of DOM
 });

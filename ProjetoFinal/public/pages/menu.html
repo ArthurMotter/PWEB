@@ -37,13 +37,15 @@
                 <div class="row">
                     <div class="col-sm-8 col-md-7 py-4">
                         <h4>About</h4>
-                        <p class="text-muted">Momentum is a web application that empowers you to effortlessly organize 
-                            your precious memories. Upload your photos, create personalized albums, and share them with loved ones.
+                        <p class="text-muted">Momentum is a web application that empowers you to effortlessly organize
+                            your precious memories. Upload your photos, create personalized albums, and share them with
+                            loved ones.
                             With advanced search functionality, you can quickly find the exact picture you need.
                             You can also enhance your photos with our built-in editing tools,
                             and protect your memories with robust security features.
                             Whether you're a seasoned photographer or just starting out,
-                            our platform provides the perfect solution for managing and sharing your photo collection.</p>
+                            our platform provides the perfect solution for managing and sharing your photo collection.
+                        </p>
                     </div>
                     <div class="col-sm-4 offset-md-1 py-4">
                         <h4>Contact</h4>
@@ -64,8 +66,8 @@
                     </object>
                     <strong>User</strong>
                 </a>
-                <a onclick="window.location.href='http://localhost:3000/'" class="navbar-brand d-flex align-items-center" 
-                    style="display: flex; justify-content: center;">
+                <a onclick="window.location.href='http://localhost:3000/'"
+                    class="navbar-brand d-flex align-items-center" style="display: flex; justify-content: center;">
                     <strong style="font-weight: 900;">Momentum</strong>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
@@ -83,12 +85,12 @@
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <h1 class="font-weight-light">My Collections</h1>
                     <p class="lead text-muted">Apreciate your best moments or create new ones
-                         whith the buttons below </p>
+                        whith the buttons below </p>
 
                     <!--selectors-->
                     <div class="d-flex" style="justify-content: space-around;">
                         <!--albums interactions-->
-                        <button type="button" id="open-create-album" class="btn btn-primary" 
+                        <button type="button" id="open-create-album" class="btn btn-primary"
                             style="width: 30%;display: flex; justify-content: space-around; align-items: center;">
                             <span>Create Albums</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -123,7 +125,7 @@
                     <template id="photoCardTemplate">
                         <div class="col" data-type="photo">
                             <div class="card shadow-sm">
-                                <img class="card-img-top" src="#" alt="Photo Preview" id="photoPreview" data-bs-toggle="modal" data-bs-target="#viewImageModal">
+                                <img class="card-img-top" src="#" alt="Photo Preview" id="photoPreview">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <p class="card-text" id="photoText"></p>
@@ -131,8 +133,7 @@
                                             id="photoUploadDate"></span>
                                     </div>
                                     <div class="btn-group" style="display: flex; justify-content: center;">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" 
-                                            data-bs-toggle="modal" data-bs-target="#viewImageModal">View</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
                                         <button type="button" class="btn btn-sm btn-outline-secondary"
                                             onclick="window.location.href='http://localhost:3000/edit_file'">Edit</button>
                                         <button type="button" class="btn btn-sm btn-outline-secondary"
@@ -146,7 +147,7 @@
                     <template id="albumCardTemplate">
                         <div class="col" data-type="album">
                             <div class="card shadow-sm" data-album-name="">
-                                <img class="card-img-top" src="#" alt="Album Preview" id="albumPreview" data-bs-toggle="modal" data-bs-target="#viewImageModal">
+                                <img class="card-img-top" src="#" alt="Album Preview" id="albumPreview">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="card-title"></h5>
@@ -232,8 +233,8 @@
                         </div>
                         <div class="form-group" style="margin: 15px;">
                             <label for="albumDescription">Description:</label>
-                            <textarea class="form-control" id="albumDescription" name="albumDescription"
-                                rows="3" style="max-height: 512px;"></textarea>
+                            <textarea class="form-control" id="albumDescription" name="albumDescription" rows="3"
+                                style="max-height: 512px;"></textarea>
                         </div>
                         <div class="form-group" style="margin: 15px;">
                             <label for="albumImages">Images (comma-separated file names):</label>
@@ -241,7 +242,8 @@
                                 placeholder="Image1.jpg,Image2.png,...">
                         </div>
                         <div class="row" style="display: flex; justify-content: center;">
-                            <button type="submit" class="btn btn-primary" style="width: 50%; margin-top: 15px;">Create Album</button>
+                            <button type="submit" class="btn btn-primary" style="width: 50%; margin-top: 15px;">Create
+                                Album</button>
                         </div>
                     </form>
                 </div>
@@ -249,7 +251,7 @@
         </div>
     </div>
 
-    <!--View image popUp-->
+    <!--Image fullscreen popUp-->
     <div class="modal fade" id="viewImageModal" tabindex="-1" aria-labelledby="viewImageModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
