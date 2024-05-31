@@ -1,4 +1,6 @@
 // script.js
+// Declare cardsContainer globally
+let cardsContainer;
 //elements that will be initialized with the page
 document.addEventListener('DOMContentLoaded', () => {
   // constants declarations
@@ -13,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const previewImage = document.getElementById('previewImage');
   const createAlbumForm = document.getElementById('createAlbumForm');
   //interagibles
-  const cardsContainer = document.getElementById('cards'); // Use a single container for both
+  cardsContainer = document.getElementById('cards'); // Get the container
 
   // Fetch and display existing images and albums
   Promise.all([
@@ -38,6 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
       albums.forEach(album => {
         displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
       });
+
+      // Call initializeViewImageModal after cards are loaded
+      initializeViewImageModal();
     })
     .catch(error => {
       console.error('Error fetching data:', error);
@@ -208,6 +213,25 @@ document.addEventListener('DOMContentLoaded', () => {
       cardsContainer.appendChild(newCard);
     }
   }
+  
+  // Initialize the view image modal (this function should be called AFTER the images are loaded)
+  function initializeViewImageModal() {
+    // Initialize the view image modal
+    const viewImageModal = document.getElementById('viewImageModal');
+    const fullScreenImage = document.getElementById('fullScreenImage');
+
+    // Event listener for opening the view image modal
+    cardsContainer.addEventListener('click', (event) => { // You were trying to use it before images were in the DOM
+      if (event.target.classList.contains('card-img-top')) {
+        // Get the full-screen image path from the clicked image
+        const fullScreenImagePath = event.target.dataset.fullScreenImage;
+        // Set the full-screen image source in the modal
+        fullScreenImage.src = fullScreenImagePath;
+        // Show the modal
+        new bootstrap.Modal(viewImageModal).show();
+      }
+    });
+  }
   //end of DOM
 });
 
@@ -249,18 +273,3 @@ function deleteAlbum(button) {
       });
   }
 }
-// Initialize the view image modal
-const viewImageModal = document.getElementById('viewImageModal');
-const fullScreenImage = document.getElementById('fullScreenImage');
-
-// Event listener for opening the view image modal
-cardsContainer.addEventListener('click', (event) => {
-  if (event.target.classList.contains('card-img-top')) {
-    // Get the full-screen image path from the clicked image
-    const fullScreenImagePath = event.target.dataset.fullScreenImage;
-    // Set the full-screen image source in the modal
-    fullScreenImage.src = fullScreenImagePath;
-    // Show the modal
-    new bootstrap.Modal(viewImageModal).show();
-  }
-});
