@@ -81,6 +81,21 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.querySelector('.text-muted#photoFileName').textContent = fileName; // Set filename
     newCard.querySelector('.text-muted#photoUploadDate').textContent = date;
 
+    // Inside the displayImage and displayAlbum functions:
+    // Update these lines to attach the listener to the image
+    newCard.querySelector('.card-img-top').addEventListener('click', (event) => {
+      const fullScreenImagePath = event.target.dataset.fullScreenImage;
+      fullScreenImage.src = fullScreenImagePath;
+      new bootstrap.Modal(viewImageModal).show();
+    });
+
+    // Add event listener to the "View" button
+    newCard.querySelector('.btn-group button:first-child').addEventListener('click', (event) => {
+      const fullScreenImagePath = newCard.querySelector('.card-img-top').dataset.fullScreenImage;
+      fullScreenImage.src = fullScreenImagePath;
+      new bootstrap.Modal(viewImageModal).show();
+    });
+
     // Add the new card to the cards container
     cardsContainer.appendChild(newCard);
   }
@@ -198,6 +213,21 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.querySelector('.card-text').textContent = albumDescription;
     newCard.querySelector('#albumUploadDate').textContent = creationDate;
 
+    // Inside the displayImage and displayAlbum functions:
+    // Update these lines to attach the listener to the image
+    newCard.querySelector('.card-img-top').addEventListener('click', (event) => {
+      const fullScreenImagePath = event.target.dataset.fullScreenImage;
+      fullScreenImage.src = fullScreenImagePath;
+      new bootstrap.Modal(viewImageModal).show();
+    });
+
+    // Add event listener to the "View" button
+    newCard.querySelector('.btn-group button:first-child').addEventListener('click', (event) => {
+      const fullScreenImagePath = newCard.querySelector('.card-img-top').dataset.fullScreenImage;
+      fullScreenImage.src = fullScreenImagePath;
+      new bootstrap.Modal(viewImageModal).show();
+    });
+
     // Set the image preview for the album (if images are provided)
     if (albumImages.length > 0) {
       const firstImage = albumImages[0]; // Get the first image from the array
@@ -213,21 +243,16 @@ document.addEventListener('DOMContentLoaded', () => {
       cardsContainer.appendChild(newCard);
     }
   }
-  
-  // Initialize the view image modal (this function should be called AFTER the images are loaded)
   function initializeViewImageModal() {
     // Initialize the view image modal
     const viewImageModal = document.getElementById('viewImageModal');
     const fullScreenImage = document.getElementById('fullScreenImage');
 
-    // Event listener for opening the view image modal
-    cardsContainer.addEventListener('click', (event) => { // You were trying to use it before images were in the DOM
+    // Attach the event listener to the cardsContainer AFTER cards are added to the DOM
+    cardsContainer.addEventListener('click', (event) => {
       if (event.target.classList.contains('card-img-top')) {
-        // Get the full-screen image path from the clicked image
         const fullScreenImagePath = event.target.dataset.fullScreenImage;
-        // Set the full-screen image source in the modal
         fullScreenImage.src = fullScreenImagePath;
-        // Show the modal
         new bootstrap.Modal(viewImageModal).show();
       }
     });
