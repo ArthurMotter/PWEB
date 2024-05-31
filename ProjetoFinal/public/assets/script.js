@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Error fetching albums:', error);
     });
 
-  // Function to display albums on card 
+  // Function to display albums on card (inside DOMContentLoaded)
   function displayAlbum(albumName, albumDescription, albumImages, creationDate) {
     const template = document.getElementById('albumCardTemplate');
     const newCard = template.content.cloneNode(true).querySelector('.col');
@@ -130,6 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.querySelector('.card-title').textContent = albumName;
     newCard.querySelector('.card-text').textContent = albumDescription;
     newCard.querySelector('#albumUploadDate').textContent = creationDate;
+
+    // Set the image preview for the album (if images are provided)
+    if (albumImages.length > 0) {
+      const firstImage = albumImages[0]; // Get the first image from the array
+      const imgElement = newCard.querySelector('.card-img-top');
+      imgElement.src = `/uploads/${firstImage}`; // Set the image source
+      imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
+    }
 
     // Add the new card to the album-cards container
     albumCardsContainer.appendChild(newCard);
