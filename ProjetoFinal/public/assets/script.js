@@ -3,7 +3,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // constants declarations
   //popUps
-  const openPopupButton = document.getElementById('open-popup');
+  const openUpImgButton = document.getElementById('open-upload-image');
   const openCAButton = document.getElementById('open-create-album');
   const createAlbumPopup = document.getElementById('create-album-popup');
   const imageUploadPopup = document.getElementById('image-upload-popup');
@@ -13,9 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const previewImage = document.getElementById('previewImage');
   const createAlbumForm = document.getElementById('createAlbumForm');
   //interagibles
-  const albumsButton = document.getElementById('albums-button');
-  const photosButton = document.getElementById('photos-button');
-  const cards = document.querySelectorAll('.col');
   const cardsContainer = document.getElementById('cards'); // Use a single container for both
 
   //events
@@ -35,49 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  openPopupButton.addEventListener('click', () => {
+  openUpImgButton.addEventListener('click', () => {
     new bootstrap.Modal(imageUploadPopup).show();
   });
 
   openCAButton.addEventListener('click', () => {
     new bootstrap.Modal(createAlbumPopup).show();
-  });
-
-  albumsButton.addEventListener('click', () => {
-    cards.forEach(card => {
-      if (card.dataset.type === 'album') {
-        card.style.display = 'block'; // Show albums
-      } else {
-        card.style.display = 'none'; // Hide photos
-      }
-    });
-    albumsButton.style = "background-color: #0055ff; width: 70%;"
-    photosButton.style = "background-color: gray; width: 70%;"
-    openCAButton.style = "background-color: #0055ff; width: 30%;"
-    openPopupButton.style = "background-color: gray; width: 30%;"
-  });
-
-  photosButton.addEventListener('click', () => {
-    cards.forEach(card => {
-      if (card.dataset.type === 'photo') {
-        card.style.display = 'block'; // Show photos
-      } else {
-        card.style.display = 'none'; // Hide albums
-      }
-    });
-    albumsButton.style = "background-color: gray; width: 70%;"
-    photosButton.style = "background-color: #0055ff; width: 70%;"
-    openCAButton.style = "background-color: gray; width: 30%;"
-    openPopupButton.style = "background-color: #0055ff; width: 30%;"
-  });
-
-  // Initial display (show albums by default, for example):
-  cards.forEach(card => {
-    if (card.dataset.type === 'album') {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
   });
 
   // Function to display image on card (inside DOMContentLoaded)

@@ -82,35 +82,29 @@
                     <!--selectors-->
                     <div class="d-flex" style="justify-content: space-around;">
                         <!--albums interactions-->
-                        <div class="btn-group" role="group" aria-label="Basic example" style="width: 40%;">
-                            <button type="button" id="albums-button" class="btn btn-primary"
-                                style="width: 70%;">Albums</button>
-                            <button type="button" id="open-create-album" class="btn btn-primary" style="width: 30%;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                    class="bi bi-folder-plus" viewBox="0 0 16 16">
-                                    <path
-                                        d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
-                                    <path
-                                        d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5" />
-                                </svg>
-                            </button>
-                        </div>
+                        <button type="button" id="open-create-album" class="btn btn-primary" 
+                            style="width: 30%;display: flex; justify-content: space-around;">
+                            <span>Create Albums</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-folder-plus" viewBox="0 0 16 16">
+                                <path
+                                    d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
+                                <path
+                                    d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5" />
+                            </svg>
+                        </button>
                         <!--photos interactions-->
-                        <div class="btn-group" role="group" aria-label="Basic example" style="width: 40%;">
-                            <button type="button" id="photos-button" class="btn btn-primary"
-                                style="width: 70%; background-color: gray;">Photos</button>
-                            <button type="button" id="open-popup" class="btn btn-primary"
-                                style="width: 30%; background-color: gray;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                    class="bi bi-plus-circle" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                                    <path
-                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                                </svg>
-                            </button>
-                        </div>
+                        <button type="button" id="open-upload-image" class="btn btn-primary"
+                            style="width: 30%;display: flex; justify-content: space-around;">
+                            <span>Upload Photos</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                            </svg>
+                        </button>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -226,22 +220,22 @@
                 <div class="modal-body">
 
                     <form id="createAlbumForm">
-                        <div class="form-group">
+                        <div class="form-group" style="margin: 15px;">
                             <label for="albumName">Album Name:</label>
                             <input type="text" class="form-control" id="albumName" name="albumName" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="margin: 15px;">
                             <label for="albumDescription">Description:</label>
                             <textarea class="form-control" id="albumDescription" name="albumDescription"
-                                rows="3"></textarea>
+                                rows="3" style="max-height: 512px;"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="margin: 15px;">
                             <label for="albumImages">Images (comma-separated file names):</label>
                             <input type="text" class="form-control" id="albumImages" name="albumImages"
                                 placeholder="Image1.jpg,Image2.png,...">
                         </div>
                         <div class="row" style="display: flex; justify-content: center;">
-                            <button type="submit" class="btn btn-primary" style="width: 50%;">Create Album</button>
+                            <button type="submit" class="btn btn-primary" style="width: 50%; margin-top: 15px;">Create Album</button>
                         </div>
                     </form>
                 </div>
