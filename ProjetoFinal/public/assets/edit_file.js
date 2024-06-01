@@ -18,6 +18,7 @@ fetch('/fetchImageMetadata/' + imageName)
 document.addEventListener('DOMContentLoaded', () => {
     // Get the image element, crop button, and edit button
     const imageElement = document.getElementById('selectedImage');
+    const cancelCropButton = document.getElementById('cancelCropButton');
     const cropButton = document.getElementById('cropButton');
     const editBtn = document.getElementById('editBtn');
 
@@ -30,11 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hide the crop button initially
     cropButton.style.display = 'none';
+    cancelCropButton.style.display = 'none';
+    let cropper = null; // Initialize cropper to null
 
     // Add event listener to the edit button
     editBtn.addEventListener('click', () => {
         // Initialize Cropper.js when the edit button is clicked
-        let cropper = new Cropper(imageElement, {
+        cropper = new Cropper(imageElement, {
             aspectRatio: 0, // Set the aspect ratio for the crop
             viewMode: 1, // Show the crop box
             movable: true,
@@ -44,39 +47,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Show the crop button and hide the edit button
         cropButton.style.display = 'inline-block';
-        editBtn.style.display = 'none'; 
+        cancelCropButton.style.display = 'inline-block';
+        editBtn.style.display = 'none';
+    });
+
+    cancelCropButton.addEventListener('click', () => {
+        if (cropper) {
+            cropper.destroy();
+        }
+        // Reset the display of buttons
+        cropButton.style.display = 'none';
+        cancelCropButton.style.display = 'none';
+        editBtn.style.display = 'inline-block';
     });
 
     // Add event listener to the crop button
     cropButton.addEventListener('click', () => {
-        const croppedCanvas = cropper.getCroppedCanvas({
-            width: 400 // Adjust the width as needed
-        });
-        // Save the cropped image (replace with your server-side logic)
-        croppedCanvas.toBlob(blob => {
-            const formData = new FormData();
-            formData.append('croppedImage', blob, 'cropped_' + imageName);
-            fetch('/cropImage', { 
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    if (response.ok) {
-                        console.log("Cropped image saved successfully!");
-                        // Redirect to menu.html
-                        window.location.href = '/'; 
-                    } else {
-                        console.error('Error saving cropped image.');
-                    }
+        if (cropper) {
+            const croppedCanvas = cropper.getCroppedCanvas({
+                width: 400 // Adjust the width as needed
+            });
+            // Save the cropped image (replace with your server-side logic)
+            croppedCanvas.toBlob(blob => {
+                const formData = new FormData();
+                formData.append('croppedImage', blob, 'cropped_' + imageName);
+                fetch('/cropImage', {
+                    method: 'POST',
+                    body: formData
                 })
-                .catch(error => {
-                    console.error('Error cropping image:', error);
-                });
-        });
-        // Destroy the cropper instance
-        cropper.destroy();
+                    .then(response => {
+                        if (response.ok) {
+                            console.log("Cropped image saved successfully!");
+                            // Redirect to menu.html
+                            window.location.href = '/';
+                        } else {
+                            console.error('Error saving cropped image.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error cropping image:', error);
+                    });
+            });
+            cropper.destroy(); // Destroy the cropper instance
+        }
+
         // Reset the display of buttons
         cropButton.style.display = 'none';
+        cancelCropButton.style.display = 'none';
         editBtn.style.display = 'inline-block';
     });
 });
