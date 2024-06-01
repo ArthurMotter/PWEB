@@ -41,8 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
       });
 
-      // Call initializeViewImageModal after cards are loaded
-      initializeViewImageModal();
+      
     })
     .catch(error => {
       console.error('Error fetching data:', error);
@@ -244,33 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function initializeViewImageModal() {
-    // Initialize the view image modal
-    const viewImageModal = new bootstrap.Modal(document.getElementById('viewImageModal'));
-    const fullScreenImage = document.getElementById('fullScreenImage');
-    const closeButton = document.querySelector('#viewImageModal .btn-close'); // Get the close button
 
-    // Handle clicks on the image and "View" button
-    cardsContainer.addEventListener('click', (event) => {
-      if (event.target.classList.contains('card-img-top') ||
-        event.target.closest('.btn-group')?.querySelector('button:first-child')) {
-        const fullScreenImagePath = event.target.closest('.card')
-          .querySelector('.card-img-top')
-          .dataset.fullScreenImage;
-        fullScreenImage.src = fullScreenImagePath;
-        viewImageModal.show(); // Show the modal
-      }
-    });
-
-    // Handle clicks on the modal's close button
-    closeButton.addEventListener('click', () => {
-      viewImageModal.hide(); // Hide the modal
-    });
-
-    // Prevent clicks outside the modal from closing it
-    viewImageModal.backdrop = 'static'; // Set backdrop to 'static'
-    viewImageModal.keyboard = false; // Disable keyboard escape to close
-  }
+  
   //end of DOM
 });
 
