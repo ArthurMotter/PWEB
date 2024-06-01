@@ -37,6 +37,25 @@ app.get('/edit_file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pages', 'edit_file.html')); 
 });
 
+app.get('/fetchImageMetadata/:fileName', (req, res) => {
+  const fileName = req.params.fileName;
+  const imagesFile = path.join(__dirname, 'public', 'images.json');
+  let images = [];
+  try {
+    images = JSON.parse(fs.readFileSync(imagesFile));
+  } catch (error) {
+    console.error("Error reading images.json:", error);
+  }
+
+  const imageData = images.find(image => image.fileName === fileName);
+
+  if (imageData) {
+    res.json(imageData);
+  } else {
+    res.status(404).json({ error: 'Image not found' });
+  }
+});
+
 // Delete photo route
 app.delete('/deletePhoto/:fileName', (req, res) => {
   const fileName = req.params.fileName;
