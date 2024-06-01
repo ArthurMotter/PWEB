@@ -1,5 +1,5 @@
 // edit_file.js
-    
+
 // Get the image name from the URL
 const urlParams = new URLSearchParams(window.location.search);
 const imageName = urlParams.get('image');
@@ -18,22 +18,27 @@ fetch('/fetchImageMetadata/' + imageName)
 document.addEventListener('DOMContentLoaded', () => {
     // Get the image element and crop button
     const imageElement = document.getElementById('selectedImage');
+    const editButton = document.getElementById('editBtn');
     const cropButton = document.getElementById('cropButton');
-    
+
     // Set the image source
     if (imageElement) {
         imageElement.src = `/uploads/${imageName}`;
     } else {
         console.error("selectedImage element not found.");
     }
-    
+
+    editButton.addEventListener('click', () => {
+
+    });
+
     // Initialize Cropper.js (for newer versions)
     let cropper = null;
     imageElement.addEventListener('load', () => {
         cropper = new Cropper(imageElement, {
-            aspectRatio: 16 / 9, // Set the aspect ratio for the crop
+            aspectRatio: 0, // Set the aspect ratio for the crop
             viewMode: 1, // Show the crop box
-            movable: true,
+            movable: false,
             cropBoxMovable: true,
             cropBoxResizable: true,
         });
@@ -44,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add event listener to the crop button
     cropButton.addEventListener('click', () => {
         const croppedCanvas = cropper.getCroppedCanvas({
-            width: 400 // Adjust the width as needed
+            width: 400, // Adjust the width as needed
         });
         // Save the cropped image (replace with your server-side logic)
         croppedCanvas.toBlob(blob => {
@@ -68,6 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
         // Destroy the cropper instance
-        cropper.destroy(); 
+        cropper.destroy();
     });
 });
