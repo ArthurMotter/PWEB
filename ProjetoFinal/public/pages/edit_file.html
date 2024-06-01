@@ -71,7 +71,7 @@
                 </a>
                 <a onclick="window.location.href='http://localhost:3000/'"
                     class="navbar-brand d-flex align-items-center" style="display: flex; justify-content: center;">
-                    <strong style="font-weight: 900;">Momentum</strong>
+                    <strong style="font-weight: 900; cursor: pointer;">Momentum</strong>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
                     aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,13 +84,11 @@
     <div class="edit-bar">
         <strong class="text-muted" id="photoFileName">Photo_Name</strong>
         <strong class="text-muted" id="photoUploadDate">Photo_Date</strong>
-        <button id="editBtn" class="btn btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                class="bi bi-pencil-square" viewBox="0 0 16 16">
+        <button id="editBtn" class="btn btn-primary" style="margin: 0px 20px 0px 20px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-crop"
+                viewBox="1 1 16 16">
                 <path
-                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                <path fill-rule="evenodd"
-                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                    d="M3.5.5A.5.5 0 0 1 4 1v13h13a.5.5 0 0 1 0 1h-2v2a.5.5 0 0 1-1 0v-2H3.5a.5.5 0 0 1-.5-.5V4H1a.5.5 0 0 1 0-1h2V1a.5.5 0 0 1 .5-.5m2.5 3a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4H6.5a.5.5 0 0 1-.5-.5" />
             </svg>
         </button>
     </div>
@@ -105,7 +103,8 @@
     <!--crop confirm-->
     <div class="row" style="padding: 5px; background-color: lightgrey;">
         <div class="col-12" style="display: flex; justify-content: center; align-items: center;">
-            <button id="cropButton" class="btn btn-primary" style="display: none; margin: 5px; width: 20%;">Crop Image</button>
+            <button id="cropButton" class="btn btn-primary" style="display: none; margin: 5px; width: 20%;">Crop
+                Image</button>
         </div>
     </div>
     <!--footer-->

@@ -16,9 +16,10 @@ fetch('/fetchImageMetadata/' + imageName)
     });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Get the image element and crop button
+    // Get the image element, crop button, and edit button
     const imageElement = document.getElementById('selectedImage');
     const cropButton = document.getElementById('cropButton');
+    const editBtn = document.getElementById('editBtn');
 
     // Set the image source
     if (imageElement) {
@@ -27,18 +28,23 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("selectedImage element not found.");
     }
 
-    // Initialize Cropper.js (for newer versions)
-    let cropper = null;
-    imageElement.addEventListener('load', () => {
-        cropper = new Cropper(imageElement, {
+    // Hide the crop button initially
+    cropButton.style.display = 'none';
+
+    // Add event listener to the edit button
+    editBtn.addEventListener('click', () => {
+        // Initialize Cropper.js when the edit button is clicked
+        let cropper = new Cropper(imageElement, {
             aspectRatio: 0, // Set the aspect ratio for the crop
             viewMode: 1, // Show the crop box
             movable: true,
             cropBoxMovable: true,
             cropBoxResizable: true,
         });
-        // Show the crop button after the image loads
+
+        // Show the crop button and hide the edit button
         cropButton.style.display = 'inline-block';
+        editBtn.style.display = 'none'; 
     });
 
     // Add event listener to the crop button
@@ -50,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         croppedCanvas.toBlob(blob => {
             const formData = new FormData();
             formData.append('croppedImage', blob, 'cropped_' + imageName);
-            fetch('/cropImage', { // Update this route accordingly
+            fetch('/cropImage', { 
                 method: 'POST',
                 body: formData
             })
@@ -69,5 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         // Destroy the cropper instance
         cropper.destroy();
+        // Reset the display of buttons
+        cropButton.style.display = 'none';
+        editBtn.style.display = 'inline-block';
     });
 });
