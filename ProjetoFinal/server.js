@@ -29,10 +29,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/edit_file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'pages', 'edit_file.html'));
+  // Get the image name from the URL
+  const imageName = req.query.image;
+
+  // ... (Use the imageName to dynamically load image data for editing)
+  
+  res.sendFile(path.join(__dirname, 'public', 'pages', 'edit_file.html')); 
 });
-
-
 
 // Delete photo route
 app.delete('/deletePhoto/:fileName', (req, res) => {

@@ -90,9 +90,9 @@
     </div>
     <!--implementar-->
     <main class="container-fluid" style="background-color: lightgrey; height: 100%;">
-        <div class="row" >
+        <div class="row">
             <div class="col-12" style="display: flex; justify-content: center;">
-                <img src="../assets/images/example_placeholder.jpg" class="img-fluid" alt="Image Description">
+                <img id="selectedImage" class="img-fluid" alt="Image Description"> 
             </div>
         </div>
     </main>
@@ -105,6 +105,20 @@
             </p>
         </div>
     </footer>
+
+    <script>
+        // Get the image name from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const imageName = urlParams.get('image');
+
+        // Set the image source in the <img> tag
+        const selectedImage = document.getElementById('selectedImage');
+        if (selectedImage) { // Check if the element exists
+            selectedImage.src = `/uploads/${imageName}`;
+        } else {
+            console.error("selectedImage element not found.");
+        }
+    </script>
     
 </body>
 
