@@ -8,16 +8,17 @@ const fs = require('fs'); // For file system operations
 // Set up multer for handling file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/uploads'); // Save uploaded files to 'public/uploads'
+      cb(null, 'public/uploads'); // Save uploaded files to 'public/uploads'
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname); // Add timestamp to filename
+      cb(null, Date.now() + '-' + file.originalname); // Add timestamp to filename
   },
 });
 const upload = multer({ storage });
 
 // Set up static file serving
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public', 'uploads'))); // This line serves static files
 
 // Middleware for parsing form data
 app.use(express.json());
@@ -33,8 +34,8 @@ app.get('/edit_file', (req, res) => {
   const imageName = req.query.image;
 
   // ... (Use the imageName to dynamically load image data for editing)
-  
-  res.sendFile(path.join(__dirname, 'public', 'pages', 'edit_file.html')); 
+
+  res.sendFile(path.join(__dirname, 'public', 'pages', 'edit_file.html'));
 });
 
 app.get('/fetchImageMetadata/:fileName', (req, res) => {
@@ -147,6 +148,15 @@ app.get('/fetchAlbums', (req, res) => {
   }
 
   res.json(albums); // Send the albums data to the client
+});
+
+// Handle the cropped image upload
+app.post('/cropImage', upload.single('croppedImage'), (req, res) => {
+  if (req.file) {
+      res.send({ message: 'Cropped image uploaded successfully!' });
+  } else {
+      res.send({ message: 'Error uploading cropped image' });
+  }
 });
 
 // Upload image route

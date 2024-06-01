@@ -18,7 +18,6 @@ fetch('/fetchImageMetadata/' + imageName)
 document.addEventListener('DOMContentLoaded', () => {
     // Get the image element and crop button
     const imageElement = document.getElementById('selectedImage');
-    const editButton = document.getElementById('editBtn');
     const cropButton = document.getElementById('cropButton');
 
     // Set the image source
@@ -28,17 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("selectedImage element not found.");
     }
 
-    editButton.addEventListener('click', () => {
-
-    });
-
     // Initialize Cropper.js (for newer versions)
     let cropper = null;
     imageElement.addEventListener('load', () => {
         cropper = new Cropper(imageElement, {
             aspectRatio: 0, // Set the aspect ratio for the crop
             viewMode: 1, // Show the crop box
-            movable: false,
+            movable: true,
             cropBoxMovable: true,
             cropBoxResizable: true,
         });
@@ -49,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add event listener to the crop button
     cropButton.addEventListener('click', () => {
         const croppedCanvas = cropper.getCroppedCanvas({
-            width: 400, // Adjust the width as needed
+            width: 400 // Adjust the width as needed
         });
         // Save the cropped image (replace with your server-side logic)
         croppedCanvas.toBlob(blob => {
@@ -62,8 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => {
                     if (response.ok) {
                         console.log("Cropped image saved successfully!");
-                        // Optionally reload the image with the cropped version
-                        imageElement.src = `/uploads/cropped_${imageName}`;
+                        // Redirect to menu.html
+                        window.location.href = '/'; 
                     } else {
                         console.error('Error saving cropped image.');
                     }
