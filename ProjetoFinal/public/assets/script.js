@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //interagibles
   cardsContainer = document.getElementById('cards'); // Get the container
 
-  // Fetch and display existing images and albums
+  // Fetch and display images and albums
   Promise.all([
     fetch('/fetchImages'),
     fetch('/fetchAlbums')
@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
       albums.forEach(album => {
         displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
       });
-
 
     })
     .catch(error => {
@@ -80,22 +79,26 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.querySelector('.text-muted#photoUploadDate').textContent = date;
 
     // Inside the displayImage and displayAlbum functions:
-    // Update these lines to attach the listener to the image
-    newCard.querySelector('.card-img-top').addEventListener('click', (event) => {
-      const fullScreenImagePath = event.target.dataset.fullScreenImage;
-      fullScreenImage.src = fullScreenImagePath;
-      new bootstrap.Modal(viewImageModal).show();
-    });
 
     // Add event listener to the "View" button
     newCard.querySelector('.btn-group button:first-child').addEventListener('click', (event) => {
       const fullScreenImagePath = newCard.querySelector('.card-img-top').dataset.fullScreenImage;
       fullScreenImage.src = fullScreenImagePath;
-      new bootstrap.Modal(viewImageModal).show(); 
+      new bootstrap.Modal(viewImageModal).show();
     });
 
     // Add the new card to the cards container
     cardsContainer.appendChild(newCard);
+
+    // Add event listeners *after* the card is added to the DOM
+    const imageElement = newCard.querySelector('.card-img-top');
+    if (imageElement) {
+      imageElement.addEventListener('click', (event) => {
+        const fullScreenImagePath = event.target.dataset.fullScreenImage;
+        fullScreenImage.src = fullScreenImagePath;
+        new bootstrap.Modal(viewImageModal).show();
+      });
+    }
 
     // Add event listeners to the "Edit" and "Delete" buttons AFTER the card is added to the DOM
     const editButton = newCard.querySelector('.btn-group button:nth-child(2)');
