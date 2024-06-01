@@ -68,23 +68,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Function to display image on card 
-  // Function to display image on card 
   function displayImage(fileName, date) {
+    // Create a new card element (clone the template)
     const template = document.getElementById('photoCardTemplate');
-    const newCard = template.content.cloneNode(true).querySelector('.col');
-    
+    const newCard = template.content.cloneNode(true).querySelector('.col'); // Clone the template content and get the .col element
+
     // Set the image source, text, and date for the new card
     newCard.querySelector('.card-img-top').src = `/uploads/${fileName}`;
-    newCard.querySelector('.card-img-top').dataset.fullScreenImage = `/uploads/${fileName}`; // Add data-fullScreenImage
+    newCard.querySelector('.card-img-top').dataset.fullScreenImage = `/uploads/${fileName}`;
     newCard.querySelector('.text-muted#photoFileName').textContent = fileName; // Set filename
     newCard.querySelector('.text-muted#photoUploadDate').textContent = date;
-
-    // Add event listener to the "Edit" button
-    newCard.querySelector('.btn-group button:nth-child(2)').addEventListener('click', () => {
-      // Redirect to edit_file.html with the image data
-      window.location.href = `/edit_file?image=${encodeURIComponent(fileName)}`;
-    });
 
     // Inside the displayImage and displayAlbum functions:
     // Update these lines to attach the listener to the image
@@ -94,26 +87,23 @@ document.addEventListener('DOMContentLoaded', () => {
       new bootstrap.Modal(viewImageModal).show();
     });
 
-    // Add event listeners after the card is added to the DOM
+    // Add event listener to the "View" button
+    newCard.querySelector('.btn-group button:first-child').addEventListener('click', (event) => {
+      const fullScreenImagePath = newCard.querySelector('.card-img-top').dataset.fullScreenImage;
+      fullScreenImage.src = fullScreenImagePath;
+      new bootstrap.Modal(viewImageModal).show(); 
+    });
+
+    // Add the new card to the cards container
     cardsContainer.appendChild(newCard);
 
+    // Add event listeners to the "Edit" and "Delete" buttons AFTER the card is added to the DOM
     const editButton = newCard.querySelector('.btn-group button:nth-child(2)');
     if (editButton) { // Check if the element exists
       editButton.addEventListener('click', () => {
         window.location.href = `/edit_file?image=${encodeURIComponent(fileName)}`;
       });
     }
-
-    const viewButton = newCard.querySelector('.btn-group button:first-child');
-    if (viewButton) {
-      viewButton.addEventListener('click', (event) => {
-        const fullScreenImagePath = newCard.querySelector('.card-img-top').dataset.fullScreenImage;
-        if (fullScreenImage) {
-          fullScreenImage.src = fullScreenImagePath;
-          new bootstrap.Modal(viewImageModal).show();
-        }
-      });
-    } 
 
   }
 
@@ -260,9 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
       cardsContainer.appendChild(newCard);
     }
   }
-
-
-
   //end of DOM
 });
 
