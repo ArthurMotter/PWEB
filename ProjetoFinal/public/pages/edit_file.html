@@ -11,7 +11,10 @@
 
     <link rel="canonical" href="https://v5.getbootstrap.com/docs/5.0/examples/album/">
 
-
+    <!--Other library links-->
+    <!--original by: https://github.com/fengyuanchen/cropperjs-->
+    <link rel="stylesheet" href="../engines/cropper.js/cropper.css">
+    <script src="../engines/cropper.js/cropper.js"></script>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
@@ -82,17 +85,26 @@
         <strong class="text-muted" id="photoFileName">Photo_Name</strong>
         <strong class="text-muted" id="photoUploadDate">Photo_Date</strong>
         <a href="#"> <span class="edit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-            </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path
+                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                    <path fill-rule="evenodd"
+                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                </svg>
         </a>
     </div>
-    <!--implementar-->
+    <!--image display-->
     <main class="container-fluid" style="background-color: lightgrey; height: 100%;">
         <div class="row">
             <div class="col-12" style="display: flex; justify-content: center;">
-                <img id="selectedImage" class="img-fluid" alt="Image Description"> 
+                <img id="selectedImage" class="img-fluid" alt="Image Description">
+            </div>
+        </div>
+        <!--implementar-->
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-12" style="display: flex; justify-content: center; align-items: center;">
+                <button id="cropButton" class="btn btn-primary" style="display: none;">Crop Image</button>
             </div>
         </div>
     </main>
@@ -105,7 +117,7 @@
             </p>
         </div>
     </footer>
-    
+
 </body>
 
 </html>
