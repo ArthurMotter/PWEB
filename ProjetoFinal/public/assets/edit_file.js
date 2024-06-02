@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set the image source
     if (imageElement) {
-        imageElement.src = `/uploads/${imageName}`;
+        imageElement.src = `data/uploads/${imageName}`;
     } else {
         console.error("selectedImage element not found.");
     }

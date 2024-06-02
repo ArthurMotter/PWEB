@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const newCard = template.content.cloneNode(true).querySelector('.col'); // Clone the template content and get the .col element
 
     // Set the image source, text, and date for the new card
-    newCard.querySelector('.card-img-top').src = `/uploads/${fileName}`;
-    newCard.querySelector('.card-img-top').dataset.fullScreenImage = `/uploads/${fileName}`;
+    newCard.querySelector('.card-img-top').src = `data/uploads/${fileName}`;
+    newCard.querySelector('.card-img-top').dataset.fullScreenImage = `data/uploads/${fileName}`;
     newCard.querySelector('.text-muted#photoFileName').textContent = fileName; // Set filename
     newCard.querySelector('.text-muted#photoUploadDate').textContent = date;
 
@@ -202,8 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
     // Set the image source *after* the card is added to the DOM
-    imgElement.src = `/uploads/${albumImages[0]}`; // Get the first image from the array
-    imgElement.dataset.fullScreenImage = `/uploads/${albumImages[0]}`; // Set the full-screen image path
+    imgElement.src = `data/uploads/${albumImages[0]}`; // Get the first image from the array
+    imgElement.dataset.fullScreenImage = `data/uploads/${albumImages[0]}`; // Set the full-screen image path
     imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
 
     // Close the modal and clear the form
@@ -244,8 +244,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const imgElement = newCard.querySelector('.card-img-top');
       // Use a timeout to allow the image element to be added to the DOM
       setTimeout(() => {
-        imgElement.src = `/uploads/${firstImage}`; // Set the image source
-        imgElement.dataset.fullScreenImage = `/uploads/${firstImage}`; // Set the full-screen image path
+        imgElement.src = `data/uploads/${firstImage}`; // Set the image source
+        imgElement.dataset.fullScreenImage = `data/uploads/${firstImage}`; // Set the full-screen image path
         imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
       }, 10); // Adjust the timeout as needed
 

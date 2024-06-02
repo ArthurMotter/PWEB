@@ -8,7 +8,7 @@ const fs = require('fs'); // For file system operations
 // Set up multer for handling file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, 'public/uploads'); // Save uploaded files to 'public/uploads'
+      cb(null, 'public/data/uploads'); // Save uploaded files to 'public/uploads'
   },
   filename: (req, file, cb) => {
       cb(null, Date.now() + '-' + file.originalname); // Add timestamp to filename
@@ -18,7 +18,7 @@ const upload = multer({ storage });
 
 // Set up static file serving
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public', 'uploads'))); // This line serves static files
+app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads'))); // This line serves static files
 
 // Middleware for parsing form data
 app.use(express.json());
@@ -40,7 +40,7 @@ app.get('/edit_file', (req, res) => {
 
 app.get('/fetchImageMetadata/:fileName', (req, res) => {
   const fileName = req.params.fileName;
-  const imagesFile = path.join(__dirname, 'public', 'images.json');
+  const imagesFile = path.join(__dirname, 'public', 'data', 'images.json');
   let images = [];
   try {
     images = JSON.parse(fs.readFileSync(imagesFile));
@@ -60,7 +60,7 @@ app.get('/fetchImageMetadata/:fileName', (req, res) => {
 // Delete photo route
 app.delete('/deletePhoto/:fileName', (req, res) => {
   const fileName = req.params.fileName;
-  const filePath = path.join(__dirname, 'public', 'uploads', fileName);
+  const filePath = path.join(__dirname, 'public', 'data', 'uploads', fileName);
 
   fs.unlink(filePath, (err) => {
     if (err) {
@@ -74,7 +74,7 @@ app.delete('/deletePhoto/:fileName', (req, res) => {
 // Delete album route
 app.delete('/deleteAlbum/:albumName', (req, res) => {
   const albumName = req.params.albumName;
-  const albumsFile = path.join(__dirname, 'public', 'albums.json');
+  const albumsFile = path.join(__dirname, 'public', 'data', 'albums.json');
   let albums = [];
 
   try {
@@ -105,8 +105,8 @@ app.delete('/deleteAlbum/:albumName', (req, res) => {
 
 // Fetch images route
 app.get('/fetchImages', (req, res) => {
-  const uploadsDirectory = path.join(__dirname, 'public', 'uploads');
-  const imagesFile = path.join(__dirname, 'public', 'images.json');
+  const uploadsDirectory = path.join(__dirname, 'public', 'data', 'uploads');
+  const imagesFile = path.join(__dirname, 'public', 'data', 'images.json');
   let images = [];
   try {
     images = JSON.parse(fs.readFileSync(imagesFile));
@@ -139,7 +139,7 @@ app.get('/fetchImages', (req, res) => {
 
 // Fetch albums route
 app.get('/fetchAlbums', (req, res) => {
-  const albumsFile = path.join(__dirname, 'public', 'albums.json');
+  const albumsFile = path.join(__dirname, 'public', 'data', 'albums.json');
   let albums = [];
   try {
     albums = JSON.parse(fs.readFileSync(albumsFile));
@@ -171,7 +171,7 @@ app.post('/upload', upload.single('imageUpload'), (req, res) => {
 // Create Album route
 app.post('/createAlbum', (req, res) => {
   const { albumName, albumDescription, albumImages, creationDate } = req.body;
-  const albumsFile = path.join(__dirname, 'public', 'albums.json');
+  const albumsFile = path.join(__dirname, 'public', 'data', 'albums.json');
   let albums = [];
   try {
     albums = JSON.parse(fs.readFileSync(albumsFile));
