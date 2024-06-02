@@ -8,10 +8,10 @@ const fs = require('fs'); // For file system operations
 // Set up multer for handling file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, 'public/data/uploads'); // Save uploaded files to 'public/uploads'
+    cb(null, 'public/data/uploads'); // Save uploaded files to 'public/uploads'
   },
   filename: (req, file, cb) => {
-      cb(null, Date.now() + '-' + file.originalname); // Add timestamp to filename
+    cb(null, Date.now() + '-' + file.originalname); // Add timestamp to filename
   },
 });
 const upload = multer({ storage });
@@ -150,12 +150,39 @@ app.get('/fetchAlbums', (req, res) => {
   res.json(albums); // Send the albums data to the client
 });
 
+//teste
+// Fetch album images route
+app.get('/fetchAlbumImages', (req, res) => {
+  const albumId = req.query.albumId;
+  console.log('Requested albumId:', albumId); // Log requested albumId
+  const albumsFile = path.join(__dirname, 'public', 'data', 'albums.json');
+  let albums = [];
+
+  try {
+    const data = fs.readFileSync(albumsFile, 'utf8');
+    albums = JSON.parse(data);
+    console.log('Albums:', albums); // Log loaded albums
+  } catch (error) {
+    console.error("Error reading albums.json:", error);
+    return res.status(500).json({ error: 'Error reading albums.json' });
+  }
+
+  const album = albums.find(album => album.albumId == albumId); // Note: albumId is a string in the query
+  console.log('Found album:', album); // Log found album
+
+  if (album) {
+    res.json(album.albumImages);
+  } else {
+    res.status(404).json({ error: 'Album not found' });
+  }
+});
+
 // Handle the cropped image upload
 app.post('/cropImage', upload.single('croppedImage'), (req, res) => {
   if (req.file) {
-      res.send({ message: 'Cropped image uploaded successfully!' });
+    res.send({ message: 'Cropped image uploaded successfully!' });
   } else {
-      res.send({ message: 'Error uploading cropped image' });
+    res.send({ message: 'Error uploading cropped image' });
   }
 });
 

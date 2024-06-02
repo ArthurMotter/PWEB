@@ -253,6 +253,50 @@ document.addEventListener('DOMContentLoaded', () => {
       cardsContainer.appendChild(newCard);
     }
   }
+  //teste
+  // Function to display albums in a carousel
+  function displayAlbumCarousel(albumImages) {
+    const carouselInner = document.getElementById('carousel-inner');
+    carouselInner.innerHTML = ''; // Clear previous carousel items
+
+    albumImages.forEach((image, index) => {
+      const carouselItem = document.createElement('div');
+      carouselItem.className = `carousel-item${index === 0 ? ' active' : ''}`;
+
+      const imgElement = document.createElement('img');
+      imgElement.src = `data/uploads/${image}`;
+      imgElement.className = 'd-block w-100';
+
+      carouselItem.appendChild(imgElement);
+      carouselInner.appendChild(carouselItem);
+    });
+
+    new bootstrap.Carousel(document.getElementById('albumCarousel'), {
+      interval: 2000, // 2 seconds interval
+      wrap: true
+    });
+  }
+
+  // Get the albumId from the hidden input field
+  const albumId = document.getElementById('albumId').value;
+  console.log('Fetched albumId:', albumId); // Log the albumId to ensure it's fetched
+
+  // Fetch album images
+  fetch(`/fetchAlbumImages?albumId=${albumId}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(albumImages => {
+      console.log('Fetched album images:', albumImages); // Log fetched images
+      displayAlbumCarousel(albumImages);
+    })
+    .catch(error => {
+      console.error('Error fetching album images:', error);
+    });
+
   //end of DOM
 });
 
