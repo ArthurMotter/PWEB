@@ -20,7 +20,8 @@ module.exports = function (app) {
             try {
                 const pool = await sql.connect(sqlConfig);
                 const results = await pool.request().query('SELECT * from PROFESSORES');
-                res.send(results.recordset);
+                //res.send(results.recordset);
+                res.render("informacao/professores",{profs: results.recordset});
             } catch (err) {
                 console.log(err);
             }
@@ -28,4 +29,5 @@ module.exports = function (app) {
  
         getProfessores();
     });
+   
 };
