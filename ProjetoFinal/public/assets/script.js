@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const openCAButton = document.getElementById('open-create-album');
   const createAlbumPopup = document.getElementById('create-album-popup');
   const imageUploadPopup = document.getElementById('image-upload-popup');
+  const viewAlbumButtons = document.querySelectorAll('.view-album-button');
+  const albumImagesModal = new bootstrap.Modal(document.getElementById('albumImagesModal'));
+  const albumImagesCarouselInner = document.querySelector('#albumImagesCarousel .carousel-inner');
   //forms
   const uploadForm = document.getElementById('uploadForm');
   const imageUpload = document.getElementById('imageUpload');
@@ -17,37 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //interagibles
   cardsContainer = document.getElementById('cards'); // Get the container
 
-  const viewAlbumButtons = document.querySelectorAll('.view-album-button');
-  const albumImagesModal = new bootstrap.Modal(document.getElementById('albumImagesModal'));
-  const albumImagesCarouselInner = document.querySelector('#albumImagesCarousel .carousel-inner');
-
-  viewAlbumButtons.forEach(button => {
-    button.addEventListener('click', event => {
-      const albumId = button.dataset.albumId;
-      fetch(`/fetchAlbumImages?albumId=${albumId}`)
-        .then(response => response.json())
-        .then(albumImages => {
-          albumImagesCarouselInner.innerHTML = ''; // Clear previous images
-
-          albumImages.forEach((imageSrc, index) => {
-            const carouselItem = document.createElement('div');
-            carouselItem.className = 'carousel-item';
-            if (index === 0) {
-              carouselItem.classList.add('active');
-            }
-            const img = document.createElement('img');
-            img.src = `data/uploads/${imageSrc}`;
-            img.className = 'd-block w-100';
-            carouselItem.appendChild(img);
-            albumImagesCarouselInner.appendChild(carouselItem);
-          });
-
-          albumImagesModal.show();
-        })
-        .catch(error => console.error('Error fetching album images:', error));
-    });
-  });
-
+  
   // Fetch and display images and albums
   Promise.all([
     fetch('/fetchImages'),
@@ -251,23 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
     createAlbumForm.reset();
   });
 
-  /*
-    function displayAlbum(albumName, albumDescription, albumImages, creationDate, albumId) {
-      const template = document.getElementById('albumCardTemplate');
-      const newCard = template.content.cloneNode(true).querySelector('.col');
-    
-      newCard.querySelector('.card-title').textContent = albumName;
-      newCard.querySelector('.card-text').textContent = albumDescription;
-      newCard.querySelector('#albumUploadDate').textContent = creationDate;
-    
-      const viewButton = newCard.querySelector('.btn-group button:first-child');
-      viewButton.dataset.albumId = albumId; // Set the album ID for the view button
-      viewButton.classList.add('view-album-button'); // Add a class for easier selection
-    
-      cardsContainer.appendChild(newCard);
-    }
-  
-    */
   // Function to display albums on card 
   function displayAlbum(albumName, albumDescription, albumImages, creationDate, albumId) {
     const template = document.getElementById('albumCardTemplate');
@@ -321,15 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error('Error fetching album images:', error));
         });
       }
-
-      /*
-        // Add event listener to the "View" button
-    newCard.querySelector('.btn-group button:first-child').addEventListener('click', (event) => {
-      const fullScreenImagePath = newCard.querySelector('.card-img-top').dataset.fullScreenImage;
-      fullScreenImage.src = fullScreenImagePath;
-      new bootstrap.Modal(viewImageModal).show();
-    });
-      */
     }
   }
 
@@ -352,28 +299,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Remove the timeout
-  /*setTimeout(() => {
-    const albumId = document.getElementById('albumId').value;
-    console.log('Fetched albumId:', albumId); // Log the albumId to ensure it's fetched
+  //view album 
+  viewAlbumButtons.forEach(button => {
+    button.addEventListener('click', event => {
+      const albumId = button.dataset.albumId;
+      fetch(`/fetchAlbumImages?albumId=${albumId}`)
+        .then(response => response.json())
+        .then(albumImages => {
+          albumImagesCarouselInner.innerHTML = ''; // Clear previous images
 
-    // Fetch album images
-    fetch(`/fetchAlbumImages?albumId=${albumId}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(albumImages => {
-        console.log('Fetched album images:', albumImages); // Log fetched images
-        displayAlbumCarousel(albumImages);
-      })
-      .catch(error => {
-        console.error('Error fetching album images:', error);
-      });
-  }, 100); // Adjust the timeout value as needed */
+          albumImages.forEach((imageSrc, index) => {
+            const carouselItem = document.createElement('div');
+            carouselItem.className = 'carousel-item';
+            if (index === 0) {
+              carouselItem.classList.add('active');
+            }
+            const img = document.createElement('img');
+            img.src = `data/uploads/${imageSrc}`;
+            img.className = 'd-block w-100';
+            carouselItem.appendChild(img);
+            albumImagesCarouselInner.appendChild(carouselItem);
+          });
 
+          albumImagesModal.show();
+        })
+        .catch(error => console.error('Error fetching album images:', error));
+    });
+  });
   //end of DOM
 });
 

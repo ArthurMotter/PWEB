@@ -292,17 +292,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <!--album fullscreen popUp-->
-    <div class="modal fade" id="albumImagesModal" tabindex="-1" aria-labelledby="albumImagesModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="albumImagesModal" tabindex="-1" aria-labelledby="albumImagesModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="albumImagesModalLabel">Album Images</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </button>
                 </div>
-                <div class="modal-body">
-                    <div id="albumImagesCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
+                <div class="modal-body" style="display: flex; justify-content: center; align-items: center; background-color: lightgrey">
+                    <div id="albumImagesCarousel" class="carousel slide" data-bs-ride="carousel"
+                        style="display: block; width: auto; height: 100%;">
+                        <div class="carousel-inner" style=" border: solid red;">
                             <!-- Album images will be injected here by JS -->
                         </div>
                         <a class="carousel-control-prev" href="#albumImagesCarousel" role="button" data-bs-slide="prev">
