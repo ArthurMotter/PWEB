@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //interagibles
   cardsContainer = document.getElementById('cards'); // Get the container
 
-  
+
   // Fetch and display images and albums
   Promise.all([
     fetch('/fetchImages'),
@@ -281,6 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Function to display albums in a carousel
+  /*
   function displayAlbumCarousel(albumImages, albumId, albumCard) {
     const carouselInner = albumCard.querySelector('#albumCarousel .carousel-inner');
     carouselInner.innerHTML = ''; // Clear existing images
@@ -298,6 +299,51 @@ document.addEventListener('DOMContentLoaded', () => {
       carouselInner.appendChild(carouselItem);
     });
   }
+  */
+
+  // Function to display albums in a carousel
+  function displayAlbumCarousel(albumImages, albumId, albumCard) {
+    const carouselInner = albumCard.querySelector('#albumCarousel .carousel-inner');
+    carouselInner.innerHTML = ''; // Clear existing images
+
+    // Create carousel indicators
+    const carouselIndicators = albumCard.querySelector('#albumCarousel .carousel-indicators');
+    if (carouselIndicators) { // Only set innerHTML if the element exists
+      carouselIndicators.innerHTML = '';
+    }
+
+    albumImages.forEach((imageSrc, index) => {
+      // Create carousel item
+      const carouselItem = document.createElement('div');
+      carouselItem.className = 'carousel-item';
+      if (index === 0) {
+        carouselItem.classList.add('active');
+      }
+
+      // Create image element
+      const img = document.createElement('img');
+      img.src = `data/uploads/${imageSrc}`;
+      img.className = 'd-block w-100';
+      img.alt = `Album Image ${index + 1}`; // Add alt text for accessibility
+
+      // Add image to carousel item
+      carouselItem.appendChild(img);
+      carouselInner.appendChild(carouselItem);
+
+      // Create carousel indicator
+      const indicator = document.createElement('li');
+      indicator.dataset.bsTarget = '#albumCarousel';
+      indicator.dataset.bsSlideTo = index;
+      if (index === 0) {
+        indicator.classList.add('active');
+      }
+      carouselIndicators.appendChild(indicator);
+    });
+
+    // Initialize the carousel (after creating the structure)
+    const carousel = new bootstrap.Carousel(albumCard.querySelector('#albumCarousel'));
+  }
+
 
   //view album 
   viewAlbumButtons.forEach(button => {
