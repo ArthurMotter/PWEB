@@ -146,7 +146,21 @@
                     <template id="albumCardTemplate">
                         <div class="col" data-type="album">
                             <div class="card shadow-sm" data-album-name="">
-                                <img class="card-img-top" src="#" alt="Album Preview" id="albumPreview">
+                                <!-- The albumCard should have the carousel code inside -->
+                                <div class="container">
+                                    <input type="hidden" id="albumId" > <!-- Example albumId -->
+                                    <div id="albumCarousel" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner" id="carousel-inner"></div>
+                                        <a class="carousel-control-prev" href="#albumCarousel" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#albumCarousel" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="card-title"></h5>
@@ -269,22 +283,6 @@
                     <img id="fullScreenImage" src="" alt="Full Screen Image" style="width: auto; height: 100%;">
                 </div>
             </div>
-        </div>
-    </div>
-    <!--teste-->
-    <div class="container">
-        <h1>Album Carousel</h1>
-        <input type="hidden" id="albumId" value="1717438139184"> <!-- Example albumId -->
-        <div id="albumCarousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner" id="carousel-inner"></div>
-            <a class="carousel-control-prev" href="#albumCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#albumCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Display albums
       albums.forEach(album => {
-        displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate);
+        displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate, album.albumId);
       });
 
     })
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsContainer.appendChild(newCard); // This line adds the card to the DOM
 
     // Get the image element *after* the card is added to the DOM
-    const imgElement = newCard.querySelector('.card-img-top');
+    // const imgElement = newCard.querySelector('.card-img-top'); // Removed this line
 
     // Update the createAlbumForm data
     fetch('/createAlbum', {
@@ -195,6 +195,23 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
         // Handle success, possibly update the album's ID on the card
         console.log('Album created successfully:', data);
+
+        // After the album is created, fetch the album images and display the carousel
+        const albumId = data.albumId; // Get the album ID from the response
+        fetch(`/fetchAlbumImages?albumId=${albumId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(albumImages => {
+            console.log('Fetched album images:', albumImages); // Log fetched images
+            displayAlbumCarousel(albumImages, albumId, albumCard);
+          })
+          .catch(error => {
+            console.error('Error fetching album images:', error);
+          });
       })
       .catch(error => {
         console.error('Error creating album:', error);
@@ -202,9 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
     // Set the image source *after* the card is added to the DOM
-    imgElement.src = `data/uploads/${albumImages[0]}`; // Get the first image from the array
-    imgElement.dataset.fullScreenImage = `data/uploads/${albumImages[0]}`; // Set the full-screen image path
-    imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
+    // imgElement.src = `data/uploads/${albumImages[0]}`; // Get the first image from the array
+    // imgElement.dataset.fullScreenImage = `data/uploads/${albumImages[0]}`; // Set the full-screen image path
+    // imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
 
     // Close the modal and clear the form
     new bootstrap.Modal(createAlbumPopup).hide();
@@ -212,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Function to display albums on card 
-  function displayAlbum(albumName, albumDescription, albumImages, creationDate) {
+  function displayAlbum(albumName, albumDescription, albumImages, creationDate, albumId) {
     const template = document.getElementById('albumCardTemplate');
     const newCard = template.content.cloneNode(true).querySelector('.col');
     const albumCard = newCard.querySelector('.card');
@@ -222,41 +239,60 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.querySelector('.card-title').textContent = albumName;
     newCard.querySelector('.card-text').textContent = albumDescription;
     newCard.querySelector('#albumUploadDate').textContent = creationDate;
+    const hiddenAlbumId = newCard.querySelector('#albumId');
+    hiddenAlbumId.value = albumId; // Set the album ID in the hidden input
 
     // Inside the displayImage and displayAlbum functions:
-    // Update these lines to attach the listener to the image
+    /* Update these lines to attach the listener to the image
     newCard.querySelector('.card-img-top').addEventListener('click', (event) => {
       const fullScreenImagePath = event.target.dataset.fullScreenImage;
       fullScreenImage.src = fullScreenImagePath;
       new bootstrap.Modal(viewImageModal).show();
     });
+    */
 
-    // Add event listener to the "View" button
+
+    // Set the image preview for the album (if images are provided)
+    if (albumImages.length > 0) {
+      // const firstImage = albumImages[0]; // Get the first image from the array
+      // const imgElement = newCard.querySelector('.card-img-top'); // Removed these lines
+      // Use a timeout to allow the image element to be added to the DOM
+      // setTimeout(() => {
+      //   imgElement.src = `data/uploads/${firstImage}`; // Set the image source
+      //   imgElement.dataset.fullScreenImage = `data/uploads/${firstImage}`; // Set the full-screen image path
+      //   imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
+      // }, 10); // Adjust the timeout as needed
+
+      // Add the new card to the cards container
+      cardsContainer.appendChild(newCard);
+
+      // Add the carousel to the album card
+      displayAlbumCarousel(albumImages, albumId, albumCard); // Pass the album ID and card element
+
+      // Add event listeners *after* the card is added to the DOM
+      const viewButton = newCard.querySelector('.btn-group button:first-child');
+      if (viewButton) {
+        viewButton.addEventListener('click', (event) => {
+          const fullScreenImagePath = newCard.querySelector('.card-img-top').dataset.fullScreenImage;
+          fullScreenImage.src = fullScreenImagePath;
+          new bootstrap.Modal(viewImageModal).show();
+        });
+      }
+
+      /*
+        // Add event listener to the "View" button
     newCard.querySelector('.btn-group button:first-child').addEventListener('click', (event) => {
       const fullScreenImagePath = newCard.querySelector('.card-img-top').dataset.fullScreenImage;
       fullScreenImage.src = fullScreenImagePath;
       new bootstrap.Modal(viewImageModal).show();
     });
-
-    // Set the image preview for the album (if images are provided)
-    if (albumImages.length > 0) {
-      const firstImage = albumImages[0]; // Get the first image from the array
-      const imgElement = newCard.querySelector('.card-img-top');
-      // Use a timeout to allow the image element to be added to the DOM
-      setTimeout(() => {
-        imgElement.src = `data/uploads/${firstImage}`; // Set the image source
-        imgElement.dataset.fullScreenImage = `data/uploads/${firstImage}`; // Set the full-screen image path
-        imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
-      }, 10); // Adjust the timeout as needed
-
-      // Add the new card to the cards container
-      cardsContainer.appendChild(newCard);
+      */
     }
   }
   //teste
   // Function to display albums in a carousel
-  function displayAlbumCarousel(albumImages) {
-    const carouselInner = document.getElementById('carousel-inner');
+  function displayAlbumCarousel(albumImages, albumId, albumCard) {
+    const carouselInner = albumCard.querySelector('#carousel-inner'); // Find the carousel-inner inside the albumCard
     carouselInner.innerHTML = ''; // Clear previous carousel items
 
     albumImages.forEach((image, index) => {
@@ -271,31 +307,34 @@ document.addEventListener('DOMContentLoaded', () => {
       carouselInner.appendChild(carouselItem);
     });
 
-    new bootstrap.Carousel(document.getElementById('albumCarousel'), {
+    // Initialize the carousel *after* adding the items to the carousel-inner
+    const albumCarousel = new bootstrap.Carousel(albumCard.querySelector('#albumCarousel'), {
       interval: 2000, // 2 seconds interval
       wrap: true
     });
   }
 
   // Get the albumId from the hidden input field
-  const albumId = document.getElementById('albumId').value;
-  console.log('Fetched albumId:', albumId); // Log the albumId to ensure it's fetched
+  setTimeout(() => {
+    const albumId = document.getElementById('albumId').value;
+    console.log('Fetched albumId:', albumId); // Log the albumId to ensure it's fetched
 
-  // Fetch album images
-  fetch(`/fetchAlbumImages?albumId=${albumId}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(albumImages => {
-      console.log('Fetched album images:', albumImages); // Log fetched images
-      displayAlbumCarousel(albumImages);
-    })
-    .catch(error => {
-      console.error('Error fetching album images:', error);
-    });
+    // Fetch album images
+    fetch(`/fetchAlbumImages?albumId=${albumId}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(albumImages => {
+        console.log('Fetched album images:', albumImages); // Log fetched images
+        displayAlbumCarousel(albumImages);
+      })
+      .catch(error => {
+        console.error('Error fetching album images:', error);
+      });
+  }, 100); // Adjust the timeout value as needed 
 
   //end of DOM
 });
