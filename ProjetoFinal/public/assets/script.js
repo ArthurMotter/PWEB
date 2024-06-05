@@ -17,6 +17,37 @@ document.addEventListener('DOMContentLoaded', () => {
   //interagibles
   cardsContainer = document.getElementById('cards'); // Get the container
 
+  const viewAlbumButtons = document.querySelectorAll('.view-album-button');
+  const albumImagesModal = new bootstrap.Modal(document.getElementById('albumImagesModal'));
+  const albumImagesCarouselInner = document.querySelector('#albumImagesCarousel .carousel-inner');
+
+  viewAlbumButtons.forEach(button => {
+    button.addEventListener('click', event => {
+      const albumId = button.dataset.albumId;
+      fetch(`/fetchAlbumImages?albumId=${albumId}`)
+        .then(response => response.json())
+        .then(albumImages => {
+          albumImagesCarouselInner.innerHTML = ''; // Clear previous images
+
+          albumImages.forEach((imageSrc, index) => {
+            const carouselItem = document.createElement('div');
+            carouselItem.className = 'carousel-item';
+            if (index === 0) {
+              carouselItem.classList.add('active');
+            }
+            const img = document.createElement('img');
+            img.src = `data/uploads/${imageSrc}`;
+            img.className = 'd-block w-100';
+            carouselItem.appendChild(img);
+            albumImagesCarouselInner.appendChild(carouselItem);
+          });
+
+          albumImagesModal.show();
+        })
+        .catch(error => console.error('Error fetching album images:', error));
+    });
+  });
+
   // Fetch and display images and albums
   Promise.all([
     fetch('/fetchImages'),
@@ -172,9 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add the new card to the cards container
     cardsContainer.appendChild(newCard); // This line adds the card to the DOM
 
-    // Get the image element *after* the card is added to the DOM
-    // const imgElement = newCard.querySelector('.card-img-top'); // Removed this line
-
     // Update the createAlbumForm data
     fetch('/createAlbum', {
       method: 'POST',
@@ -218,16 +246,28 @@ document.addEventListener('DOMContentLoaded', () => {
         // Handle the error appropriately
       });
 
-    // Set the image source *after* the card is added to the DOM
-    // imgElement.src = `data/uploads/${albumImages[0]}`; // Get the first image from the array
-    // imgElement.dataset.fullScreenImage = `data/uploads/${albumImages[0]}`; // Set the full-screen image path
-    // imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
-
     // Close the modal and clear the form
     new bootstrap.Modal(createAlbumPopup).hide();
     createAlbumForm.reset();
   });
 
+  /*
+    function displayAlbum(albumName, albumDescription, albumImages, creationDate, albumId) {
+      const template = document.getElementById('albumCardTemplate');
+      const newCard = template.content.cloneNode(true).querySelector('.col');
+    
+      newCard.querySelector('.card-title').textContent = albumName;
+      newCard.querySelector('.card-text').textContent = albumDescription;
+      newCard.querySelector('#albumUploadDate').textContent = creationDate;
+    
+      const viewButton = newCard.querySelector('.btn-group button:first-child');
+      viewButton.dataset.albumId = albumId; // Set the album ID for the view button
+      viewButton.classList.add('view-album-button'); // Add a class for easier selection
+    
+      cardsContainer.appendChild(newCard);
+    }
+  
+    */
   // Function to display albums on card 
   function displayAlbum(albumName, albumDescription, albumImages, creationDate, albumId) {
     const template = document.getElementById('albumCardTemplate');
@@ -242,40 +282,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const hiddenAlbumId = newCard.querySelector('#albumId');
     hiddenAlbumId.value = albumId; // Set the album ID in the hidden input
 
-    // Inside the displayImage and displayAlbum functions:
-    /* Update these lines to attach the listener to the image
-    newCard.querySelector('.card-img-top').addEventListener('click', (event) => {
-      const fullScreenImagePath = event.target.dataset.fullScreenImage;
-      fullScreenImage.src = fullScreenImagePath;
-      new bootstrap.Modal(viewImageModal).show();
-    });
-    */
-
-
     // Set the image preview for the album (if images are provided)
     if (albumImages.length > 0) {
-      // const firstImage = albumImages[0]; // Get the first image from the array
-      // const imgElement = newCard.querySelector('.card-img-top'); // Removed these lines
-      // Use a timeout to allow the image element to be added to the DOM
-      // setTimeout(() => {
-      //   imgElement.src = `data/uploads/${firstImage}`; // Set the image source
-      //   imgElement.dataset.fullScreenImage = `data/uploads/${firstImage}`; // Set the full-screen image path
-      //   imgElement.classList.remove('bd-placeholder-img'); // Remove the placeholder class
-      // }, 10); // Adjust the timeout as needed
+      const viewButton = newCard.querySelector('.btn-group button:first-child');
+      viewButton.dataset.albumId = albumId; // Set the album ID for the view button
+      viewButton.classList.add('view-album-button'); // Add a class for easier selection
 
-      // Add the new card to the cards container
       cardsContainer.appendChild(newCard);
 
       // Add the carousel to the album card
       displayAlbumCarousel(albumImages, albumId, albumCard); // Pass the album ID and card element
 
       // Add event listeners *after* the card is added to the DOM
-      const viewButton = newCard.querySelector('.btn-group button:first-child');
       if (viewButton) {
         viewButton.addEventListener('click', (event) => {
-          const fullScreenImagePath = newCard.querySelector('.card-img-top').dataset.fullScreenImage;
-          fullScreenImage.src = fullScreenImagePath;
-          new bootstrap.Modal(viewImageModal).show();
+          const albumId = viewButton.dataset.albumId;
+          fetch(`/fetchAlbumImages?albumId=${albumId}`)
+            .then(response => response.json())
+            .then(albumImages => {
+              const albumImagesCarouselInner = document.querySelector('#albumImagesCarousel .carousel-inner');
+              albumImagesCarouselInner.innerHTML = ''; // Clear previous images
+
+              albumImages.forEach((imageSrc, index) => {
+                const carouselItem = document.createElement('div');
+                carouselItem.className = 'carousel-item';
+                if (index === 0) {
+                  carouselItem.classList.add('active');
+                }
+                const img = document.createElement('img');
+                img.src = `data/uploads/${imageSrc}`;
+                img.className = 'd-block w-100';
+                carouselItem.appendChild(img);
+                albumImagesCarouselInner.appendChild(carouselItem);
+              });
+
+              new bootstrap.Modal(document.getElementById('albumImagesModal')).show();
+            })
+            .catch(error => console.error('Error fetching album images:', error));
         });
       }
 
@@ -289,12 +332,12 @@ document.addEventListener('DOMContentLoaded', () => {
       */
     }
   }
-  //teste
+
   // Function to display albums in a carousel
-  function displayAlbumCarousel(albumImages) {
-    const carouselInner = document.querySelector('#albumCarousel .carousel-inner');
+  function displayAlbumCarousel(albumImages, albumId, albumCard) {
+    const carouselInner = albumCard.querySelector('#albumCarousel .carousel-inner');
     carouselInner.innerHTML = ''; // Clear existing images
-  
+
     albumImages.forEach((imageSrc, index) => {
       const carouselItem = document.createElement('div');
       carouselItem.className = 'carousel-item';
@@ -307,17 +350,10 @@ document.addEventListener('DOMContentLoaded', () => {
       carouselItem.appendChild(img);
       carouselInner.appendChild(carouselItem);
     });
-    /*
-    // Initialize the carousel *after* adding the items to the carousel-inner
-    const albumCarousel = new bootstrap.Carousel(albumCard.querySelector('#albumCarousel'), {
-      interval: 2000, // 2 seconds interval
-      wrap: true
-    });
-    */
   }
 
-  // Get the albumId from the hidden input field
-  setTimeout(() => {
+  // Remove the timeout
+  /*setTimeout(() => {
     const albumId = document.getElementById('albumId').value;
     console.log('Fetched albumId:', albumId); // Log the albumId to ensure it's fetched
 
@@ -336,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(error => {
         console.error('Error fetching album images:', error);
       });
-  }, 100); // Adjust the timeout value as needed 
+  }, 100); // Adjust the timeout value as needed */
 
   //end of DOM
 });
