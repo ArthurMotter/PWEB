@@ -291,27 +291,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   //teste
   // Function to display albums in a carousel
-  function displayAlbumCarousel(albumImages, albumId, albumCard) {
-    const carouselInner = albumCard.querySelector('#carousel-inner'); // Find the carousel-inner inside the albumCard
-    carouselInner.innerHTML = ''; // Clear previous carousel items
-
-    albumImages.forEach((image, index) => {
+  function displayAlbumCarousel(albumImages) {
+    const carouselInner = document.querySelector('#albumCarousel .carousel-inner');
+    carouselInner.innerHTML = ''; // Clear existing images
+  
+    albumImages.forEach((imageSrc, index) => {
       const carouselItem = document.createElement('div');
-      carouselItem.className = `carousel-item${index === 0 ? ' active' : ''}`;
-
-      const imgElement = document.createElement('img');
-      imgElement.src = `data/uploads/${image}`;
-      imgElement.className = 'd-block w-100';
-
-      carouselItem.appendChild(imgElement);
+      carouselItem.className = 'carousel-item';
+      if (index === 0) {
+        carouselItem.classList.add('active');
+      }
+      const img = document.createElement('img');
+      img.src = `data/uploads/${imageSrc}`;
+      img.className = 'd-block w-100';
+      carouselItem.appendChild(img);
       carouselInner.appendChild(carouselItem);
     });
-
+    /*
     // Initialize the carousel *after* adding the items to the carousel-inner
     const albumCarousel = new bootstrap.Carousel(albumCard.querySelector('#albumCarousel'), {
       interval: 2000, // 2 seconds interval
       wrap: true
     });
+    */
   }
 
   // Get the albumId from the hidden input field
