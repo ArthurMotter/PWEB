@@ -251,33 +251,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Add event listeners *after* the card is added to the DOM
       if (viewButton) {
-        viewButton.addEventListener('click', (event) => {
-          const albumId = viewButton.dataset.albumId;
-          fetch(`/fetchAlbumImages?albumId=${albumId}`)
-            .then(response => response.json())
-            .then(albumImages => {
-              const albumImagesCarouselInner = document.querySelector('#albumImagesCarousel .carousel-inner');
-              albumImagesCarouselInner.innerHTML = ''; // Clear previous images
-
-              albumImages.forEach((imageSrc, index) => {
-                const carouselItem = document.createElement('div');
-                carouselItem.className = 'carousel-item';
-                if (index === 0) {
-                  carouselItem.classList.add('active');
-                }
-                const img = document.createElement('img');
-                img.src = `data/uploads/${imageSrc}`;
-                img.className = 'd-block w-100';
-                carouselItem.appendChild(img);
-                albumImagesCarouselInner.appendChild(carouselItem);
-              });
-
-              new bootstrap.Modal(document.getElementById('albumImagesModal')).show();
-            })
-            .catch(error => console.error('Error fetching album images:', error));
+        viewButton.addEventListener('click', () => {
+          showAlbumImagesModal(albumId);
         });
       }
     }
+  }
+
+  function showAlbumImagesModal(albumId) {
+    fetch(`/fetchAlbumImages?albumId=${albumId}`)
+      .then(response => response.json())
+      .then(images => {
+        const albumImagesCarouselInner = document.querySelector('#albumImagesCarousel .carousel-inner');
+        albumImagesCarouselInner.innerHTML = ''; // Clear existing images
+
+        images.forEach((image, index) => {
+          const carouselItem = document.createElement('div');
+          carouselItem.classList.add('carousel-item');
+          if (index === 0) carouselItem.classList.add('active');
+
+          const img = document.createElement('img');
+          img.src = `data/uploads/${image}`;
+          img.classList.add('d-block', 'w-100');
+          carouselItem.appendChild(img);
+
+          albumImagesCarouselInner.appendChild(carouselItem);
+        });
+
+        const albumImagesModal = new bootstrap.Modal(document.getElementById('albumImagesModal'));
+        albumImagesModal.show();
+      })
+      .catch(error => {
+        console.error('Error fetching album images:', error);
+      });
   }
 
   // ... other code in script.js
