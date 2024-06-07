@@ -301,13 +301,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   */
 
-  // Function to display albums in a carousel (for both album cards and the modal)
-  function displayAlbumCarousel(albumImages, containerSelector, callback) {
-    const carouselInner = document.querySelector(`${containerSelector} .carousel-inner`);
+  function displayAlbumCarousel(albumImages, albumId, albumCard) {
+    const carouselInner = albumCard.querySelector('#albumCarousel .carousel-inner');
     carouselInner.innerHTML = ''; // Clear existing images
 
     // Create carousel indicators
-    const carouselIndicators = document.querySelector(`${containerSelector} .carousel-indicators`);
+    const carouselIndicators = albumCard.querySelector('#albumCarousel .carousel-indicators');
     if (carouselIndicators) { // Only set innerHTML if the element exists
       carouselIndicators.innerHTML = '';
     }
@@ -334,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Create carousel indicator
       const indicator = document.createElement('li');
-      indicator.dataset.bsTarget = containerSelector; // Update the target
+      indicator.dataset.bsTarget = '#albumCarousel';
       indicator.dataset.bsSlideTo = index;
       if (index === 0) {
         indicator.classList.add('active');
@@ -342,43 +341,32 @@ document.addEventListener('DOMContentLoaded', () => {
       carouselIndicators.appendChild(indicator);
     });
 
-    // Initialize the carousel after the DOM is ready
-    setTimeout(() => {
-      const carousel = new bootstrap.Carousel(document.querySelector(containerSelector));
+    // Initialize the carousel (after creating the structure)
+    const carousel = new bootstrap.Carousel(albumCard.querySelector('#albumCarousel'));
 
-      // Add event listeners to the "Previous" and "Next" buttons
-      const prevButton = document.querySelector(`${containerSelector} .carousel-control-prev`);
-      const nextButton = document.querySelector(`${containerSelector} .carousel-control-next`);
-      if (prevButton && nextButton) {
-        prevButton.addEventListener('click', () => {
-          carousel.prev();
-        });
-        nextButton.addEventListener('click', () => {
-          carousel.next();
-        });
-      }
-
-      // Call the callback function (for the modal carousel)
-      if (callback) {
-        callback();
-      }
-    }, 0);
+    // If you need to handle "Previous" and "Next" button clicks:
+    const prevButton = albumCard.querySelector('#albumCarousel .carousel-control-prev');
+    const nextButton = albumCard.querySelector('#albumCarousel .carousel-control-next');
+    if (prevButton && nextButton) {
+      prevButton.addEventListener('click', () => {
+        carousel.prev();
+      });
+      nextButton.addEventListener('click', () => {
+        carousel.next();
+      });
+    }
   }
 
 
-
-  // View Album Button Event Listener
+  //view album 
   viewAlbumButtons.forEach(button => {
     button.addEventListener('click', event => {
       const albumId = button.dataset.albumId;
       fetch(`/fetchAlbumImages?albumId=${albumId}`)
         .then(response => response.json())
         .then(albumImages => {
-          // Clear previous images from albumImagesCarouselInner
-          const albumImagesCarouselInner = document.querySelector('#albumImagesCarousel .carousel-inner');
-          albumImagesCarouselInner.innerHTML = ''; // This clears the previous images
+          albumImagesCarouselInner.innerHTML = ''; // Clear previous images
 
-          // Populate albumImagesCarouselInner with images
           albumImages.forEach((imageSrc, index) => {
             const carouselItem = document.createElement('div');
             carouselItem.className = 'carousel-item';
@@ -392,10 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
             albumImagesCarouselInner.appendChild(carouselItem);
           });
 
-          // Set up the albumImagesCarousel (modal carousel)
-          displayAlbumCarousel(albumImages, '#albumImagesCarousel', () => {
-            albumImagesModal.show(); // Show the modal after the carousel is set up
-          });
+          albumImagesModal.show();
         })
         .catch(error => console.error('Error fetching album images:', error));
     });
