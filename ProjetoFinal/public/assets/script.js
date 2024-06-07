@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   */
 
-  // Function to display albums in a carousel
   function displayAlbumCarousel(albumImages, albumId, albumCard) {
     const carouselInner = albumCard.querySelector('#albumCarousel .carousel-inner');
     carouselInner.innerHTML = ''; // Clear existing images
@@ -328,6 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Add image to carousel item
       carouselItem.appendChild(img);
+
+      // Add the newly created carousel item to the DOM
       carouselInner.appendChild(carouselItem);
 
       // Create carousel indicator
@@ -342,6 +343,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize the carousel (after creating the structure)
     const carousel = new bootstrap.Carousel(albumCard.querySelector('#albumCarousel'));
+
+    // If you need to handle "Previous" and "Next" button clicks:
+    const prevButton = albumCard.querySelector('#albumCarousel .carousel-control-prev');
+    const nextButton = albumCard.querySelector('#albumCarousel .carousel-control-next');
+    if (prevButton && nextButton) {
+      prevButton.addEventListener('click', () => {
+        carousel.prev();
+      });
+      nextButton.addEventListener('click', () => {
+        carousel.next();
+      });
+    }
   }
 
 
