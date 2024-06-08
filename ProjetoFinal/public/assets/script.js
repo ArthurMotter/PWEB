@@ -302,6 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Create carousel item
       const carouselItem = document.createElement('div');
       carouselItem.className = 'carousel-item';
+      
       if (index === 0) {
         carouselItem.classList.add('active');
       }
