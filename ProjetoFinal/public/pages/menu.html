@@ -332,54 +332,51 @@
         </div>
     </div>
 
-    <!-- menu.html (updated Edit Album popup) -->
-    <div id="edit-album-popup" class="modal fade" tabindex="-1" aria-labelledby="editAlbumPopupLabel"
+    <!-- edit-album-popup -->
+    <div class="modal fade" id="edit-album-popup" tabindex="-1" aria-labelledby="editAlbumModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editAlbumPopupLabel">Edit Album</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                            class="bi bi-x" viewBox="0 0 16 16">
-                            <path
-                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="editAlbumForm">
-                        <div class="form-group" style="margin: 15px;">
-                            <label for="albumName">Album Name:</label>
-                            <input type="text" class="form-control" id="albumName" name="albumName" required>
+                <form id="editAlbumForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editAlbumModalLabel">Edit Album</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="editAlbumName" class="form-label">Album Name</label>
+                            <input type="text" class="form-control" id="editAlbumName" required>
                         </div>
-                        <div class="form-group" style="margin: 15px;">
-                            <label for="albumDescription">Description:</label>
-                            <textarea class="form-control" id="albumDescription" name="albumDescription" rows="3"
-                                style="max-height: 370px;"></textarea>
+                        <div class="mb-3">
+                            <label for="editAlbumDescription" class="form-label">Album Description</label>
+                            <textarea class="form-control" id="editAlbumDescription" rows="3" required></textarea>
                         </div>
-                        <div class="form-group" style="margin: 15px; overflow: auto;">
-                            <div id="albumImagesGrid" class="row row-cols-md-3 g-2" style="justify-content: center;">
-                                <!-- All album images will be dynamically added here -->
-                            </div>
+                        <div class="mb-3">
+                            <label for="albumImageSelect" class="form-label">Add Image</label>
+                            <select class="form-select" id="albumImageSelect">
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                            <button type="button" class="btn btn-primary mt-2" id="addImageToAlbum">Add Image</button>
                         </div>
-                        <div class="form-group" style="margin: 15px;">
-                            <label for="imageName">Image Name (to add to album):</label>
-                            <input type="text" class="form-control" id="imageName" placeholder="Image3.jpg">
+                        <div id="albumImagesContainer" class="d-flex flex-wrap">
+                            <!-- Selected album images will be displayed here -->
                         </div>
-                        <button type="button" class="btn btn-primary" id="addImageToAlbum" style="margin-top: 15px;">Add
-                            Image</button>
-                        <div class="row" style="display: flex; justify-content: center;">
-                            <button type="submit" class="btn btn-primary" style="width: 50%; margin-top: 15px;">Submit
-                                Edition</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-    <!--footer-->
+    <div class="album-card">
+        <h3>Album Title</h3>
+        <input type="hidden" id="albumId" value="123">
+        <button class="btn btn-primary edit-album-button">Edit</button>
+      </div>
+      
     <footer class="text-muted py-5">
         <div class="container" style="display: grid; justify-content: center;">
             <p class="mb-1">Arthur Motter © 2024</p>

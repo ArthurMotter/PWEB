@@ -18,9 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const previewImage = document.getElementById('previewImage');
   const createAlbumForm = document.getElementById('createAlbumForm');
   //interagibles
-  cardsContainer = document.getElementById('cards'); // Get the container
-  const editAlbumPopup = document.getElementById('edit-album-popup');
+  cardsContainer = document.getElementById('cards'); // Get the containerSSS
+
   const editAlbumForm = document.getElementById('editAlbumForm');
+  const editAlbumPopup = document.getElementById('edit-album-popup');
+  const albumImageSelect = document.getElementById('albumImageSelect');
+  const albumImagesContainer = document.getElementById('albumImagesContainer');
 
   // Fetch and display images and albums
   Promise.all([
@@ -261,8 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Populate the edit form fields with the fetched album data
             document.getElementById('albumName').value = album.albumName;
             document.getElementById('albumDescription').value = album.albumDescription;
-            // Display album images in the grid
-            displayAlbumImagesGrid(album.albumImages);
+
 
             // Open the edit album popup
             new bootstrap.Modal(editAlbumPopup).show();
@@ -286,20 +288,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Function to display album images in a grid
-  function displayAlbumImagesGrid(albumImages) {
-    const albumImagesGrid = document.getElementById('albumImagesGrid');
-    albumImagesGrid.innerHTML = ''; // Clear previous images
+  // Function to fetch and display album details
+  function fetchAlbumDetails(albumId) {
+    fetch(`/fetchAlbum?albumId=${albumId}`)
+      .then(response => response.json())
+      .then(album => {
+        document.getElementById('editAlbumName').value = album.albumName;
+        document.getElementById('editAlbumDescription').value = album.albumDescription;
+        displayAlbumImages(album.albumImages);
+      })
+      .catch(error => console.error('Error fetching album details:', error));
+  }
 
-    albumImages.forEach(imageSrc => {
-      // Create a new image element
-      const imageElement = document.createElement('img');
-      imageElement.src = `data/uploads/${imageSrc}`;
-      imageElement.classList.add('col', 'img-fluid', 'rounded'); // Add Bootstrap classes for styling
-      imageElement.style.maxHeight = '100px'; // Set a maximum height for the images
+  // Function to display album images
+  function displayAlbumImages(images) {
+    albumImagesContainer.innerHTML = ''; // Clear existing images
+    images.forEach(image => {
+      const imgElement = document.createElement('img');
+      imgElement.src = `data/uploads/${image}`;
+      imgElement.classList.add('album-image');
+      imgElement.dataset.fileName = image;
+      albumImagesContainer.appendChild(imgElement);
 
-      // Add the image to the grid
-      albumImagesGrid.appendChild(imageElement);
+      // Add remove button
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.addEventListener('click', () => {
+        albumImagesContainer.removeChild(imgElement);
+      });
+      imgElement.appendChild(removeButton);
     });
   }
 
@@ -330,8 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error fetching album images:', error);
       });
   }
-
-  // ... other code in script.js
 
   function displayAlbumCarousel(albumImages, albumId, albumCard) {
     const carouselInner = albumCard.querySelector('#albumCarousel .carousel-inner');
@@ -398,9 +413,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ... rest of your code
-
-
   //view album 
   viewAlbumButtons.forEach(button => {
     button.addEventListener('click', event => {
@@ -429,43 +441,98 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Edit album functionality
+  // Function to display available images to add to album
+  function displayAvailableImages() {
+    fetch('/fetchImages')
+      .then(response => response.json())
+      .then(images => {
+        albumImageSelect.innerHTML = ''; // Clear existing options
+        images.forEach(image => {
+          const option = document.createElement('option');
+          option.value = image.fileName;
+          option.textContent = image.fileName;
+          albumImageSelect.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error fetching images:', error));
+  }
+
+  // Handle form submission to update album
   editAlbumForm.addEventListener('submit', (event) => {
     event.preventDefault();
-
-    const albumId = event.target.closest('.modal-content').querySelector('#albumId').value;
-    const albumName = document.getElementById('albumName').value;
-    const albumDescription = document.getElementById('albumDescription').value;
+    const albumId = editAlbumForm.dataset.albumId;
+    if (!albumId) {
+      console.error('Album ID is missing');
+      return;
+    }
+    const albumName = document.getElementById('editAlbumName').value;
+    const albumDescription = document.getElementById('editAlbumDescription').value;
+    const albumImages = Array.from(albumImagesContainer.querySelectorAll('.album-image')).map(img => img.dataset.fileName);
 
     fetch(`/editAlbum/${albumId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        albumName: albumName,
-        albumDescription: albumDescription,
-      })
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ albumName, albumDescription, albumImages }),
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Album update failed');
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
-        console.log('Album updated successfully:', data);
-        // Update the album card with the new data
-        const albumCard = cardsContainer.querySelector(`.card[data-album-name="${data.albumName}"]`);
-        if (albumCard) {
-          albumCard.querySelector('.card-title').textContent = data.albumName;
-          albumCard.querySelector('.card-text').textContent = data.albumDescription;
+        if (data.error) {
+          console.error('Error updating album:', data.error);
+        } else {
+          console.log('Album updated successfully:', data);
+          // Close the modal and refresh the album list if needed
+          new bootstrap.Modal(editAlbumPopup).hide();
         }
-
-        // Close the edit album modal
-        new bootstrap.Modal(editAlbumPopup).hide();
       })
-      .catch(error => {
-        console.error('Error updating album:', error);
+      .catch(error => console.error('Error updating album:', error));
+  });
+
+  // Event listener for adding new images to the album
+  document.getElementById('addImageToAlbum').addEventListener('click', () => {
+    const selectedImage = albumImageSelect.value;
+    if (selectedImage) {
+      const imgElement = document.createElement('img');
+      imgElement.src = `data/uploads/${selectedImage}`;
+      imgElement.classList.add('album-image');
+      imgElement.dataset.fileName = selectedImage;
+      albumImagesContainer.appendChild(imgElement);
+
+      // Add remove button
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.addEventListener('click', () => {
+        albumImagesContainer.removeChild(imgElement);
       });
+      imgElement.appendChild(removeButton);
+    }
+  });
+
+  // Fetch and display album details when edit button is clicked
+  document.querySelectorAll('.edit-album-button').forEach(button => {
+    button.addEventListener('click', (event) => {
+      const albumCard = event.target.closest('.album-card');
+      if (albumCard) {
+        const albumIdInput = albumCard.querySelector('#albumId');
+        if (albumIdInput) {
+          const albumId = albumIdInput.value;
+          console.log('Album ID:', albumId);  // Debugging line to check if album ID is correctly fetched
+          if (albumId) {
+            editAlbumForm.dataset.albumId = albumId;
+            fetchAlbumDetails(albumId);
+            displayAvailableImages();
+            new bootstrap.Modal(editAlbumPopup).show();
+          } else {
+            console.error('Album ID is empty in the hidden input');
+          }
+        } else {
+          console.error('Hidden input with album ID not found in album card');
+        }
+      } else {
+        console.error('Album card not found');
+      }
+    });
   });
   //end of DOM
 });
