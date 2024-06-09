@@ -332,7 +332,7 @@
         </div>
     </div>
 
-    <!--Edit album popUp-->
+    <!-- menu.html (updated Edit Album popup) -->
     <div id="edit-album-popup" class="modal fade" tabindex="-1" aria-labelledby="editAlbumPopupLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -348,7 +348,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
                     <form id="editAlbumForm">
                         <div class="form-group" style="margin: 15px;">
                             <label for="albumName">Album Name:</label>
@@ -357,13 +356,19 @@
                         <div class="form-group" style="margin: 15px;">
                             <label for="albumDescription">Description:</label>
                             <textarea class="form-control" id="albumDescription" name="albumDescription" rows="3"
-                                style="max-height: 512px;"></textarea>
+                                style="max-height: 370px;"></textarea>
                         </div>
-                        <div class="form-group" style="margin: 15px; overflow: auto; max-height: 6rem;">
-                            <div id="albumImagesGrid" class="row row-cols-md-3 g-2">
+                        <div class="form-group" style="margin: 15px; overflow: auto;">
+                            <div id="albumImagesGrid" class="row row-cols-md-3 g-2" style="justify-content: center;">
                                 <!-- All album images will be dynamically added here -->
                             </div>
                         </div>
+                        <div class="form-group" style="margin: 15px;">
+                            <label for="imageName">Image Name (to add to album):</label>
+                            <input type="text" class="form-control" id="imageName" placeholder="Image3.jpg">
+                        </div>
+                        <button type="button" class="btn btn-primary" id="addImageToAlbum" style="margin-top: 15px;">Add
+                            Image</button>
                         <div class="row" style="display: flex; justify-content: center;">
                             <button type="submit" class="btn btn-primary" style="width: 50%; margin-top: 15px;">Submit
                                 Edition</button>
