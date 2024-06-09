@@ -245,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
       viewButton.dataset.albumId = albumId; // Set the album ID for the view button
       viewButton.classList.add('view-album-button'); // Add a class for easier selection
 
+      // Add event listener to the "Edit" button
       const editButton = newCard.querySelector('.btn-group button:nth-child(2)');
       editButton.dataset.albumId = albumId; // Set the album ID for the edit button
       editButton.addEventListener('click', () => {
@@ -260,8 +261,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Populate the edit form fields with the fetched album data
             document.getElementById('albumName').value = album.albumName;
             document.getElementById('albumDescription').value = album.albumDescription;
-            // You might need to add logic to display the image list in the edit form
-            // ...
+            // Display album images in the grid
+            displayAlbumImagesGrid(album.albumImages);
 
             // Open the edit album popup
             new bootstrap.Modal(editAlbumPopup).show();
@@ -283,6 +284,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     }
+  }
+
+  // Function to display album images in a grid
+  function displayAlbumImagesGrid(albumImages) {
+    const albumImagesGrid = document.getElementById('albumImagesGrid');
+    albumImagesGrid.innerHTML = ''; // Clear previous images
+
+    albumImages.forEach(imageSrc => {
+      // Create a new image element
+      const imageElement = document.createElement('img');
+      imageElement.src = `data/uploads/${imageSrc}`;
+      imageElement.classList.add('col', 'img-fluid', 'rounded'); // Add Bootstrap classes for styling
+      imageElement.style.maxHeight = '100px'; // Set a maximum height for the images
+
+      // Add the image to the grid
+      albumImagesGrid.appendChild(imageElement);
+    });
   }
 
   function showAlbumImagesModal(albumId) {
@@ -329,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Create carousel item
       const carouselItem = document.createElement('div');
       carouselItem.className = 'carousel-item';
-      
+
       if (index === 0) {
         carouselItem.classList.add('active');
       }
