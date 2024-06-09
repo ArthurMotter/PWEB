@@ -150,25 +150,20 @@ app.get('/fetchAlbums', (req, res) => {
   res.json(albums); // Send the albums data to the client
 });
 
-//teste
 // Fetch album images route
 app.get('/fetchAlbumImages', (req, res) => {
   const albumId = req.query.albumId;
-  console.log('Requested albumId:', albumId); // Log requested albumId
   const albumsFile = path.join(__dirname, 'public', 'data', 'albums.json');
   let albums = [];
 
   try {
-    const data = fs.readFileSync(albumsFile, 'utf8');
-    albums = JSON.parse(data);
-    console.log('Albums:', albums); // Log loaded albums
+    albums = JSON.parse(fs.readFileSync(albumsFile));
   } catch (error) {
     console.error("Error reading albums.json:", error);
     return res.status(500).json({ error: 'Error reading albums.json' });
   }
 
   const album = albums.find(album => album.albumId == albumId); // Note: albumId is a string in the query
-  console.log('Found album:', album); // Log found album
 
   if (album) {
     res.json(album.albumImages);
@@ -219,6 +214,57 @@ app.post('/createAlbum', (req, res) => {
   res.json({ message: `Album "${albumName}" created successfully`, albumId: Date.now() });
 });
 
+// Update Album route
+app.put('/editAlbum/:albumId', (req, res) => {
+  const albumId = req.params.albumId;
+  const { albumName, albumDescription } = req.body;
+  const albumsFile = path.join(__dirname, 'public', 'data', 'albums.json');
+  let albums = [];
+  try {
+    albums = JSON.parse(fs.readFileSync(albumsFile));
+  } catch (error) {
+    console.error("Error reading albums.json:", error);
+    return res.status(500).json({ error: 'Error reading albums.json' });
+  }
+
+  const albumIndex = albums.findIndex(album => album.albumId == albumId);
+
+  if (albumIndex !== -1) {
+    albums[albumIndex].albumName = albumName;
+    albums[albumIndex].albumDescription = albumDescription;
+
+    try {
+      fs.writeFileSync(albumsFile, JSON.stringify(albums));
+      res.json({ message: 'Album updated successfully', albumName, albumDescription });
+    } catch (error) {
+      console.error("Error writing albums.json:", error);
+      res.status(500).json({ error: 'Error updating album' });
+    }
+  } else {
+    res.status(404).json({ error: 'Album not found' });
+  }
+});
+
+// Fetch album details
+app.get('/fetchAlbum', (req, res) => {
+  const albumId = req.query.albumId;
+  const albumsFile = path.join(__dirname, 'public', 'data', 'albums.json');
+  let albums = [];
+  try {
+    albums = JSON.parse(fs.readFileSync(albumsFile));
+  } catch (error) {
+    console.error("Error reading albums.json:", error);
+    return res.status(500).json({ error: 'Error reading albums.json' });
+  }
+
+  const album = albums.find(album => album.albumId == albumId);
+
+  if (album) {
+    res.json(album);
+  } else {
+    res.status(404).json({ error: 'Album not found' });
+  }
+});
 
 // Start the server
 const port = process.env.PORT || 3000;

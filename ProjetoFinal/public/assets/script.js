@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const createAlbumForm = document.getElementById('createAlbumForm');
   //interagibles
   cardsContainer = document.getElementById('cards'); // Get the container
-
+  const editAlbumPopup = document.getElementById('edit-album-popup');
+  const editAlbumForm = document.getElementById('editAlbumForm');
 
   // Fetch and display images and albums
   Promise.all([
@@ -244,6 +245,32 @@ document.addEventListener('DOMContentLoaded', () => {
       viewButton.dataset.albumId = albumId; // Set the album ID for the view button
       viewButton.classList.add('view-album-button'); // Add a class for easier selection
 
+      const editButton = newCard.querySelector('.btn-group button:nth-child(2)');
+      editButton.dataset.albumId = albumId; // Set the album ID for the edit button
+      editButton.addEventListener('click', () => {
+        // Fetch album data using the albumId
+        fetch(`/fetchAlbum?albumId=${albumId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(album => {
+            // Populate the edit form fields with the fetched album data
+            document.getElementById('albumName').value = album.albumName;
+            document.getElementById('albumDescription').value = album.albumDescription;
+            // You might need to add logic to display the image list in the edit form
+            // ...
+
+            // Open the edit album popup
+            new bootstrap.Modal(editAlbumPopup).show();
+          })
+          .catch(error => {
+            console.error('Error fetching album data:', error);
+          });
+      });
+
       cardsContainer.appendChild(newCard);
 
       // Add the carousel to the album card
@@ -382,6 +409,45 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error fetching album images:', error));
     });
+  });
+
+  // Edit album functionality
+  editAlbumForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const albumId = event.target.closest('.modal-content').querySelector('#albumId').value;
+    const albumName = document.getElementById('albumName').value;
+    const albumDescription = document.getElementById('albumDescription').value;
+
+    fetch(`/editAlbum/${albumId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        albumName: albumName,
+        albumDescription: albumDescription,
+      })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Album update failed');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Album updated successfully:', data);
+        // Update the album card with the new data
+        const albumCard = cardsContainer.querySelector(`.card[data-album-name="${data.albumName}"]`);
+        if (albumCard) {
+          albumCard.querySelector('.card-title').textContent = data.albumName;
+          albumCard.querySelector('.card-text').textContent = data.albumDescription;
+        }
+
+        // Close the edit album modal
+        new bootstrap.Modal(editAlbumPopup).hide();
+      })
+      .catch(error => {
+        console.error('Error updating album:', error);
+      });
   });
   //end of DOM
 });
