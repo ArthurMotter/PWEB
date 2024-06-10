@@ -287,8 +287,8 @@ app.get('/fetchAlbum', (req, res) => {
   }
 });
 
-// Start the server
+/* Start the server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
-});
+}); */

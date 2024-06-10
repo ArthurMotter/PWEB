@@ -1,0 +1,7 @@
+# render.yaml
+services:
+  - name: momentum-app  # Name of your service (adjust if needed)
+    type: web-service  # Type of service (web-service for a web application)
+    env: production # Environment (production for deployment)
+    build_command: yarn install # Command to install dependencies (adjust to match your project setup)
+    start_command: node app.js # Command to start your server
