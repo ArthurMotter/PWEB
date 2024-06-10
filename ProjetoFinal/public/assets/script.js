@@ -49,6 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
         displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate, album.albumId);
       });
 
+      // **Call displayAvailableImages() after fetching albums**
+      displayAvailableImages();
     })
     .catch(error => {
       console.error('Error fetching data:', error);
@@ -242,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hiddenalbumId = newCard.querySelector('#albumId');
     //document.getElementById
     hiddenalbumId.value = albumId; // Set the album ID in the hidden input
-    
+
 
     // Set the image preview for the album (if images are provided)
     if (albumImages.length > 0) {
@@ -271,6 +273,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Open the edit album popup
             new bootstrap.Modal(editAlbumPopup).show();
+
+            // Set the album ID on the modal form (before showing the modal)
+            editAlbumForm.dataset.albumId = albumId;
           })
           .catch(error => {
             console.error('Error fetching album data:', error);
@@ -446,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to display available images to add to album
   function displayAvailableImages() {
-    fetch('/fetchImages')
+    fetch('/fetchImages') // Fetch image data from your server
       .then(response => response.json())
       .then(images => {
         albumImageSelect.innerHTML = ''; // Clear existing options
@@ -463,14 +468,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Handle form submission to update album
   editAlbumForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    const albumId = editAlbumForm.dataset.albumId; //<--- this is the problem
-    console.log(albumId);
-    if (!albumId) {
-      console.error('Album ID is missing');
-      return;
-    }
+    const albumId = editAlbumForm.dataset.albumId;
     const albumName = document.getElementById('editAlbumName').value;
     const albumDescription = document.getElementById('editAlbumDescription').value;
+
+    // Get the selected images
     const albumImages = Array.from(albumImagesContainer.querySelectorAll('.album-image')).map(img => img.dataset.fileName);
 
     fetch(`/editAlbum/${albumId}`, {
@@ -478,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ albumName, albumDescription, albumImages }),
+      body: JSON.stringify({ albumName, albumDescription, albumImages }), // Send the albumImages array
     })
       .then(response => response.json())
       .then(data => {

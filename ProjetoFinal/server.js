@@ -217,7 +217,7 @@ app.post('/createAlbum', (req, res) => {
 // Update Album route
 app.put('/editAlbum/:albumId', (req, res) => {
   const albumId = req.params.albumId;
-  const { albumName, albumDescription } = req.body;
+  const { albumName, albumDescription, albumImages } = req.body; // Now receive the albumImages array
   const albumsFile = path.join(__dirname, 'public', 'data', 'albums.json');
   let albums = [];
   try {
@@ -232,6 +232,12 @@ app.put('/editAlbum/:albumId', (req, res) => {
   if (albumIndex !== -1) {
     albums[albumIndex].albumName = albumName;
     albums[albumIndex].albumDescription = albumDescription;
+
+    // Merge new images with existing ones
+    albums[albumIndex].albumImages = [
+      ...albums[albumIndex].albumImages, // Spread existing images
+      ...albumImages, // Spread new images
+    ];
 
     try {
       fs.writeFileSync(albumsFile, JSON.stringify(albums));
