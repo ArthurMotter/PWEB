@@ -1,8 +1,10 @@
 // app.js
-const server = require('./server.js'); // Import your existing server.js 
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
 
-// Start the server 
-const port = process.env.PORT || 3000; // Use Render's PORT environment variable 
-server.listen(port, () => {
+// ... (Import routes from server.js if needed) 
+
+app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
