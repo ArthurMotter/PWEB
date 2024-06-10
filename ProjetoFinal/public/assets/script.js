@@ -239,8 +239,10 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.querySelector('.card-title').textContent = albumName;
     newCard.querySelector('.card-text').textContent = albumDescription;
     newCard.querySelector('#albumUploadDate').textContent = creationDate;
-    const hiddenAlbumId = newCard.querySelector('#albumId');
-    hiddenAlbumId.value = albumId; // Set the album ID in the hidden input
+    const hiddenalbumId = newCard.querySelector('#albumId');
+    //document.getElementById
+    hiddenalbumId.value = albumId; // Set the album ID in the hidden input
+    
 
     // Set the image preview for the album (if images are provided)
     if (albumImages.length > 0) {
@@ -263,8 +265,9 @@ document.addEventListener('DOMContentLoaded', () => {
           .then(album => {
             // Populate the edit form fields with the fetched album data
             document.getElementById('albumName').value = album.albumName;
+            console.log(albumName);
             document.getElementById('albumDescription').value = album.albumDescription;
-
+            console.log(albumDescription);
 
             // Open the edit album popup
             new bootstrap.Modal(editAlbumPopup).show();
@@ -460,7 +463,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Handle form submission to update album
   editAlbumForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    const albumId = editAlbumForm.dataset.albumId;
+    const albumId = editAlbumForm.dataset.albumId; //<--- this is the problem
+    console.log(albumId);
     if (!albumId) {
       console.error('Album ID is missing');
       return;
