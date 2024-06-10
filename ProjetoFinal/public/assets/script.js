@@ -523,9 +523,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get NEWLY selected images from the dropdown 
     const newAlbumImages = Array.from(document.getElementById('editAlbumImageSelect').selectedOptions).map(option => option.value);
 
-    // Combine both existing and new images
-    const allAlbumImages = [...existingAlbumImages, ...newAlbumImages];
-
     fetch(`/editAlbum/${albumId}`, {
       method: 'PUT',
       headers: {
@@ -534,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify({
         albumName,
         albumDescription,
-        albumImages: allAlbumImages  // Send the combined array
+        albumImages: newAlbumImages // Send ONLY the new images
       }),
     })
       .then(response => response.json())

@@ -214,17 +214,18 @@ app.post('/createAlbum', (req, res) => {
   res.json({ message: `Album "${albumName}" created successfully`, albumId: Date.now() });
 });
 
+
 // Update Album route
 app.put('/editAlbum/:albumId', (req, res) => {
   const albumId = req.params.albumId;
-  const { albumName, albumDescription, albumImages } = req.body; // Now receive the albumImages array
+  const { albumName, albumDescription, albumImages } = req.body; 
   const albumsFile = path.join(__dirname, 'public', 'data', 'albums.json');
   let albums = [];
+
   try {
     albums = JSON.parse(fs.readFileSync(albumsFile));
   } catch (error) {
-    console.error("Error reading albums.json:", error);
-    return res.status(500).json({ error: 'Error reading albums.json' });
+    // ... error handling ...
   }
 
   const albumIndex = albums.findIndex(album => album.albumId == albumId);
@@ -233,20 +234,25 @@ app.put('/editAlbum/:albumId', (req, res) => {
     albums[albumIndex].albumName = albumName;
     albums[albumIndex].albumDescription = albumDescription;
 
-    // Merge new images with existing ones
+    // ADD new images to the existing list (using spread operator)
     albums[albumIndex].albumImages = [
-      ...albums[albumIndex].albumImages, // Spread existing images
-      ...albumImages, // Spread new images
+      ...albums[albumIndex].albumImages, // Existing images
+      ...albumImages,                  // New images
     ];
+
+    // REPLACE the old image list with the new list
+    //albums[albumIndex].albumImages = albumImages; 
 
     try {
       fs.writeFileSync(albumsFile, JSON.stringify(albums));
+      // ... (send success response) ...
       res.json({ message: 'Album updated successfully', albumName, albumDescription });
     } catch (error) {
       console.error("Error writing albums.json:", error);
       res.status(500).json({ error: 'Error updating album' });
     }
   } else {
+    // ... album not found handling ...
     res.status(404).json({ error: 'Album not found' });
   }
 });
