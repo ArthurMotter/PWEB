@@ -62,6 +62,27 @@ main {
   background-color: #0062cc; /* Darker shade for hover effect */
 }
 
+/* Style for the image containers within the modal */
+.selected-image-container {
+  margin-right: 5px; /* Add some space between images */
+  margin-bottom: 5px;
+}
+
+/* Make the selected images smaller */
+.selected-image {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+/* Style for the container holding the images in the modal */
+#selectedImagesContainer, 
+#albumImagesContainer {
+  max-height: 200px; /* Set a maximum height for the container */
+  overflow-y: auto;  /* Make it scrollable vertically */
+  border: 1px solid #ced4da; /* Optional: Add a border for visual separation */
+  padding: 10px;      /* Optional: Add some padding */
+}
+
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;

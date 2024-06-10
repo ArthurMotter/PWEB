@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const editAlbumPopup = document.getElementById('edit-album-popup');
   const albumImageSelect = document.getElementById('albumImageSelect');
   const albumImagesContainer = document.getElementById('albumImagesContainer');
+  const selectedImagesContainer = document.getElementById('selectedImagesContainer');
 
   // Fetch and display images and albums
   Promise.all([
@@ -152,8 +153,68 @@ document.addEventListener('DOMContentLoaded', () => {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //createAlbum logic
   openCAButton.addEventListener('click', () => {
+    displayAvailableImages(); // Refresh the list when opening the modal
     new bootstrap.Modal(createAlbumPopup).show();
   });
+
+  // Function to display available images for adding to albums
+  function displayAvailableImages(excludeImages = []) {
+    const albumImageSelect = document.getElementById('albumImageSelect');
+    albumImageSelect.innerHTML = ''; // Clear existing options
+
+    fetch('/fetchImages')
+      .then(response => response.json())
+      .then(images => {
+        images.forEach(image => {
+          // Only add images that are not already in the excludeImages array
+          if (!excludeImages.includes(image.fileName)) {
+            const option = document.createElement('option');
+            option.value = image.fileName;
+            option.textContent = image.fileName;
+            albumImageSelect.appendChild(option);
+          }
+        });
+      })
+      .catch(error => console.error('Error fetching images:', error));
+  }
+
+  // Function to handle adding images to the selected images container
+  function addImageToContainer(imageName, containerId) {
+    const container = document.getElementById(containerId);
+    const imageDiv = document.createElement('div');
+    imageDiv.classList.add('selected-image-container'); // Add a class for styling
+    imageDiv.innerHTML = `
+    <img src="data/uploads/${imageName}" alt="${imageName}" class="selected-image">
+    <button type="button" class="btn btn-danger btn-sm remove-image" data-image-name="${imageName}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+      </svg>
+    </button>
+  `;
+    container.appendChild(imageDiv);
+
+    // Add event listener to the remove button
+    const removeButton = imageDiv.querySelector('.remove-image');
+    removeButton.addEventListener('click', () => {
+      const imageNameToRemove = removeButton.dataset.imageName;
+      container.removeChild(imageDiv);
+
+      // Also remove the image from the albumImageSelect (dropdown)
+      const optionToRemove = albumImageSelect.querySelector(`option[value="${imageNameToRemove}"]`);
+      if (optionToRemove) {
+        albumImageSelect.remove(optionToRemove.index);
+      }
+    });
+  }
+
+  // Add event listener for the "Add Image" button in the create album modal
+  document.getElementById('albumImageSelect').addEventListener('change', (event) => {
+    const selectedImage = event.target.value;
+    if (selectedImage) {
+      addImageToContainer(selectedImage, 'selectedImagesContainer');
+    }
+  });
+
 
   // Create Album functionality
   createAlbumForm.addEventListener('submit', (event) => {
@@ -161,12 +222,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const albumName = document.getElementById('albumName').value;
     const albumDescription = document.getElementById('albumDescription').value;
-    const albumImagesInput = document.getElementById('albumImages').value;
-
-    // Split image names by comma and trim whitespace
-    const albumImages = albumImagesInput
-      .split(',')
-      .map(image => image.trim());
+    // Get selected image filenames
+    const selectedImageElements = selectedImagesContainer.querySelectorAll('.selected-image');
+    const albumImages = Array.from(selectedImageElements).map(image => image.src.split('/').pop());
 
     // Create a new album card dynamically
     const template = document.getElementById('albumCardTemplate');
@@ -189,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify({
         albumName: albumName,
         albumDescription: albumDescription,
-        albumImages: albumImages,
+        albumImages: albumImages, // Pass the array of image filenames
         creationDate: new Date().toLocaleDateString()
       })
     })
@@ -228,6 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close the modal and clear the form
     new bootstrap.Modal(createAlbumPopup).hide();
     createAlbumForm.reset();
+    selectedImagesContainer.innerHTML = ''; // Clear selected images
   });
 
   // Function to display albums on card 
@@ -266,9 +325,9 @@ document.addEventListener('DOMContentLoaded', () => {
           })
           .then(album => {
             // Populate the edit form fields with the fetched album data
-            document.getElementById('albumName').value = album.albumName;
+            document.getElementById('editAlbumName').value = album.albumName;
             console.log(albumName);
-            document.getElementById('albumDescription').value = album.albumDescription;
+            document.getElementById('editAlbumDescription').value = album.albumDescription;
             console.log(albumDescription);
 
             // Open the edit album popup
@@ -296,37 +355,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Function to fetch and display album details
+  // Function to fetch and display album details for editing
   function fetchAlbumDetails(albumId) {
     fetch(`/fetchAlbum?albumId=${albumId}`)
       .then(response => response.json())
       .then(album => {
         document.getElementById('editAlbumName').value = album.albumName;
         document.getElementById('editAlbumDescription').value = album.albumDescription;
+
+        // Display existing album images and populate the dropdown
         displayAlbumImages(album.albumImages);
+        displayAvailableImages(album.albumImages); // Exclude existing images from the dropdown
       })
       .catch(error => console.error('Error fetching album details:', error));
   }
 
-  // Function to display album images
+  // Function to display album images in the edit album modal
   function displayAlbumImages(images) {
     albumImagesContainer.innerHTML = ''; // Clear existing images
     images.forEach(image => {
-      const imgElement = document.createElement('img');
-      imgElement.src = `data/uploads/${image}`;
-      imgElement.classList.add('album-image');
-      imgElement.dataset.fileName = image;
-      albumImagesContainer.appendChild(imgElement);
-
-      // Add remove button
-      const removeButton = document.createElement('button');
-      removeButton.textContent = 'Remove';
-      removeButton.addEventListener('click', () => {
-        albumImagesContainer.removeChild(imgElement);
-      });
-      imgElement.appendChild(removeButton);
+      addImageToContainer(image, 'albumImagesContainer');
     });
   }
+
 
   function showAlbumImagesModal(albumId) {
     fetch(`/fetchAlbumImages?albumId=${albumId}`)
@@ -449,22 +500,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Function to display available images to add to album
-  function displayAvailableImages() {
-    fetch('/fetchImages') // Fetch image data from your server
-      .then(response => response.json())
-      .then(images => {
-        albumImageSelect.innerHTML = ''; // Clear existing options
-        images.forEach(image => {
-          const option = document.createElement('option');
-          option.value = image.fileName;
-          option.textContent = image.fileName;
-          albumImageSelect.appendChild(option);
-        });
-      })
-      .catch(error => console.error('Error fetching images:', error));
-  }
-
   // Handle form submission to update album
   editAlbumForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -472,15 +507,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const albumName = document.getElementById('editAlbumName').value;
     const albumDescription = document.getElementById('editAlbumDescription').value;
 
-    // Get the selected images
-    const albumImages = Array.from(albumImagesContainer.querySelectorAll('.album-image')).map(img => img.dataset.fileName);
+    // Get the selected images from the albumImagesContainer
+    const albumImages = Array.from(albumImagesContainer.querySelectorAll('.selected-image')).map(img => img.src.split('/').pop());
 
     fetch(`/editAlbum/${albumId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ albumName, albumDescription, albumImages }), // Send the albumImages array
+      body: JSON.stringify({ albumName, albumDescription, albumImages }),
     })
       .then(response => response.json())
       .then(data => {
@@ -495,23 +530,17 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(error => console.error('Error updating album:', error));
   });
 
-  // Event listener for adding new images to the album
+  // Event listener for adding new images to the album (in the edit album modal)
   document.getElementById('addImageToAlbum').addEventListener('click', () => {
     const selectedImage = albumImageSelect.value;
     if (selectedImage) {
-      const imgElement = document.createElement('img');
-      imgElement.src = `data/uploads/${selectedImage}`;
-      imgElement.classList.add('album-image');
-      imgElement.dataset.fileName = selectedImage;
-      albumImagesContainer.appendChild(imgElement);
+      addImageToContainer(selectedImage, 'albumImagesContainer');
 
-      // Add remove button
-      const removeButton = document.createElement('button');
-      removeButton.textContent = 'Remove';
-      removeButton.addEventListener('click', () => {
-        albumImagesContainer.removeChild(imgElement);
-      });
-      imgElement.appendChild(removeButton);
+      // Remove the selected image from the dropdown to avoid duplicates
+      const optionToRemove = albumImageSelect.querySelector(`option[value="${selectedImage}"]`);
+      if (optionToRemove) {
+        albumImageSelect.remove(optionToRemove.index);
+      }
     }
   });
 
@@ -523,7 +552,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const albumIdInput = albumCard.querySelector('#albumId');
         if (albumIdInput) {
           const albumId = albumIdInput.value;
-          console.log('Album ID:', albumId);  // Debugging line to check if album ID is correctly fetched
+          console.log('Album ID:', albumId);
           if (albumId) {
             editAlbumForm.dataset.albumId = albumId;
             fetchAlbumDetails(albumId);
