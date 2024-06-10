@@ -158,21 +158,26 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Function to display available images for adding to albums
-  function displayAvaliableImages(excludeImages = []) {
-    const albumImageSelect = document.getElementById('albumImageSelect');
+  function displayAvaliableImages(excludeImages = [], selectElementId = 'albumImageSelect') {
+    const albumImageSelect = document.getElementById(selectElementId);
     albumImageSelect.innerHTML = ''; // Clear existing options
 
     fetch('/fetchImages')
       .then(response => response.json())
       .then(images => {
+        // Create a Set to store unique image filenames
+        const uniqueImages = new Set(excludeImages);
+
         images.forEach(image => {
-          // Only add images that are not already in the excludeImages array
-          if (!excludeImages.includes(image.fileName)) {
+          // Only add images that are not already in the uniqueImages Set
+          if (!uniqueImages.has(image.fileName)) {
             const option = document.createElement('option');
             option.value = image.fileName;
             option.textContent = image.fileName;
             albumImageSelect.appendChild(option);
-            
+
+            // Add the image to the Set to ensure uniqueness
+            uniqueImages.add(image.fileName);
           }
         });
       })
@@ -356,20 +361,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to fetch and display album details for editing
   function fetchAlbumDetails(albumId) {
+    console.log("Fetching details for album ID:", albumId); // Check if correct album ID is passed
+
     fetch(`/fetchAlbum?albumId=${albumId}`)
       .then(response => response.json())
       .then(album => {
+        console.log("Fetched album data:", album); // Check fetched album data
         document.getElementById('editAlbumName').value = album.albumName;
         document.getElementById('editAlbumDescription').value = album.albumDescription;
 
         // Clear any existing images in the container
-        albumImagesContainer.innerHTML = ''; 
+        albumImagesContainer.innerHTML = '';
 
         // Display existing album images 
         displayAlbumImages(album.albumImages);
-
-        // *** Populate the dropdown, excluding existing images ***
-        displayAvaliableImages(album.albumImages); 
+        console.log("Dropdown element:", document.getElementById('editAlbumImageSelect')); // Check if dropdown is found
+        displayAvaliableImages([], 'editAlbumImageSelect');
       })
       .catch(error => console.error('Error fetching album details:', error));
   }
@@ -510,15 +517,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const albumName = document.getElementById('editAlbumName').value;
     const albumDescription = document.getElementById('editAlbumDescription').value;
 
-    // Get the selected images from the albumImagesContainer
-    const albumImages = Array.from(albumImagesContainer.querySelectorAll('.selected-image')).map(img => img.src.split('/').pop());
+    // Get existing images from the albumImagesContainer
+    const existingAlbumImages = Array.from(albumImagesContainer.querySelectorAll('.selected-image')).map(img => img.src.split('/').pop());
+
+    // Get NEWLY selected images from the dropdown 
+    const newAlbumImages = Array.from(document.getElementById('editAlbumImageSelect').selectedOptions).map(option => option.value);
+
+    // Combine both existing and new images
+    const allAlbumImages = [...existingAlbumImages, ...newAlbumImages];
 
     fetch(`/editAlbum/${albumId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ albumName, albumDescription, albumImages }),
+      body: JSON.stringify({
+        albumName,
+        albumDescription,
+        albumImages: allAlbumImages  // Send the combined array
+      }),
     })
       .then(response => response.json())
       .then(data => {
@@ -533,6 +550,29 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(error => console.error('Error updating album:', error));
   });
 
+  // Event Delegation for "Edit Album" buttons:
+  document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('edit-album-button')) {
+      const button = event.target;
+
+      // Get the album ID - adjust the selector if needed
+      const albumCard = button.closest('.card');
+      const albumIdInput = albumCard.querySelector('#albumId');
+      const albumId = albumIdInput ? albumIdInput.value : null;
+
+      if (albumId) {
+        console.log("Edit button clicked, album ID:", albumId);
+        editAlbumForm.dataset.albumId = albumId;
+        fetchAlbumDetails(albumId);
+
+        // Show the Edit Album modal 
+        new bootstrap.Modal(editAlbumPopup).show();
+      } else {
+        console.error('Album ID not found for Edit Album button');
+      }
+    }
+  });
+
   // Fetch and display album details when edit button is clicked
   document.querySelectorAll('.edit-album-button').forEach(button => {
     button.addEventListener('click', (event) => {
@@ -543,10 +583,16 @@ document.addEventListener('DOMContentLoaded', () => {
           const albumId = albumIdInput.value;
           console.log('Album ID:', albumId);
           if (albumId) {
+            console.log("Edit button clicked, album ID:", albumId); // Add this line
+
             editAlbumForm.dataset.albumId = albumId;
-            fetchAlbumDetails(albumId);
-            displayAvaliableImages();
+            fetchAlbumDetails(albumId); // Fetch details first
+
+            // Now show the modal 
             new bootstrap.Modal(editAlbumPopup).show();
+
+            // Populate the dropdown AFTER the modal is shown
+            displayAvaliableImages([], 'editAlbumImageSelect');
           } else {
             console.error('Album ID is empty in the hidden input');
           }
