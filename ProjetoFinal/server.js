@@ -24,21 +24,13 @@ app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads'))); // T
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html')); 
-});
-
 // Define routes for your pages
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'pages', 'menu.html'));
+  res.sendFile(path.join(__dirname, 'public', 'pages', 'menu.html')); 
 });
 
 app.get('/edit_file', (req, res) => {
-  // Get the image name from the URL
   const imageName = req.query.image;
-
-  // ... (Use the imageName to dynamically load image data for editing)
-
   res.sendFile(path.join(__dirname, 'public', 'pages', 'edit_file.html'));
 });
 
@@ -287,8 +279,6 @@ app.get('/fetchAlbum', (req, res) => {
   }
 });
 
-/* Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-}); */
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); 
+});
