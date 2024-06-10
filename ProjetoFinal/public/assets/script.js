@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
         displayAlbum(album.albumName, album.albumDescription, album.albumImages, album.creationDate, album.albumId);
       });
 
-      // **Call displayAvailableImages() after fetching albums**
-      displayAvailableImages();
+      // **Call displayAvaliableImages() after fetching albums**
+      displayAvaliableImages();
     })
     .catch(error => {
       console.error('Error fetching data:', error);
@@ -153,12 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //createAlbum logic
   openCAButton.addEventListener('click', () => {
-    displayAvailableImages(); // Refresh the list when opening the modal
+    displayAvaliableImages();
     new bootstrap.Modal(createAlbumPopup).show();
   });
 
   // Function to display available images for adding to albums
-  function displayAvailableImages(excludeImages = []) {
+  function displayAvaliableImages(excludeImages = []) {
     const albumImageSelect = document.getElementById('albumImageSelect');
     albumImageSelect.innerHTML = ''; // Clear existing options
 
@@ -214,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
       addImageToContainer(selectedImage, 'selectedImagesContainer');
     }
   });
-
 
   // Create Album functionality
   createAlbumForm.addEventListener('submit', (event) => {
@@ -304,7 +303,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //document.getElementById
     hiddenalbumId.value = albumId; // Set the album ID in the hidden input
 
-
     // Set the image preview for the album (if images are provided)
     if (albumImages.length > 0) {
       const viewButton = newCard.querySelector('.btn-group button:first-child');
@@ -363,9 +361,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('editAlbumName').value = album.albumName;
         document.getElementById('editAlbumDescription').value = album.albumDescription;
 
-        // Display existing album images and populate the dropdown
+        // Clear any existing images in the container
+        albumImagesContainer.innerHTML = ''; 
+
+        // Display existing album images 
         displayAlbumImages(album.albumImages);
-        displayAvailableImages(album.albumImages); // Exclude existing images from the dropdown
+
+        // *** Populate the dropdown, excluding existing images ***
+        displayAvaliableImages(album.albumImages); 
       })
       .catch(error => console.error('Error fetching album details:', error));
   }
@@ -377,7 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
       addImageToContainer(image, 'albumImagesContainer');
     });
   }
-
 
   function showAlbumImagesModal(albumId) {
     fetch(`/fetchAlbumImages?albumId=${albumId}`)
@@ -530,20 +532,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(error => console.error('Error updating album:', error));
   });
 
-  // Event listener for adding new images to the album (in the edit album modal)
-  document.getElementById('addImageToAlbum').addEventListener('click', () => {
-    const selectedImage = albumImageSelect.value;
-    if (selectedImage) {
-      addImageToContainer(selectedImage, 'albumImagesContainer');
-
-      // Remove the selected image from the dropdown to avoid duplicates
-      const optionToRemove = albumImageSelect.querySelector(`option[value="${selectedImage}"]`);
-      if (optionToRemove) {
-        albumImageSelect.remove(optionToRemove.index);
-      }
-    }
-  });
-
   // Fetch and display album details when edit button is clicked
   document.querySelectorAll('.edit-album-button').forEach(button => {
     button.addEventListener('click', (event) => {
@@ -556,7 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (albumId) {
             editAlbumForm.dataset.albumId = albumId;
             fetchAlbumDetails(albumId);
-            displayAvailableImages();
+            displayAvaliableImages();
             new bootstrap.Modal(editAlbumPopup).show();
           } else {
             console.error('Album ID is empty in the hidden input');

@@ -2,461 +2,412 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author"
-    content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-  <meta name="generator" content="Hugo 0.72.0">
-  <title>Momentum · Menu</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.72.0">
+    <title>Momentum · Menu</title>
 
-  <link rel="canonical" href="https://v5.getbootstrap.com/docs/5.0/examples/album/">
-
+    <link rel="canonical" href="https://v5.getbootstrap.com/docs/5.0/examples/album/">
 
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
-    integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
-    crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
-    integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
-    crossorigin="anonymous"></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
-  <link rel="stylesheet" href="../assets/style.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+        integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
-  <script src="../assets/script.js"></script>
+    <link rel="stylesheet" href="../assets/style.css">
+
+    <script src="../assets/script.js"></script>
 
 </head>
 
 <body>
-  <header>
-    <!--About slidder-->
-    <div class="collapse bg-light" id="navbarHeader">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-8 col-md-7 py-4">
-            <h4>About</h4>
-            <p class="text-muted">Momentum is a web application that
-              empowers you to effortlessly organize
-              your precious memories. Upload your photos, create
-              personalized albums, and share them with
-              loved ones.
-              With advanced search functionality, you can quickly find
-              the exact picture you need.
-              You can also enhance your photos with our built-in editing
-              tools,
-              and protect your memories with robust security features.
-              Whether you're a seasoned photographer or just starting
-              out,
-              our platform provides the perfect solution for managing and
-              sharing your photo collection.
-            </p>
-          </div>
-          <div class="col-sm-4 offset-md-1 py-4">
-            <h4>Contact</h4>
-            <ul class="list-unstyled">
-              <li><a href="https://github.com/ArthurMotter/PWEB/tree/main"
-                  style="color: grey;">GitHub
-                  Repository</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--Navigation Bar-->
-    <div class="navbar navbar-light bg-light shadow-sm">
-      <div class="container">
-        <a href="#" class="navbar-brand d-flex align-items-center">
-          <object data="./assets/images/user_image_placeholder.svg"
-            type="image/svg+xml" alt="Default user image"
-            class="profile-img">
-          </object>
-          <strong>User</strong>
-        </a>
-        <a onclick="window.location.href='http://localhost:3000/'"
-          class="navbar-brand d-flex align-items-center"
-          style="display: flex; justify-content: center;">
-          <strong style="font-weight: 900; cursor: pointer;">Momentum</strong>
-        </a>
-        <button class="navbar-toggler" type="button"
-          data-toggle="collapse" data-target="#navbarHeader"
-          aria-controls="navbarHeader" aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <!--Menu main interagibles-->
-    <section class="py-5 text-center container">
-      <div class="row py-lg-5">
-        <div class="col-lg-6 col-md-8 mx-auto">
-          <h1 class="font-weight-light">My Collections</h1>
-          <p class="lead text-muted">Apreciate your best moments or
-            create new ones
-            whith the buttons below </p>
-
-          <!--selectors-->
-          <div class="d-flex" style="justify-content: space-around;">
-            <!--albums interactions-->
-            <button type="button" id="open-create-album"
-              class="btn btn-primary"
-              style="width: 35%; display: flex; justify-content: space-around; align-items: center;">
-              <span>Create Albums</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                fill="currentColor" class="bi bi-folder-plus"
-                viewBox="0 0 16 16">
-                <path
-                  d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
-                <path
-                  d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5" />
-              </svg>
-            </button>
-            <!--photos interactions-->
-            <button type="button" id="open-upload-image"
-              class="btn btn-primary"
-              style="width: 35%; display: flex; justify-content: space-around; align-items: center;">
-              <span>Upload Photos</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                fill="currentColor" class="bi bi-plus-circle"
-                viewBox="0 0 16 16">
-                <path
-                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                <path
-                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!--grids-->
-    <div class="album py-5 bg-light">
-      <div class="container">
-        <!--image rows-->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"
-          id="cards">
-          <!-- Photo Card Template (hidden by default) -->
-          <template id="photoCardTemplate">
-            <div class="col" data-type="photo">
-              <div class="card shadow-sm">
-                <div style="display: flex; justify-content: center; align-items: center; background-color: lightgrey;
-                                 overflow: hidden; max-width: 30; max-height: 20rem;">
-                  <img class="card-img-top" src="#" alt="Photo Preview"
-                    id="photoPreview"
-                    style="width: fit-content; height: fit-content">
-                </div>
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-muted" id="photoFileName"></span>
-                    <span class="text-muted" id="photoUploadDate"></span>
-                  </div>
-                  <div class="btn-group"
-                    style="display: flex; justify-content: center;">
-                    <button type="button"
-                      class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button"
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="window.location.href='http://localhost:3000/edit_file'">Edit</button>
-                    <button type="button"
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="deletePhoto(this)">Delete</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </template>
-          <!-- Album Card Template (hidden by default) -->
-          <template id="albumCardTemplate">
-            <div class="col" data-type="album">
-              <div class="card shadow-sm" data-album-name="">
-                <!-- The albumCard should have the carousel code inside -->
-                <div class="container"
-                  style="background-color: lightgrey; overflow: hidden;">
-                  <input type="hidden" id="albumId">
-                  <div id="albumCarousel" class="carousel slide">
-                    <ol class="carousel-indicators"> </ol>
-                    <div class="carousel-inner"
-                      style="display: flex; align-items: center; height: 20rem;">
+    <header>
+        <!--About slidder-->
+        <div class="collapse bg-light" id="navbarHeader">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-md-7 py-4">
+                        <h4>About</h4>
+                        <p class="text-muted">Momentum is a web application that
+                            empowers you to effortlessly organize
+                            your precious memories. Upload your photos, create
+                            personalized albums, and share them with
+                            loved ones.
+                            With advanced search functionality, you can quickly find
+                            the exact picture you need.
+                            You can also enhance your photos with our built-in editing
+                            tools,
+                            and protect your memories with robust security features.
+                            Whether you're a seasoned photographer or just starting
+                            out,
+                            our platform provides the perfect solution for managing and
+                            sharing your photo collection.
+                        </p>
                     </div>
-                    <a class="carousel-control-prev" href="#albumCarousel"
-                      role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon"
-                        aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#albumCarousel"
-                      role="button" data-slide="next">
-                      <span class="carousel-control-next-icon"
-                        aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </div>
+                    <div class="col-sm-4 offset-md-1 py-4">
+                        <h4>Contact</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="https://github.com/ArthurMotter/PWEB/tree/main" style="color: grey;">GitHub
+                                    Repository</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="card-title"></h5>
-                    <p class="text-muted" id="albumUploadDate"></p>
-                  </div>
-                  <p class="card-text"></p>
-                  <div class="btn-group"
-                    style="display: flex; justify-content: center;">
-                    <button type="button"
-                      class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button"
-                      class="btn btn-sm btn-outline-secondary">Edit</button>
-                    <button type="button"
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="deleteAlbum(this)">Delete</button>
-                  </div>
+            </div>
+        </div>
+        <!--Navigation Bar-->
+        <div class="navbar navbar-light bg-light shadow-sm">
+            <div class="container">
+                <a href="#" class="navbar-brand d-flex align-items-center">
+                    <object data="./assets/images/user_image_placeholder.svg" type="image/svg+xml"
+                        alt="Default user image" class="profile-img">
+                    </object>
+                    <strong>User</strong>
+                </a>
+                <a onclick="window.location.href='http://localhost:3000/'"
+                    class="navbar-brand d-flex align-items-center" style="display: flex; justify-content: center;">
+                    <strong style="font-weight: 900; cursor: pointer;">Momentum</strong>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!--Menu main interagibles-->
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="font-weight-light">My Collections</h1>
+                    <p class="lead text-muted">Apreciate your best moments or
+                        create new ones
+                        whith the buttons below </p>
+
+                    <!--selectors-->
+                    <div class="d-flex" style="justify-content: space-around;">
+                        <!--albums interactions-->
+                        <button type="button" id="open-create-album" class="btn btn-primary"
+                            style="width: 35%; display: flex; justify-content: space-around; align-items: center;">
+                            <span>Create Albums</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-folder-plus" viewBox="0 0 16 16">
+                                <path
+                                    d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
+                                <path
+                                    d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5" />
+                            </svg>
+                        </button>
+                        <!--photos interactions-->
+                        <button type="button" id="open-upload-image" class="btn btn-primary"
+                            style="width: 35%; display: flex; justify-content: space-around; align-items: center;">
+                            <span>Upload Photos</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-              </div>
             </div>
-          </template>
+        </section>
+        <!--grids-->
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <!--image rows-->
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="cards">
+                    <!-- Photo Card Template (hidden by default) -->
+                    <template id="photoCardTemplate">
+                        <div class="col" data-type="photo">
+                            <div class="card shadow-sm">
+                                <div style="display: flex; justify-content: center; align-items: center; background-color: lightgrey;
+                                 overflow: hidden; max-width: 30; max-height: 20rem;">
+                                    <img class="card-img-top" src="#" alt="Photo Preview" id="photoPreview"
+                                        style="width: fit-content; height: fit-content">
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-muted" id="photoFileName"></span>
+                                        <span class="text-muted" id="photoUploadDate"></span>
+                                    </div>
+                                    <div class="btn-group" style="display: flex; justify-content: center;">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            onclick="window.location.href='http://localhost:3000/edit_file'">Edit</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            onclick="deletePhoto(this)">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Album Card Template (hidden by default) -->
+                    <template id="albumCardTemplate">
+                        <div class="col" data-type="album">
+                            <div class="card shadow-sm" data-album-name="">
+                                <!-- The albumCard should have the carousel code inside -->
+                                <div class="container" style="background-color: lightgrey; overflow: hidden;">
+                                    <input type="hidden" id="albumId">
+                                    <div id="albumCarousel" class="carousel slide">
+                                        <ol class="carousel-indicators"> </ol>
+                                        <div class="carousel-inner"
+                                            style="display: flex; align-items: center; height: 20rem;">
+                                        </div>
+                                        <a class="carousel-control-prev" href="#albumCarousel" role="button"
+                                            data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#albumCarousel" role="button"
+                                            data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title"></h5>
+                                        <p class="text-muted" id="albumUploadDate"></p>
+                                    </div>
+                                    <p class="card-text"></p>
+                                    <div class="btn-group" style="display: flex; justify-content: center;">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" id="open-edit-album">Edit</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            onclick="deleteAlbum(this)">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <!-- rows end -->
+            </div>
+            <!--container end-->
         </div>
-        <!-- rows end -->
-      </div>
-      <!--container end-->
+        <!--grid end-->
+    </main>
+
+    <!--popUps-->
+    <!--upload popUp-->
+    <div id="image-upload-popup" class="modal fade" tabindex="-1" aria-labelledby="imageUploadPopupLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageUploadPopupLabel">Upload
+                        Image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <form id="uploadForm" enctype="multipart/form-data">
+
+                        <div class="form-group" style="display: flex; justify-content: center;">
+                            <input type="file" class="form-control-file" id="imageUpload" name="imageUpload">
+                        </div>
+
+                        <div class="imgSelected" id="selectedImage"
+                            style="display: flex; justify-content: center; align-items: center;">
+                            <img id="previewImage" src="#" alt="Image Preview">
+                        </div>
+
+                        <div class="row" style="display: flex; justify-content: center;">
+                            <button type="submit" class="btn btn-primary" style="width: 50%;">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <!--grid end-->
-  </main>
+    <!--Create album popUp-->
+    <div id="create-album-popup" class="modal fade" tabindex="-1" aria-labelledby="createAlbumPopupLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createAlbumPopupLabel">Create
+                        Album</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
 
-  <!--popUps-->
-  <!--upload popUp-->
-  <div id="image-upload-popup" class="modal fade" tabindex="-1"
-    aria-labelledby="imageUploadPopupLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="imageUploadPopupLabel">Upload
-            Image</h5>
-          <button type="button" class="close" data-dismiss="modal"
-            aria-label="Close">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-              fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-              <path
-                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-            </svg>
-          </button>
+                    <form id="createAlbumForm">
+                        <div class="form-group" style="margin: 15px;">
+                            <label for="albumName">Album Name:</label>
+                            <input type="text" class="form-control" id="albumName" name="albumName" required>
+                        </div>
+                        <div class="form-group" style="margin: 15px;">
+                            <label for="albumDescription">Description:</label>
+                            <textarea class="form-control" id="albumDescription" name="albumDescription" rows="3"
+                                style="max-height: 512px;"></textarea>
+                        </div>
+                        <div class="form-group" style="margin: 15px;">
+                            <label for="albumImageSelect">Select Images:</label>
+                            <select class="form-select" id="albumImageSelect" multiple>
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin: 15px;">
+                            <div id="selectedImagesContainer" class="d-flex flex-wrap">
+                                <!-- Selected images will be displayed here -->
+                            </div>
+                        </div>
+                        <div class="row" style="display: flex; justify-content: center;">
+                            <button type="submit" class="btn btn-primary" style="width: 50%; margin-top: 15px;">Create
+                                Album</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-
-          <form id="uploadForm" enctype="multipart/form-data">
-
-            <div class="form-group"
-              style="display: flex; justify-content: center;">
-              <input type="file" class="form-control-file"
-                id="imageUpload" name="imageUpload">
-            </div>
-
-            <div class="imgSelected" id="selectedImage"
-              style="display: flex; justify-content: center; align-items: center;">
-              <img id="previewImage" src="#" alt="Image Preview">
-            </div>
-
-            <div class="row"
-              style="display: flex; justify-content: center;">
-              <button type="submit" class="btn btn-primary"
-                style="width: 50%;">Upload</button>
-            </div>
-          </form>
-        </div>
-      </div>
     </div>
-  </div>
-  <!--Create album popUp-->
-  <div id="create-album-popup" class="modal fade" tabindex="-1"
-    aria-labelledby="createAlbumPopupLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createAlbumPopupLabel">Create
-            Album</h5>
-          <button type="button" class="close" data-dismiss="modal"
-            aria-label="Close">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-              fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-              <path
-                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-            </svg>
-          </button>
+    <!--Image fullscreen popUp-->
+    <div id="viewImageModal" class="modal fade" tabindex="-1" aria-labelledby="viewImageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewImageModalLabel">Image
+                        Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body"
+                    style="display: flex; justify-content: center; align-items: center; background-color: lightgrey">
+                    <img id="fullScreenImage" src="" alt="Full Screen Image" style="width: auto; height: 100%;">
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
+    </div>
+    <!--Album images carousel popUp-->
+    <div class="modal fade" id="albumImagesModal" tabindex="-1" aria-labelledby="albumImagesModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="albumImagesModalLabel">Album Images
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body"
+                    style="background-color: lightgrey; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+                    <div id="albumImagesCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner"
+                            style="display: flex; align-items: center; width: auto; height: fit-content;">
+                            <!-- Images will be dynamically inserted here -->
+                        </div>
+                        <ol class="carousel-indicators"> </ol>
+                        <div class="carousel-inner"> </div>
+                        <a class="carousel-control-prev" href="#albumImagesCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#albumImagesCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-          <form id="createAlbumForm">
-            <div class="form-group" style="margin: 15px;">
-              <label for="albumName">Album Name:</label>
-              <input type="text" class="form-control" id="albumName"
-                name="albumName" required>
+    <!-- edit-album-popup -->
+    <div class="modal fade" id="edit-album-popup" tabindex="-1" aria-labelledby="editAlbumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="editAlbumForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editAlbumModalLabel">Edit Album
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                class="bi bi-x" viewBox="0 0 16 16">
+                                <path
+                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="editAlbumName" class="form-label">Album
+                                Name</label>
+                            <input type="text" class="form-control" id="editAlbumName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAlbumDescription" class="form-label">Album
+                                Description</label>
+                            <textarea class="form-control" id="editAlbumDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group" style="margin: 15px;">
+                            <label for="albumImageSelect">Select Images:</label>
+                            <select class="form-select" id="albumImageSelect" multiple>
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin: 15px;">
+                            <div id="albumImagesContainer" class="d-flex flex-wrap">
+                                <!-- Selected images will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save
+                            changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group" style="margin: 15px;">
-              <label for="albumDescription">Description:</label>
-              <textarea class="form-control" id="albumDescription"
-                name="albumDescription" rows="3"
-                style="max-height: 512px;"></textarea>
-            </div>
-            <div class="form-group" style="margin: 15px;">
-              <label for="albumImageSelect">Select Images:</label>
-              <select class="form-select" id="albumImageSelect" multiple>
-                <!-- Options will be populated dynamically -->
-              </select>
-            </div>
-            <div class="form-group" style="margin: 15px;">
-              <div id="selectedImagesContainer" class="d-flex flex-wrap">
-                <!-- Selected images will be displayed here -->
-              </div>
-            </div>
-            <div class="row"
-              style="display: flex; justify-content: center;">
-              <button type="submit" class="btn btn-primary"
-                style="width: 50%; margin-top: 15px;">Create
-                Album</button>
-            </div>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
-  <!--Image fullscreen popUp-->
-  <div id="viewImageModal" class="modal fade" tabindex="-1"
-    aria-labelledby="viewImageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewImageModalLabel">Image
-            Preview</h5>
-          <button type="button" class="close" data-dismiss="modal"
-            aria-label="Close">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-              fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-              <path
-                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-            </svg>
-          </button>
-        </div>
-        <div class="modal-body"
-          style="display: flex; justify-content: center; align-items: center; background-color: lightgrey">
-          <img id="fullScreenImage" src="" alt="Full Screen Image"
-            style="width: auto; height: 100%;">
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--Album images carousel popUp-->
-  <div class="modal fade" id="albumImagesModal" tabindex="-1"
-    aria-labelledby="albumImagesModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="albumImagesModalLabel">Album Images
-          </h5>
-          <button type="button" class="close" data-dismiss="modal"
-            aria-label="Close">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-              fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-              <path
-                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-            </svg>
-          </button>
-        </div>
-        <div class="modal-body"
-          style="background-color: lightgrey; display: flex; justify-content: center; align-items: center; overflow: hidden;">
-          <div id="albumImagesCarousel" class="carousel slide"
-            data-bs-ride="carousel">
-            <div class="carousel-inner"
-              style="display: flex; align-items: center; width: auto; height: fit-content;">
-              <!-- Images will be dynamically inserted here -->
-            </div>
-            <ol class="carousel-indicators"> </ol>
-            <div class="carousel-inner"> </div>
-            <a class="carousel-control-prev"
-              href="#albumImagesCarousel" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next"
-              href="#albumImagesCarousel" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- edit-album-popup -->
-  <div class="modal fade" id="edit-album-popup" tabindex="-1"
-    aria-labelledby="editAlbumModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <form id="editAlbumForm">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editAlbumModalLabel">Edit Album
-            </h5>
-            <button type="button" class="close" data-dismiss="modal"
-              aria-label="Close">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                <path
-                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="editAlbumName" class="form-label">Album
-                Name</label>
-              <input type="text" class="form-control" id="editAlbumName"
-                required>
-            </div>
-            <div class="mb-3">
-              <label for="editAlbumDescription" class="form-label">Album
-                Description</label>
-              <textarea class="form-control" id="editAlbumDescription"
-                rows="3" required></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="albumImageSelect" class="form-label">Add
-                Image</label>
-              <select class="form-select" id="albumImageSelect">
-                <!-- Options will be populated dynamically -->
-              </select>
-              <button type="button" class="btn btn-primary mt-2"
-                id="addImageToAlbum">Add Image</button>
-            </div>
-            <div id="albumImagesContainer" class="d-flex flex-wrap">
-              <!-- Selected album images will be displayed here -->
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save
-              changes</button>
-            <button type="button" class="btn btn-secondary"
-              data-bs-dismiss="modal">Close</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <footer class="text-muted py-5">
-    <div class="container" style="display: grid; justify-content: center;">
-      <p class="mb-1">Arthur Motter © 2024</p>
-      <p class="float-right mb-1" style="text-align: center;">
-        <a href="#">Back to top</a>
-      </p>
-    </div>
-  </footer>
+    <footer class="text-muted py-5">
+        <div class="container" style="display: grid; justify-content: center;">
+            <p class="mb-1">Arthur Motter © 2024</p>
+            <p class="float-right mb-1" style="text-align: center;">
+                <a href="#">Back to top</a>
+            </p>
+        </div>
+    </footer>
 
 </body>
 
