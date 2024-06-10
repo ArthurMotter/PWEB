@@ -214,18 +214,18 @@ app.post('/createAlbum', (req, res) => {
   res.json({ message: `Album "${albumName}" created successfully`, albumId: Date.now() });
 });
 
-
 // Update Album route
 app.put('/editAlbum/:albumId', (req, res) => {
   const albumId = req.params.albumId;
-  const { albumName, albumDescription, albumImages } = req.body; 
+  const { albumName, albumDescription, albumImages } = req.body;
   const albumsFile = path.join(__dirname, 'public', 'data', 'albums.json');
   let albums = [];
 
   try {
     albums = JSON.parse(fs.readFileSync(albumsFile));
   } catch (error) {
-    // ... error handling ...
+    console.error("Error reading albums.json:", error);
+    return res.status(500).json({ error: 'Error reading albums.json' });
   }
 
   const albumIndex = albums.findIndex(album => album.albumId == albumId);
@@ -234,25 +234,30 @@ app.put('/editAlbum/:albumId', (req, res) => {
     albums[albumIndex].albumName = albumName;
     albums[albumIndex].albumDescription = albumDescription;
 
-    // ADD new images to the existing list (using spread operator)
-    albums[albumIndex].albumImages = [
-      ...albums[albumIndex].albumImages, // Existing images
-      ...albumImages,                  // New images
-    ];
+    // 1. Get filenames of images to KEEP (those NOT from the dropdown)
+    //    (This part needs to be adjusted based on how your client-side 
+    //     code handles adding/removing images in the albumImagesContainer)
+    const imagesToKeep = req.body.imagesToKeep; // Assuming the client sends this data 
 
-    // REPLACE the old image list with the new list
-    //albums[albumIndex].albumImages = albumImages; 
+    // 2. Filter the existing album images 
+    albums[albumIndex].albumImages = albums[albumIndex].albumImages.filter(img =>
+      imagesToKeep.includes(img)
+    );
+
+    // 3. Add new images from the dropdown 
+    albums[albumIndex].albumImages = [
+      ...albums[albumIndex].albumImages, // Images to keep
+      ...albumImages,                  // New images from the dropdown
+    ];
 
     try {
       fs.writeFileSync(albumsFile, JSON.stringify(albums));
-      // ... (send success response) ...
       res.json({ message: 'Album updated successfully', albumName, albumDescription });
     } catch (error) {
       console.error("Error writing albums.json:", error);
       res.status(500).json({ error: 'Error updating album' });
     }
   } else {
-    // ... album not found handling ...
     res.status(404).json({ error: 'Album not found' });
   }
 });

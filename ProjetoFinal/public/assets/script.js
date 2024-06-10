@@ -517,8 +517,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const albumName = document.getElementById('editAlbumName').value;
     const albumDescription = document.getElementById('editAlbumDescription').value;
 
+    // 1. Get filenames of images to KEEP (from albumImagesContainer)
+    const imagesToKeep = Array.from(albumImagesContainer.querySelectorAll('.selected-image'))
+      .map(img => img.src.split('/').pop());
+
     // Get existing images from the albumImagesContainer
-    const existingAlbumImages = Array.from(albumImagesContainer.querySelectorAll('.selected-image')).map(img => img.src.split('/').pop());
+    //const existingAlbumImages = Array.from(albumImagesContainer.querySelectorAll('.selected-image')).map(img => img.src.split('/').pop());
 
     // Get NEWLY selected images from the dropdown 
     const newAlbumImages = Array.from(document.getElementById('editAlbumImageSelect').selectedOptions).map(option => option.value);
@@ -531,7 +535,8 @@ document.addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify({
         albumName,
         albumDescription,
-        albumImages: newAlbumImages // Send ONLY the new images
+        albumImages: newAlbumImages,
+        imagesToKeep: imagesToKeep // Add imagesToKeep to the request body
       }),
     })
       .then(response => response.json())
