@@ -24,6 +24,19 @@ app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads'))); // T
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.get('/', (res) => {
+  console.log("Root route accessed"); 
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); 
+});
+
+// Export the Express app
+module.exports = app;
+/*
+// Define routes for your pages
+app.get('/', (res) => { // Remove 'req'
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); 
+});
+/*
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pages', 'menu.html')); 
 });
@@ -277,7 +290,4 @@ app.get('/fetchAlbum', (req, res) => {
     res.status(404).json({ error: 'Album not found' });
   }
 });
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html')); 
-});
+*/
