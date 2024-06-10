@@ -172,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
             option.value = image.fileName;
             option.textContent = image.fileName;
             albumImageSelect.appendChild(option);
+            
           }
         });
       })
