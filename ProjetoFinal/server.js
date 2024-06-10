@@ -24,6 +24,10 @@ app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads'))); // T
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); 
+});
+
 // Define routes for your pages
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pages', 'menu.html'));
