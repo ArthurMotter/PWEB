@@ -1,6 +1,6 @@
-const sql = require('mssql'); // Importação correta do módulo
+var sql = require('mssql'); // Importação correta do módulo
 
-module.exports = function () {
+var connSQLServer = function () {
 
     const sqlConfig = {
         user: 'BD2221013', //'LOGON',
@@ -17,4 +17,8 @@ module.exports = function () {
     }
     return sql.connect(sqlConfig);
 
+}
+module.exports = function(){
+    console.log("O autoload carregou o modulo de conexao com o bd");
+    return connSQLServer;
 }
