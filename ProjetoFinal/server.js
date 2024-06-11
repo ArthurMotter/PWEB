@@ -16,9 +16,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Set up static file serving
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads'))); // This line serves static files
+app.use(express.static(path.join(__dirname, 'public'))); // Middleware first
+app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads')));
 
 // Middleware for parsing form data
 app.use(express.json());
@@ -29,19 +28,22 @@ app.get('/', (res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html')); 
 });
 
-// Export the Express app
-module.exports = app;
-/*
-// Define routes for your pages
-app.get('/', (res) => { // Remove 'req'
-  res.sendFile(path.join(__dirname, 'public', 'index.html')); 
-});
-/*
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'pages', 'menu.html')); 
-});
+/* Menu route (now at /menu)
+app.get('/menu', (res) => { 
+  const filePath = path.join(__dirname, 'public', 'pages', 'menu.html');
 
-app.get('/edit_file', (req, res) => {
+  fs.readFile(filePath, 'utf8', (err, data) => { 
+    if (err) {
+      console.error('Error reading file:', err);
+      res.status(500).send('Error reading file'); 
+    } else {
+      res.sendFile(filePath); // Send the file after it's read
+    }
+  });
+});
+*/
+
+app.get('/edit_file', (req, res) => { 
   const imageName = req.query.image;
   res.sendFile(path.join(__dirname, 'public', 'pages', 'edit_file.html'));
 });
@@ -290,4 +292,6 @@ app.get('/fetchAlbum', (req, res) => {
     res.status(404).json({ error: 'Album not found' });
   }
 });
-*/
+
+// Export the Express app
+module.exports = app;
