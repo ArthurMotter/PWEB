@@ -5,7 +5,7 @@ const path = require('path');
 const multer = require('multer'); // For handling file uploads
 const fs = require('fs'); // For file system operations
 
-/* Multer setup 
+// Multer setup 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/data/uploads'); // Ensure this directory exists
@@ -15,13 +15,14 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-*/
-app.use(express.static(path.join(__dirname, 'public'))); // Middleware first
-//app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads')));
+
 
 // Middleware order is crucial
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: false }));
+
+app.use(express.static(path.join(__dirname, 'public'))); // Middleware first
+app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads')));
 
 app.get('/', (res) => {
   console.log("Root route accessed"); 
@@ -177,9 +178,30 @@ app.post('/cropImage', upload.single('croppedImage'), (req, res) => {
 });
 
 //upload
+const imagesFile = path.join(__dirname, 'public', 'data', 'images.json'); // Path to images.json
+
 app.post('/upload', upload.single('imageUpload'), (req, res) => {
   try {
     if (req.file) {
+      const fileName = req.file.filename;
+      const uploadDate = new Date().toLocaleDateString();
+
+      // Update images.json
+      let images = [];
+      try {
+        images = JSON.parse(fs.readFileSync(imagesFile));
+      } catch (error) {
+        console.error("Error reading images.json:", error);
+        // Handle the case where the file doesn't exist
+      }
+
+      images.push({
+        fileName,
+        uploadDate
+      });
+
+      fs.writeFileSync(imagesFile, JSON.stringify(images)); 
+
       res.json({ message: 'Image uploaded successfully!', fileName: req.file.filename });
     } else {
       res.status(400).json({ error: 'Error uploading image' });
