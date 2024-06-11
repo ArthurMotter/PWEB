@@ -193,16 +193,17 @@ app.post('/cropImage', upload.single('croppedImage'), (req, res) => {
 
 // upload
 app.post('/upload', upload.single('imageUpload'), (req, res) => {
-  console.log('Upload request received:', req.file); // Log file info
   try {
     if (req.file) {
-      res.send({ message: 'Image uploaded successfully!', fileName: req.file.filename });
+      // Send a JSON response
+      res.json({ message: 'Image uploaded successfully!', fileName: req.file.filename });
     } else {
-      res.send({ message: 'Error uploading image' });
+      // If there's an error, send a JSON error message
+      res.status(400).json({ error: 'Error uploading image' }); 
     }
   } catch (error) {
     console.error('Error during upload:', error);
-    res.status(500).send({ error: 'Error uploading image' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
