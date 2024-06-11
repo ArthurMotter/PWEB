@@ -5,7 +5,7 @@ const path = require('path');
 const multer = require('multer'); // For handling file uploads
 const fs = require('fs'); // For file system operations
 
-// Multer setup 
+/* Multer setup 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/data/uploads'); // Ensure this directory exists
@@ -15,33 +15,18 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-
+*/
 app.use(express.static(path.join(__dirname, 'public'))); // Middleware first
-app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads')));
+//app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads')));
 
-// Middleware for parsing form data
-app.use(express.json());
+// Middleware order is crucial
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (res) => {
   console.log("Root route accessed"); 
   res.sendFile(path.join(__dirname, 'public', 'index.html')); 
 });
-
-/* Menu route (now at /menu)
-app.get('/menu', (res) => { 
-  const filePath = path.join(__dirname, 'public', 'pages', 'menu.html');
-
-  fs.readFile(filePath, 'utf8', (err, data) => { 
-    if (err) {
-      console.error('Error reading file:', err);
-      res.status(500).send('Error reading file'); 
-    } else {
-      res.sendFile(filePath); // Send the file after it's read
-    }
-  });
-});
-*/
 
 app.get('/edit_file', (req, res) => { 
   const imageName = req.query.image;
@@ -191,15 +176,13 @@ app.post('/cropImage', upload.single('croppedImage'), (req, res) => {
   }
 });
 
-// upload
+//upload
 app.post('/upload', upload.single('imageUpload'), (req, res) => {
   try {
     if (req.file) {
-      // Send a JSON response
       res.json({ message: 'Image uploaded successfully!', fileName: req.file.filename });
     } else {
-      // If there's an error, send a JSON error message
-      res.status(400).json({ error: 'Error uploading image' }); 
+      res.status(400).json({ error: 'Error uploading image' });
     }
   } catch (error) {
     console.error('Error during upload:', error);
