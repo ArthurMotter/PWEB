@@ -124,13 +124,17 @@ document.addEventListener('DOMContentLoaded', () => {
   uploadForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(uploadForm);
+    // script.js
     fetch('/upload', {
       method: 'POST',
       body: formData
     })
       .then(response => {
+        console.log('Fetch response:', response);
         if (!response.ok) {
-          throw new Error('Upload failed');
+          return response.json().then(data => {
+            throw new Error('Upload failed: ' + data.error || 'Unknown error'); // More specific error
+          });
         }
         return response.json();
       })
@@ -143,11 +147,10 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadForm.reset(); // Clears the form fields
         previewImage.src = '#'; // Clears the preview image
         previewImage.style = "display: flex; justify-content: center; align-items: center;";
-
       })
       .catch(error => {
         console.error('Error uploading image:', error);
-        // Handle the error appropriately
+        // ... handle the error appropriately ...
       });
   });
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////

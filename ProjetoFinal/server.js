@@ -5,13 +5,13 @@ const path = require('path');
 const multer = require('multer'); // For handling file uploads
 const fs = require('fs'); // For file system operations
 
-// Set up multer for handling file uploads
+// Multer setup 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/data/uploads'); // Save uploaded files to 'public/uploads'
+    cb(null, 'public/data/uploads'); // Ensure this directory exists
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname); // Add timestamp to filename
+    cb(null, Date.now() + '-' + file.originalname);
   },
 });
 const upload = multer({ storage });
@@ -191,12 +191,18 @@ app.post('/cropImage', upload.single('croppedImage'), (req, res) => {
   }
 });
 
-// Upload image route
+// upload
 app.post('/upload', upload.single('imageUpload'), (req, res) => {
-  if (req.file) {
-    res.send({ message: 'Image uploaded successfully!', fileName: req.file.filename });
-  } else {
-    res.send({ message: 'Error uploading image' });
+  console.log('Upload request received:', req.file); // Log file info
+  try {
+    if (req.file) {
+      res.send({ message: 'Image uploaded successfully!', fileName: req.file.filename });
+    } else {
+      res.send({ message: 'Error uploading image' });
+    }
+  } catch (error) {
+    console.error('Error during upload:', error);
+    res.status(500).send({ error: 'Error uploading image' });
   }
 });
 
