@@ -2,29 +2,30 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const multer = require('multer'); // For handling file uploads
-const fs = require('fs'); // For file system operations
+const multer = require('multer');
+const fs = require('fs');
 
-// Multer setup 
+// Set up multer for handling file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/data/uploads'); // Ensure this directory exists
+    cb(null, 'public/data/uploads'); // Save uploaded files to 'public/uploads'
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
+    cb(null, Date.now() + '-' + file.originalname); // Add timestamp to filename
   },
 });
 const upload = multer({ storage });
 
-
-// Middleware order is crucial
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: false }));
-
-app.use(express.static(path.join(__dirname, 'public'))); // Middleware first
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public', 'data', 'uploads')));
 
-app.get('/', (res) => {
+// Middleware for parsing JSON and form data
+app.use(express.json()); // Must be placed before your upload route
+app.use(express.urlencoded({ extended: false }));
+
+// Root route
+app.get('/', (req, res) => {
   console.log("Root route accessed"); 
   res.sendFile(path.join(__dirname, 'public', 'index.html')); 
 });
@@ -101,37 +102,16 @@ app.delete('/deleteAlbum/:albumName', (req, res) => {
 
 // Fetch images route
 app.get('/fetchImages', (req, res) => {
-  const uploadsDirectory = path.join(__dirname, 'public', 'data', 'uploads');
   const imagesFile = path.join(__dirname, 'public', 'data', 'images.json');
   let images = [];
   try {
     images = JSON.parse(fs.readFileSync(imagesFile));
   } catch (error) {
-    // Handle the case where the file doesn't exist
     console.error("Error reading images.json:", error);
   }
-  fs.readdir(uploadsDirectory, (err, files) => {
-    if (err) {
-      res.status(500).json({ error: 'Error reading images' });
-    } else {
-      const updatedImages = files.map((file, index) => {
-        // Add filename to the existing images array if it's not already present
-        if (!images.some(image => image.fileName === file)) {
-          images.push({
-            fileName: file,
-            uploadDate: new Date().toLocaleDateString() // Update with real upload date if needed
-          });
-        }
-        return {
-          fileName: file,
-          uploadDate: images[index] ? images[index].uploadDate : new Date().toLocaleDateString()
-        };
-      });
-      fs.writeFileSync(imagesFile, JSON.stringify(updatedImages)); // Update the file
-      res.json(updatedImages);
-    }
-  });
+  res.json(images);
 });
+
 
 // Fetch albums route
 app.get('/fetchAlbums', (req, res) => {
@@ -180,6 +160,7 @@ app.post('/cropImage', upload.single('croppedImage'), (req, res) => {
 //upload
 const imagesFile = path.join(__dirname, 'public', 'data', 'images.json'); // Path to images.json
 
+// Upload image route
 app.post('/upload', upload.single('imageUpload'), (req, res) => {
   try {
     if (req.file) {
@@ -187,12 +168,14 @@ app.post('/upload', upload.single('imageUpload'), (req, res) => {
       const uploadDate = new Date().toLocaleDateString();
 
       // Update images.json
+      const imagesFile = path.join(__dirname, 'public', 'data', 'images.json');
       let images = [];
       try {
         images = JSON.parse(fs.readFileSync(imagesFile));
       } catch (error) {
         console.error("Error reading images.json:", error);
-        // Handle the case where the file doesn't exist
+        // Handle the case where the file doesn't exist (e.g., initialize it)
+        images = [];
       }
 
       images.push({
